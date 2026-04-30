@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>激突！名簿 — 東大音感 '26</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#fff8f2;
+  --surface:#fff3ea;
+  --card:#ffffff;
+  --accent:#ff6b35;
+  --accent2:#e8357a;
+  --accent3:#ffb347;
+  --text:#2a1810;
+  --muted:#a07060;
+  --border:rgba(180,80,40,0.12);
+  --radius:12px;
+}
+body{
+  background: linear-gradient(135deg, #fff7f0 0%, #ffe4f0 30%, #fff9e6 60%, #fff0e8 100%);
+  background-attachment: fixed;
+  color:var(--text);font-family:'Noto Sans JP',sans-serif;min-height:100vh
+}
+.hidden{display:none!important}
+
+/* LOGIN */
+#login-screen{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+#login-screen::before{
+  content:'';position:absolute;width:700px;height:700px;
+  background:radial-gradient(circle,rgba(255,107,53,0.12) 0%,rgba(232,53,122,0.06) 50%,transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
+}
+#login-screen::after{
+  content:'';position:absolute;width:400px;height:400px;
+  background:radial-gradient(circle,rgba(255,179,71,0.15) 0%,transparent 70%);
+  top:20%;left:70%;pointer-events:none;
+}
+.login-box{
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,107,53,0.2);
+  border-radius:20px;padding:48px 40px;width:420px;max-width:90vw;
+  position:relative;z-index:1;
+  box-shadow:0 8px 40px rgba(255,107,53,0.1);
+}
+.login-box h1{
+  font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:600;
+  background:linear-gradient(135deg,#ff6b35,#e8357a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-align:center;margin-bottom:6px;letter-spacing:-0.5px;
+}
+.login-box .subtitle{color:var(--muted);text-align:center;font-size:13px;margin-bottom:32px;line-height:1.6}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:0.05em}
+.form-group input{
+  width:100%;background:rgba(255,255,255,0.9);border:1px solid rgba(255,107,53,0.25);
+  border-radius:8px;padding:11px 14px;color:var(--text);font-size:14px;
+  font-family:'Noto Sans JP',sans-serif;outline:none;
+  transition:border-color 0.2s;
+}
+.form-group input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,107,53,0.1)}
+.btn-primary{
+  width:100%;background:linear-gradient(135deg,#ff6b35,#e8357a);color:#fff;border:none;
+  border-radius:8px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;transition:opacity 0.2s;margin-top:8px;
+  box-shadow:0 4px 15px rgba(255,107,53,0.3);
+}
+.btn-primary:hover{opacity:0.88}
+.login-error{color:#e8357a;font-size:13px;text-align:center;margin-top:10px}
+
+/* MAIN */
+#main-screen{display:flex;flex-direction:column;min-height:100vh}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;height:56px;border-bottom:1px solid rgba(255,107,53,0.15);
+  background:rgba(255,255,255,0.8);backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:100;
+}
+.topbar-title{
+  font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;
+  background:linear-gradient(135deg,#ff6b35,#e8357a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.topbar-nav{display:flex;gap:4px}
+.nav-btn{
+  background:none;border:none;color:var(--muted);font-size:12px;
+  padding:6px 12px;border-radius:6px;cursor:pointer;transition:all 0.2s;
+  font-family:'Noto Sans JP',sans-serif;
+}
+.nav-btn.active,.nav-btn:hover{background:rgba(255,107,53,0.08);color:var(--text)}
+.nav-btn.active{color:var(--accent)}
+.logout-btn{
+  background:none;border:1px solid rgba(255,107,53,0.25);color:var(--muted);
+  font-size:12px;padding:5px 12px;border-radius:6px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;transition:all 0.2s;
+}
+.logout-btn:hover{border-color:var(--accent2);color:var(--accent2)}
+
+.page{padding:28px;display:none}
+.page.active{display:block}
+
+/* SEARCH BAR */
+.search-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.search-input{
+  flex:1;min-width:200px;background:rgba(255,255,255,0.9);border:1px solid var(--border);
+  border-radius:8px;padding:9px 14px;color:var(--text);font-size:13px;
+  font-family:'Noto Sans JP',sans-serif;outline:none;
+}
+.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,107,53,0.08)}
+.filter-select{
+  background:rgba(255,255,255,0.9);border:1px solid var(--border);border-radius:8px;
+  padding:9px 14px;color:var(--text);font-size:13px;
+  font-family:'Noto Sans JP',sans-serif;outline:none;cursor:pointer;
+}
+.filter-select:focus{border-color:var(--accent)}
+
+/* MEMBER GRID */
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.member-card{
+  background:rgba(255,255,255,0.85);border:1px solid rgba(255,107,53,0.12);
+  border-radius:var(--radius);padding:18px;cursor:pointer;
+  transition:border-color 0.2s,transform 0.15s,box-shadow 0.2s;
+  backdrop-filter:blur(4px);
+}
+.member-card:hover{
+  border-color:rgba(255,107,53,0.4);transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(255,107,53,0.12);
+}
+.member-name{font-size:15px;font-weight:500;margin-bottom:2px;color:var(--text)}
+.member-kana{font-size:11px;color:var(--muted);margin-bottom:10px}
+.member-nick{font-size:11px;color:var(--accent2);margin-bottom:10px}
+.parts-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.part-badge{
+  font-size:11px;padding:3px 8px;border-radius:20px;
+  background:rgba(255,107,53,0.08);color:var(--accent);border:1px solid rgba(255,107,53,0.2);
+}
+.meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.meta-tag{font-size:11px;color:var(--muted);background:rgba(255,107,53,0.06);
+  padding:2px 7px;border-radius:4px}
+.live-tag{
+  font-size:10px;padding:2px 7px;border-radius:4px;
+  background:rgba(255,107,53,0.08);color:var(--accent);border:1px solid rgba(255,107,53,0.15);
+}
+.live-ng{background:rgba(232,53,122,0.08)!important;color:var(--accent2)!important;border-color:rgba(232,53,122,0.2)!important}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(42,24,16,0.4);backdrop-filter:blur(4px);z-index:200;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.modal-box{
+  background:rgba(255,255,255,0.97);border:1px solid rgba(255,107,53,0.2);
+  border-radius:16px;width:500px;max-width:100%;max-height:80vh;
+  overflow-y:auto;padding:28px;
+  box-shadow:0 20px 60px rgba(255,107,53,0.15);
+}
+.modal-box h2{font-size:18px;font-weight:500;margin-bottom:4px;color:var(--text)}
+.modal-box .kana{font-size:12px;color:var(--muted);margin-bottom:16px}
+.modal-section{margin-bottom:14px}
+.modal-label{font-size:11px;color:var(--muted);letter-spacing:0.07em;margin-bottom:5px}
+.modal-value{font-size:13px;line-height:1.7;color:var(--text)}
+.close-btn{
+  float:right;background:none;border:1px solid var(--border);
+  color:var(--muted);padding:5px 12px;border-radius:6px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;font-size:12px;
+}
+.close-btn:hover{border-color:var(--accent2);color:var(--accent2)}
+
+/* BAND PAGE */
+.band-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:28px}
+.band-card{
+  background:rgba(255,255,255,0.85);border:1px solid rgba(255,107,53,0.12);
+  border-radius:var(--radius);padding:20px;
+}
+.band-card h3{font-size:15px;font-weight:500;margin-bottom:4px;color:var(--text)}
+.band-song{font-size:13px;color:var(--accent);margin-bottom:12px}
+.band-genre{font-size:12px;color:var(--muted);margin-bottom:10px}
+.member-list{margin-bottom:12px}
+.member-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)}
+.member-item:last-child{border-bottom:none}
+.member-part{font-size:11px;color:var(--accent2);min-width:60px}
+.member-item-name{font-size:13px;color:var(--text)}
+.missing-parts{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.missing-badge{
+  font-size:11px;padding:3px 8px;border-radius:20px;
+  background:rgba(232,53,122,0.08);color:var(--accent2);border:1px solid rgba(232,53,122,0.2);
+}
+.band-actions{display:flex;gap:8px;margin-top:12px}
+.btn-sm{
+  flex:1;background:rgba(255,107,53,0.05);border:1px solid var(--border);
+  color:var(--muted);border-radius:6px;padding:7px;font-size:12px;
+  cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all 0.2s;
+}
+.btn-sm:hover{border-color:var(--accent);color:var(--accent);background:rgba(255,107,53,0.08)}
+.btn-sm.danger:hover{border-color:var(--accent2);color:var(--accent2);background:rgba(232,53,122,0.06)}
+.add-band-btn{
+  background:rgba(255,255,255,0.7);border:2px dashed rgba(255,107,53,0.3);
+  border-radius:var(--radius);padding:20px;text-align:center;
+  color:var(--muted);cursor:pointer;font-size:13px;
+  transition:all 0.2s;font-family:'Noto Sans JP',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.add-band-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(255,107,53,0.04)}
+
+/* BAND FORM */
+.band-form{
+  background:rgba(255,255,255,0.9);border:1px solid rgba(255,107,53,0.15);
+  border-radius:var(--radius);padding:24px;margin-bottom:20px;
+}
+.band-form h3{font-size:15px;font-weight:500;margin-bottom:18px;color:var(--accent)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-row.single{grid-template-columns:1fr}
+.form-group-small label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}
+.form-group-small input,.form-group-small select,.form-group-small textarea{
+  width:100%;background:rgba(255,255,255,0.9);border:1px solid var(--border);
+  border-radius:6px;padding:8px 10px;color:var(--text);font-size:12px;
+  font-family:'Noto Sans JP',sans-serif;outline:none;
+}
+.form-group-small input:focus,.form-group-small select:focus,.form-group-small textarea:focus{border-color:var(--accent)}
+.form-group-small textarea{resize:vertical;min-height:60px}
+.member-entry{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
+.member-entry input,.member-entry select{
+  background:rgba(255,255,255,0.9);border:1px solid var(--border);
+  border-radius:6px;padding:7px 10px;color:var(--text);font-size:12px;
+  font-family:'Noto Sans JP',sans-serif;outline:none;
+}
+.member-entry input:focus,.member-entry select:focus{border-color:var(--accent)}
+.remove-member-btn{
+  background:none;border:1px solid var(--border);color:var(--muted);
+  border-radius:6px;padding:7px 10px;cursor:pointer;font-size:12px;transition:all 0.2s;white-space:nowrap;
+}
+.remove-member-btn:hover{border-color:var(--accent2);color:var(--accent2)}
+.add-member-btn{
+  background:none;border:1px dashed rgba(232,53,122,0.3);color:var(--accent2);
+  border-radius:6px;padding:7px 12px;cursor:pointer;font-size:12px;
+  font-family:'Noto Sans JP',sans-serif;transition:all 0.2s;width:100%;margin-top:4px;
+}
+.add-member-btn:hover{border-color:var(--accent2);background:rgba(232,53,122,0.04)}
+.form-actions{display:flex;gap:10px;margin-top:16px}
+.btn-save{
+  flex:1;background:linear-gradient(135deg,#ff6b35,#e8357a);color:#fff;border:none;
+  border-radius:6px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;
+}
+.btn-cancel{
+  background:none;border:1px solid var(--border);color:var(--muted);
+  border-radius:6px;padding:10px 20px;font-size:13px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;
+}
+
+/* MISSING SEARCH PAGE */
+.missing-search-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.missing-card{
+  background:rgba(255,255,255,0.85);border:1px solid rgba(255,107,53,0.12);
+  border-radius:var(--radius);padding:18px;
+}
+.missing-card h4{font-size:14px;font-weight:500;margin-bottom:4px;color:var(--text)}
+.missing-card .song{font-size:12px;color:var(--accent);margin-bottom:10px}
+.missing-count{
+  display:inline-block;font-size:11px;
+  background:rgba(232,53,122,0.08);color:var(--accent2);
+  border:1px solid rgba(232,53,122,0.2);
+  padding:2px 8px;border-radius:20px;margin-bottom:10px;
+}
+.candidate-list{margin-top:10px}
+.candidate-item{
+  font-size:12px;padding:5px 0;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;color:var(--text);
+}
+.candidate-item:last-child{border-bottom:none}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{
+  background:rgba(255,255,255,0.85);border:1px solid rgba(255,107,53,0.12);
+  border-radius:var(--radius);padding:18px;
+}
+.stat-num{
+  font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:600;
+  background:linear-gradient(135deg,#ff6b35,#e8357a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* CHIPS ROW */
+.chips-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.chip{
+  font-size:11px;padding:4px 10px;border-radius:20px;cursor:pointer;
+  border:1px solid rgba(255,107,53,0.2);color:var(--muted);background:rgba(255,255,255,0.7);
+  transition:all 0.15s;
+}
+.chip.active{background:rgba(255,107,53,0.1);border-color:rgba(255,107,53,0.4);color:var(--accent)}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+
+.results-count{font-size:12px;color:var(--muted);margin-bottom:12px}
+.page-title{font-size:18px;font-weight:500;margin-bottom:6px;color:var(--text)}
+.page-desc{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+
+/* ADMIN BADGE */
+.admin-badge{
+  font-size:10px;padding:2px 7px;border-radius:4px;
+  background:rgba(232,53,122,0.1);color:var(--accent2);
+  border:1px solid rgba(232,53,122,0.2);margin-left:8px;
+}
+
+/* ARTIST SUGGESTION */
+.artist-suggestion{
+  font-size:11px;color:var(--accent);margin-top:4px;
+  font-style:italic;
+}
+
+/* scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:rgba(255,107,53,0.05)}
+::-webkit-scrollbar-thumb{background:rgba(255,107,53,0.2);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box">
+    <h1><span style="display:block;font-size:12px;font-weight:400;color:var(--muted);letter-spacing:0.08em;margin-bottom:4px">東大音感　'26激突バンド組＆ライブ</span>🎸 激突！名簿</h1>
+    <p class="subtitle">バンド組みサイト<br>フルネームとフリガナを入力してログイン</p>
+    <div class="form-group">
+      <label>フルネーム（漢字）</label>
+      <input type="text" id="login-name" placeholder="例：加藤　優貴" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>フリガナ</label>
+      <input type="text" id="login-kana" placeholder="例：カトウ　ユウキ" autocomplete="off">
+    </div>
+    <button class="btn-primary" onclick="doLogin()">ログイン</button>
+    <p class="login-error hidden" id="login-error">名前またはフリガナが一致しません</p>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);text-align:center">
+      <button class="btn-cancel" style="font-size:12px;padding:6px 16px" onclick="showAdminLogin()">管理者ログイン</button>
+    </div>
+    <div id="admin-login-area" class="hidden" style="margin-top:14px">
+      <div class="form-group">
+        <label>管理者パスワード</label>
+        <input type="password" id="admin-pw" placeholder="パスワードを入力">
+      </div>
+      <button class="btn-primary" style="background:var(--accent3);color:#fff" onclick="doAdminLogin()">管理者としてログイン</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN SCREEN -->
+<div id="main-screen" class="hidden">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="topbar-title">🎸 激突！名簿</span>
+      <span id="admin-badge" class="admin-badge hidden">管理者</span>
+    </div>
+    <div class="topbar-nav">
+      <button class="nav-btn active" onclick="showPage('members-page',this)">メンバー</button>
+      <button class="nav-btn" onclick="showPage('bands-page',this)">バンド</button>
+      <button class="nav-btn" onclick="showPage('missing-page',this)">パート探し</button>
+      <button class="nav-btn" onclick="showPage('stats-page',this)">統計</button>
+      <button class="nav-btn" id="admin-nav-btn" style="display:none" onclick="showPage('admin-page',this)">学年管理</button>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">ログアウト</button>
+  </div>
+
+  <!-- MEMBERS PAGE -->
+  <div class="page active" id="members-page">
+    <p class="page-title">メンバー一覧</p>
+    <p class="page-desc">メンバーの情報を確認できます。カードをクリックで詳細を表示。</p>
+    <div class="search-row">
+      <input class="search-input" id="member-search" placeholder="名前・ニックネーム・アーティスト名で検索..." oninput="filterMembers()">
+      <select class="filter-select" id="part-filter" onchange="filterMembers()">
+        <option value="">全パート</option>
+        <option value="Gt.">Gt.（ギター）</option>
+        <option value="Ba.">Ba.（ベース）</option>
+        <option value="Dr.">Dr.（ドラム）</option>
+        <option value="Key.">Key.（キーボード）</option>
+        <option value="Vo.">Vo.（ボーカル）</option>
+        <option value="Gt./Vo.">Gt./Vo.（ギターボーカル）</option>
+        <option value="Key./Vo.">Key./Vo.（キーボードボーカル）</option>
+        <option value="Sa.">Sa.（サックス）</option>
+        <option value="Tp.">Tp.（トランペット）</option>
+        <option value="Tb.">Tb.（トロンボーン）</option>
+        <option value="Vn.">Vn.（バイオリン）</option>
+        <option value="Fl.">Fl.（フルート）</option>
+      </select>
+      <select class="filter-select" id="live-filter" onchange="filterMembers()">
+        <option value="">全ライブ日</option>
+        <option value="6/6">6/6(土)参加可</option>
+        <option value="6/7">6/7(日)参加可</option>
+        <option value="両日可">両日参加可</option>
+      </select>
+      <select class="filter-select" id="grade-filter" onchange="filterMembers()">
+        <option value="">全学年</option>
+        <option value="C年">C年（新入生）</option>
+        <option value="現役">現役生</option>
+      </select>
+    </div>
+    <div class="chips-row" id="genre-chips"></div>
+    <p class="results-count" id="results-count"></p>
+    <div class="member-grid" id="member-grid"></div>
+  </div>
+
+  <!-- BANDS PAGE -->
+  <div class="page" id="bands-page">
+    <p class="page-title">バンド情報</p>
+    <p class="page-desc">登録バンドの一覧。自分のバンドを登録して、メンバーを募集しよう！</p>
+    <div id="band-list-container"></div>
+    <div class="add-band-btn" onclick="showBandForm()" id="add-band-btn">
+      <span style="font-size:18px">＋</span> 新しいバンドを登録する
+    </div>
+    <div id="band-form-container" class="hidden"></div>
+  </div>
+
+  <!-- MISSING PARTS PAGE -->
+  <div class="page" id="missing-page">
+    <p class="page-title">パート探し</p>
+    <p class="page-desc">不足パートを探しているバンドと、そのパートを担当できるメンバー候補を表示します。</p>
+    <div id="missing-content"></div>
+  </div>
+
+  <!-- ADMIN GRADE PAGE -->
+  <div class="page" id="admin-page">
+    <p class="page-title">学年管理</p>
+    <p class="page-desc">現役生の学年を設定できます。変更はすぐに反映されます。</p>
+    <div style="margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn-sm" style="flex:none;padding:7px 14px" onclick="bulkSetGrade('D年')">現役生を全員D年に</button>
+      <button class="btn-sm" style="flex:none;padding:7px 14px" onclick="bulkSetGrade('E年')">現役生を全員E年に</button>
+      <button class="btn-sm" style="flex:none;padding:7px 14px" onclick="bulkSetGrade('現役')">現役生を全員「現役」に戻す</button>
+    </div>
+    <div id="admin-grade-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px"></div>
+  </div>
+
+  <!-- STATS PAGE -->
+  <div class="page" id="stats-page">
+    <p class="page-title">統計情報</p>
+    <div class="stats-grid" id="stats-content"></div>
+    <div id="part-breakdown"></div>
+  </div>
+</div>
+
+<!-- MEMBER MODAL -->
+<div class="modal-overlay hidden" id="member-modal" onclick="closeModal(event)">
+  <div class="modal-box" id="modal-content"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const ADMIN_PASSWORD = "gekitotsu2025";
+
+const rawMembers = [
+["加藤　優貴","カトウ　ユウキ","かろいゆ","Ba.（ベース）","King Gnu、椎名林檎、東京事変、BackNumber","POP、Rock","両日可","両日可"],
+["和田　将英","ワダ　ショウエイ","しょうえい","Ba.（ベース）","Vaundy,Radwimps,backnumber,Remioromen,Bump of chicken,sekainoowari,Bruno mars","ポップス、ロック","両日可","両日可"],
+["横田　大翔","ヨコタ　ハルト","Haruto","Ba.（ベース）","incognito,ゲス極,東京事変,ブルーノマーズ,ペトロールズ,星野源,マイケルジャクソン,マルーン5,米津玄師,ヨルシカ,礼賛,レトロリロン,the band apart,BREIMEN,Cory Wong,indigo la end,Jamiroquai,Kroi,Park Qoopie,SAKEROCK,Tele,Tom misch,Vulfpeck,YMO","なんでも","両日可","両日可"],
+["岡林　祐甫","オカバヤシ　ユウスケ","ゆうすけ","Ba.（ベース）","ミセス、ヨルシカ、YOASOBI、米津玄師","最近のj-pop、j-rock","両日可","両日可"],
+["武隈　心","タケクマ　ココロ","Kokoro","Dr.（ドラム）","Lamp,おいしくるメロンパン,新東京,go!go!vanillas,離婚伝説,TOMOO,星野源,PEOPLE１,レトロリロン,muque,TRACK15,ガラクタ,ずっと真夜中でいいのに。,PSYQUI,sumika,東京事変,Official髭男dism,Vaundy,SHISHAMO,Tele,DENIMS,Chevon","邦ロック、ボーカロイド","両日可","5/9(土) 14:00〜"],
+["池田 詠晶","イケダ  エイショウ","詠晶","Dr.（ドラム）","スナーキーパピー,コリーウォン,ダーティーループス,TSQUARE,ソイルピンプアンドセッション,sar,ユセフデイズ","ファンク、フュージョン、ポップス、ロック、ゴスペル、R&b","両日可","5/9(土) 14:00〜"],
+["長野　響","ナガノ　ヒビキ","ナガノ","Dr.（ドラム）","","J-pop,ハードロック,ロック","両日可","両日不可"],
+["川崎　さゆり","カワサキ　サユリ","さゆり","Dr.（ドラム）","","日本のバンド","両日可","両日可"],
+["青木　実穂","アオキ　ミホ","みほ","Dr.（ドラム）","ヨルシカ　マカロニえんぴつ　Vaundy","J-POP","両日可","5/9(土) 14:00〜"],
+["中溝 大貴","ナカミゾ マサキ","MasakiN","Gt.（ギター）","kingGnu,ワンオク,kroi,凛として時雨,藤井風,Chevon,礼賛,椎名林檎,東京事変,ずっと真夜中でいいのに,ヨルシカ,Suspended4th,マキシマムザホルモン","ロック、ハードロック、ポップス","両日可","両日不可"],
+["郷頭 琉真","ゴトウ リュウマ","りゅうま","Gt.（ギター）","Aooo,RADWIMPS,BUMP OF CHICKEN,クリープハイプ,indigo la End,ヨルシカ,緑黄色社会,KANA-BOON,ずっと真夜中でいいのに。,Mrs. GREEN APPLE,東京事変,椎名林檎,Official髭男dism,King Gnu,backnumber,マカロニえんぴつ,ヤングスキニー,Vaundy,sumika,10-FEET","Jpop Jrock","両日可","両日可"],
+["宍戸　介","シシド　カイ","ししーちゃん","Gt.（ギター）, Ba.（ベース）","ヨルシカ、米津玄師","J-pop,J-rock","両日可","5/9(土) 14:00〜"],
+["木下　創太","キノシタ　ソウタ","木下創太","Gt.（ギター）, Gt./Vo.（ギターボーカル）","スピッツ","JPOP、ボカロ","両日可","両日可"],
+["正久　響","マサヒサ　キョウ","響","Gt.（ギター）, Gt./Vo.（ギターボーカル）","マカロニえんぴつ、藤井風、星野源、BUMP OF CHICKEN","JPOP","両日可","両日可"],
+["花田 真衣","ハナダ マイ","まい","Gt./Vo.（ギターボーカル）","ヒトリエ,ryo(supercell),RADWIMPS,Tia,ずっと真夜中でいいのに。,ヨルシカ,ハヌマーン,PEOPLE 1,yonige,indigo la End,ELECTROCUTICA,笹川真生,トゲナシトゲアリ,Aimer,GRANRODEO","ロック、アニソン、ボカロ、ジャズ","両日可","5/9(土) 14:00〜"],
+["松岡 初奈","マツオカ ウイナ","Wina","Key.（キーボード）","ヨルシカ、米津玄師、Vaundy、マカロニえんぴつ","JPOP、洋楽、ボカロ","両日可","5/9(土) 14:00〜"],
+["枡谷 悠利","マスタニ ユウリ","yuri.m","Key.（キーボード）","tuki.,ロクデナシ、YOASOBI、ヨルシカ、SEKAI NO OWARI、Mrs. Green Apple、DISH//","J-POP","6/6(土)のみ可","5/10(日)"],
+["長谷川　夕莉","ハセガワ　ユウリ","長谷川夕莉","Vo.（ボーカル）","宇多田ヒカル、椎名林檎、東京事変、aiko、広瀬香美、きのこ帝国、くるり","J-pop、シティーポップ","両日可","両日可"],
+["上條 美紀","カミジョウ ミキ","みき","Vo.（ボーカル）","Suchmos,ポルカドットスティングレイ,マルーン5,Dua Lipa,Jung kook,椎名林檎","ゆったりした感じの音楽、洋楽","6/6(土)のみ可","5/9(土) 14:00〜"],
+["加藤　由希","カトウ　ユキ","加藤由希","Vo.（ボーカル）","あいみょん、Official髭男dism、SHISHAMO、椎名林檎、Ado、緑黄色社会","ポップス","6/6(土)のみ可","5/9(土) 14:00〜"],
+["中畑 煌河","ナカハタ コウガ","こうが","Vo.（ボーカル）","なとり,BUMP,sumika,ゲスの極み乙女,PEOPLE1","JPOP","6/6(土)のみ可","5/6(水) 14:00〜"],
+["小島　千鶴","コジマ　チヅル","Chizuru","Vo.（ボーカル）","SMAP,星野源,PRINCESS PRINCESS,オメガトライブ,松任谷由実,ゲスの極み乙女,藤井風,THE ALFEE,松田聖子,久保田利伸,SEKAI NO OWARI,ポルノグラフィティ,髭男,J-Pop,Funk,Alt,Rock,K-Pop","J-Pop、J-Rock、Funk、Alternative、Rock、K-Pop、80s","両日可","両日可"],
+["石田 茉利亜","イシダ マリア","Maria","Vo.（ボーカル）","椎名林檎、あいみょん、RAD、ミセス","POP","両日可","5/6(水) 14:00〜"],
+["畠山 結咲","ハタケヤマ ユサキ","畠山 結咲","Vo.（ボーカル）","ヨルシカ,Ado,YOASOBI,LiSA,相対性理論,宇多田ヒカル,Superfly,Silent Siren,Honey Works,=LOVE","jpop、アイドルソング、ボカロ、アニソン","6/6(土)のみ可","両日可"],
+["室町 泰輝","ムロマチ タイキ","室町泰輝","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","ヨルシカ,米津玄師,backnumber","J-POP jrock","両日可","5/6(水) 14:00〜"],
+["徳山　正旭","トクヤマ　マサアキ","正旭","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","Green Day,Red Hot chili peppers,Oasis,Maneskin,Nirvana,ミッシェル,andymori,ゆらゆら帝国,goo goo dolls","ロック","両日可","両日可"],
+["菊間　隆大","キクマ　タカヒロ","takahiro","Vo.（ボーカル）, Key.（キーボード）","サカナクション、オレンジレンジ、Alexandros、WANIMA","","両日可","5/9(土) 14:00〜"],
+["後藤 優太","ゴトウ ユウタ","ゆうた","Gt.（ギター）","ヨルシカ、BUMP OF CHICKEN、King Gnu、ONE OK ROCK、Chevon、PEOPLE1、米津玄師、Linkin Park、Maneskin","ロック/ポップ","両日可","両日可"],
+["野中 祐希","ノナカ ユウキ","yuki","Key.（キーボード）","ずっと真夜中でいいのに。,ヨルシカ,Mrs. GREEN APPLE,CHiCO with HoneyWorks,YOASOBI,緑黄色社会,サカナクション,Official髭男dism,米津玄師,BUMP OF CHICKEN","J-POP、邦ロック","両日可","両日可"],
+["今村 柊太","イマムラ シュウタ","今村 柊太","Dr.（ドラム）","アジカン、サカナクション、米津玄師、クリープハイプ、ヨルシカ、オーラル","J-pop J-rock","両日可","両日可"],
+["伊藤 凜汰郎","イトウ リンタロウ","リンタロー","Vo.（ボーカル）, Key.（キーボード）","星野源,ヨルシカ,藤井風,Mrs.GREEN APPLE,サカナクション,indigo la End,King Gnu","J-POP","両日可","両日可"],
+["山本　景翔","ヤマモト　エイト","やまもとえいと","Gt.（ギター）","星野源、ずとまよ、ヨルシカ、YOASOBI、サカナクション、UNISON SQUARE GARDEN","J-pop","両日可","両日可"],
+["田中伶","タナカレイ","世界のTANAKA","Gt./Vo.（ギターボーカル）","スピッツ,アジカン,モンパチ,ハイスタ,斉藤和義,ELLEGARDEN,10-FEET,ミスチル,サザン","邦ロック","両日可","5/9(土) 14:00〜"],
+["吉田 妃伽","ヨシダ ヒメカ","ひめか","Key.（キーボード）","セカオワ、髭男、ミセス、backnumber、RADWIMPS、キュウソネコカミ","JPOP、邦ロック","両日可","5/6(水) 14:00〜"],
+["目黒 皓大","メグロ コウタ","めぐろ","Dr.（ドラム）","ミセス、171、米津玄師、なきごと、アジカン、ナンバガ、バンアパ、スリマ、バズマザーズ、Aooo、w.o.d.、夜ダン","邦ロック、オルタナ","両日可","両日可"],
+["近藤　拓斗","コンドウ　タクト","タクト","Dr.（ドラム）","東京事変,Penthouse,UNISON SQUARE GARDEN,ずっと真夜中で良いのに。,ヨルシカ,ポルカドットスティングレイ,Aooo,Chevon","","両日可","5/9(土) 14:00〜"],
+["陶　也","トウ　ヤ","Touya","Gt.（ギター）","ヨルシカ,ELLEGARDEN,ASIAN KUNG-FU GENERATION,RADWIMPS,04 Limited Sazabys,[Alexandros],シンガーズハイ,クリープハイプ,羊文学,SPYAIR","J-POP J-ROCK ボカロ","両日可","5/9(土) 14:00〜"],
+["赤羽　耕治","アカバネ　コウジ","あかばねこうじ","Ba.（ベース）","ヒゲダン、米津玄師、スピッツ","ポップス","6/7(日)のみ可","両日可"],
+["楊 芝子","ヨウ シシ","しし","Vo.（ボーカル）","ヨルシカ,YOASOBI,ずっと真夜中でいいのに。,ポルカドットスティングレイ,SHISHAMO,yama,東京事変,Eve,Chevon,Vaundy,Måneskin,THE ORAL CIGARETTES,シンガーズハイ,NEE,Suspended 4th,ONE OK ROCK,RADWIMPS,171","ポップス,ロック,EDM,洋楽等","6/7(日)のみ可","両日不可"],
+["波多野　和太","ハタノ　カズヒロ","和太","Gt.（ギター）","ヨルシカ　BUMP OF CHICKEN back number ひげだん　みせす","jpop","両日可","両日可"],
+["胡 一繁","フー　イーファン","hu1fan","Gt.（ギター）, Gt./Vo.（ギターボーカル）","東京事変、ヨルシカ、宇宙コンビニ","J-POP、Fusion、Math Rock","両日可","両日可"],
+["門田　理央","カドタ　リオ","Rio-oxènon","Gt.（ギター）","ずとまよ、ミセス、ヨルシカ、ボカロ全般、星街すいせい、サカナクション","pops,rock,ボカロ","両日可","両日可"],
+["山岸　光雅","ヤマギシ　コウガ","けーやま","Dr.（ドラム）","ヨルシカ,ずとまよ,結束バンド,シンガーズハイ,ワンオク,RADWIMPS,04 Limited Sazabys,おいしくるメロンパン,UNISON SQUARE GARDEN,Aooo,なとり,NEE,東京事変,ポルカドットスティングレイ,Vaundy,緑黄色社会,The Oral Cigarettes,Eve,米津玄師,King Gnu,さユり,キタニタツヤ,DECO*27,Cö shu Nie","ロック、アニソン、ボカロ、ポップス、パンク","6/7(日)のみ可","両日可"],
+["村瀬　公規","ムラセ　コウキ","Koki","Dr.（ドラム）, Key.（キーボード）","ポルノグラフィティ、髭男、back number、Mrs.GREEN APPLE、ヨルシカ、結束バンド、米津玄師、YOASOBI、Orangestar、星野源","J-POP、ポップ・ロック、ボカロ","両日可","両日可"],
+["嶋 太陽","シマ タイヨウ","Taiyo","Dr.（ドラム）","Blankey jet city、筋肉少女帯、ブルーハーツ、サザンオールスターズ、Every little thing、ゴダイゴ、安全地帯","ロック、パンク、シティポップ","両日可","5/6(水) 14:00〜"],
+["長澤　志成","ナガサワ　ユキシゲ","YUKISHIGE","Vo.（ボーカル）","King Gnu,Vaundy,米津玄師,RADWIMPS,back number,official髭男dism,Creepy Nuts","Jpop","6/6(土)のみ可","5/9(土) 14:00〜"],
+["大河原 来愛","オオカワラ クレア","くれあ","Ba.（ベース）","kurayamisaka,羊文学,リーガルリリー,ハヌマーン,ゆれる,超社会的サンダル,artschool,ナンバーガール","オルタナティブロック、シューゲイザー","6/7(日)のみ可","5/9(土) 14:00〜"],
+["正木　耀太","マサキ　ヨウタ","Youta","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）, Key.（キーボード）","ヨルシカ,藤井風,結束バンド,ヤバT,andymori,スーパーカー,Oasis,blur,Beatles,beach boys,フィッシュマンズ,サニーデイ・サービス,Cornelius,tahiti80,ボカロ","渋谷系、洋ロック、邦ロック","両日可","両日可"],
+["浅野　太一","アサノ　タイチ","taichi_asano","Key.（キーボード）","ずとまよ、ヨルシカ、米津玄師、Mrs.GREEN APPLE、ASIAN KUNG-FU GENERATION、BUMP OF CHICKEN、ryo、キタニタツヤ、Eve、結束バンド","ボカロ系、電子音楽、バンド","両日可","5/6(水) 14:00〜"],
+["池田　汐里","イケダ　シオリ","汐里","Gt.（ギター）, Gt./Vo.（ギターボーカル）","","","両日可","5/9(土) 14:00〜"],
+["勝又　樹","カツマタ　イツキ","勝又 樹","Ba.（ベース）","The Beatles,Oasis,Nirvana,Sex Pistols,Green Day,くるり,ハヌマーン,バズマザーズ,フジファブリック,ナンバーガール,スーパーカー,Janne Da Arc,銀杏BOYZ","少し昔の洋楽、邦楽","両日可","両日可"],
+["井上 晴斗","イノウエ ハルト","井上晴斗","Vo.（ボーカル）","サカナクション、米津玄師、アジカン","jpop","両日可","両日可"],
+["藤田 芹菜","フジタ セリナ","藤田芹菜/Selina","Gt./Vo.（ギターボーカル）","ブランデー戦記、バックドロップシンデレラ、XJAPAN、おいしくるメロンパン、クリープハイプ、結束バンド","ロック","両日可","両日可"],
+["東　隼ノ介","ヒガシ　ジュンノスケ","じゅんのすけ","Vo.（ボーカル）, Gt./Vo.（ギターボーカル）","すりぃ,syudou,sumika,official髭男dism,PEOPLE1,ハンブレッダーズ,Chevon,レトロリロン,NEE,シンガーズハイ,sanetii,サイダーガール,ルサンチマン,星野源,penthouse,なとり,須田景凪,バルーン,SUPER BEAVER,BLUE ENCOUNT,TOOBOE,Eve,超能力戦士ドリアン,ナユタン星人,Ado","ボカロ、J-pop、J-ROCK","両日可","両日可"],
+["峯本 琴音","ミネモト コトネ","琴音","Vo.（ボーカル）, Ba.（ベース）, Key.（キーボード）","椎名林檎,東京事変,SHISHAMO,クリープハイプ,Mrs. Green Apple,髭男,ヨルシカ,maneskin,藤井風,マカロニえんぴつ,ゲスの極み乙女,aiko,indigo la end,sekai no owari,RADWIMPS,backnumber,宇多田ヒカル,シンガーズハイ,米津玄師,Bruno Mars","JPOP、洋楽、邦ロック","両日可","両日可"],
+["上野　蒼一郎","ウエノ　ソウイチロウ","あがの蒼一郎","Ba.（ベース）","ブランデー戦記,hump back,official髭男リズム,saucy dog,yonige,クリープハイプ,back number","","両日可","両日可"],
+["齊藤　明来","サイトウ　リク","明来","Gt.（ギター）","ヒトリエ,kurayamisaka,きのこ帝国,サカナクション,カネコアヤノ,THEE MICHELLE GUN ELEPHANT,くるり,my bloody valentine,パスピエ,ナンバーガール,東京事変,tricot,THE NOVEMBERS","オルタナティブ、ポスト・ロック、シューゲイザー、マスロック","6/6(土)のみ可","両日可"],
+["朝香　圭翔","アサカ　ケイト","Asaka","Vo.（ボーカル）, Gt./Vo.（ギターボーカル）","Mrs. Green Apple, King Gnu, Vaundy","J Rock, J Pop","両日可","5/9(土) 14:00〜"],
+["太田　高誠","オオタ　コウセイ","太田","Ba.（ベース）","ずっと真夜中で良いのに。　米津玄師　YOASOBI　King Gnu","","両日可","両日可"],
+["遠藤 孝太朗","エンドウ コウタロウ","こーたろー","Dr.（ドラム）","UNISON SQUARE GARDEN、結束バンド、トゲナシトゲアリ、ずっと真夜中でいいのに、DECO*27、ヨルシカ","J-POP、ボーカロイド、アニソン","6/7(日)のみ可","5/6(水) 14:00〜"],
+["ヒガブ中井　アリ","ヒガブナカイ　アリ","Ali Hegab Nakai","Dr.（ドラム）","ヨルシカ、洋楽ならなんでも","J-POP、洋ロック、ボカロ","両日可","両日可"],
+["井上 智貴","イノウエ トモキ","井上 智貴","Vo.（ボーカル）","米津玄師、MrsGreenApple、Eve","JPOP","6/6(土)のみ可","5/9(土) 14:00〜"],
+["鈴木　歩睦","スズキ　アユム","Ayumu Suzuki","Gt.（ギター）","スピッツ、離婚伝説、東京事変、キタニタツヤ、米津玄師、Oasis、Maneskin、Incognito","邦ロック、洋ロック、ポップス、フュージョン","6/7(日)のみ可","両日可"],
+["吉岡 一貴","ヨシオカ カズキ","かずき","Ba.（ベース）","Mr.Children、ONE OK ROCK、Mrs. GREEN APPLE、official髭男dism、vaundy、sumika、SHISHAMO、クリープハイプ","ロック、ポップス","6/6(土)のみ可","両日可"],
+["辻　実日子","ツジ　ミカコ","みかこ","Ba.（ベース）, Key.（キーボード）","Queen,Nirvana,Måneskin,キリンジ","洋ロック","両日可","両日可"],
+["今野　心麗","コンノ　ミレイ","みれい","Key.（キーボード）","キタニタツヤ、BABYMETAL、ずっと真夜中でいいのに。、緑黄色社会、レキシ","邦ロック、オルタナティブ、メタル、ハードロック","両日可","5/9(土) 14:00〜"],
+["高田　順平","タカダ　ジュンペイ","タカダジュンペイ","Vo.（ボーカル）, Gt./Vo.（ギターボーカル）, Dr.（ドラム）","go!go!vanillas,ハンブレッダース,04 limited sazabys","邦ロ、ポップス","両日可","5/9(土) 14:00〜"],
+["野田 哲平","ノダ テッペイ","野田哲平","Dr.（ドラム）","米津玄師、ヨルシカ、星野源、マカロニえんぴつ、クリープハイプ、Tempalay、people1,WurtS","JPOP、ロック","両日可","両日可"],
+["垣花　啓介","カキハナ　ケイスケ","K.Kakihana","Gt.（ギター）","ヨルシカ、king gnu、米津玄師、エレファントカシマシ、Oasis、YOASOBI、ずとまよ、Alexandros、結束バンド、サカナクション、スピッツ","Rock、Pops","6/6(土)のみ可","両日可"],
+["判治　航","ハンジ　ワタル","判治航","Ba.（ベース）","ずっと真夜中でいいのに。,サンボマスター,Vaundy,ヨルシカ,ボカロ全般","ロック、ポップス、ボカロ","両日可","5/6(水) 14:00〜"],
+["小野　峻右","オノ　シュンスケ","小野峻右","Gt.（ギター）, Key.（キーボード）","チリビ,らっど,きんぐぬー,あうー,さかなくしょん,すぴっつ,milk,さいさい,クリスタルキング,チャットモンチー,とぷし,ブランデーせんき,あじかん,相対性理論,ぴぽわん,くりぱ,ずとまよ,シンガーズハイ","全部","両日可","両日可"],
+["遠山　真緒","トオヤマ　マオ","遠山真緒","Ba.（ベース）, Key.（キーボード）","SHISHAMO、ワンオク、クリープ、King Gnu、backnumber、サイサイ","","両日可","両日不可"],
+["井上　拓海","イノウエ　タクミ","井上拓海","Vo.（ボーカル）","Mrs.Green.Apple,ワンオク,vaundy,髭団,セカオワ,backnumber","Jpop 洋楽","両日可","5/9(土) 14:00〜"],
+["青木　信志","アオキ　シンジ","🐤とりぱわー","Key.（キーボード）","どのアーティストでも演奏したいです","J-POP、K-POP、CHINA-POP、洋楽","両日可","5/9(土) 14:00〜"],
+["新田　紫","ニッタ　ユカリ","ゆかり","Vo.（ボーカル）","チョーキューメイ","","6/6(土)のみ可","5/9(土) 14:00〜"],
+["蓮井　優太","ハスイ　ユウタ","優太","Key.（キーボード）","King Gnu,藤井風,椎名林檎,東京事変,銀杏BOYZ,GOING STEADY,millennium parade,星野源,Queen,backnumber,GReeeeN,ゆず,Vaundy,エレファントカシマシ,サンボマスター,Suchmos","POPS","両日可","5/9(土) 14:00〜"],
+["柿沼　彩愛","カキヌマ　アヤメ","あや","Key.（キーボード）","Kroi,King Gnu,マカロニえんぴつ,キタニタツヤ,なとり,ado,スピッツ,aiko,サカナクション,藤井風,ボカロ,ヨルシカ,Vaundy,back number,米津玄師,あいみょん","なんでも可","両日可","両日可"],
+["樫村　俊希","カシムラ　トシキ","俊希","Key.（キーボード）","ミセス,ずとまよ,king gnu,髭男,東京事変,ゲスの極み乙女,ヨルシカ,マカロニえんぴつ,サカナクション,vaundy","jpop、jrock","両日可","5/9(土) 14:00〜"],
+["西田　優美奈","ニシダ　ユミナ","Yumina","Vo.（ボーカル）","Ado,LiSA","J-POP 洋楽も好き","6/7(日)のみ可","5/6(水) 14:00〜"],
+["楢崎　悠矢","ナラサキ　ユウヤ","楢崎　悠矢","Gt.（ギター）","アジカン,ハヌマーン,ナンバーガール","邦ロック","両日可","5/6(水) 14:00〜"],
+["坂田　雄斗","サカタ　ユウト","坂田雄斗","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","indigo la End,Cody・Lee(李),おいしくるメロンパン,chevon,リュベンス,MONO NO AWARE,ゲスの極み乙女","pops","両日可","5/6(水) 14:00〜"],
+["岡﨑 修平","オカザキ シュウヘイ","おかざき","Gt.（ギター）","[Alexandros],UNISON SQUARE GARDEN,ヨルシカ,RADWIMPS,ポルカドットスティングレイ","ギターロック","6/6(土)のみ可","5/6(水) 14:00〜"],
+["後藤　信樹","ゴトウ　ノブキ","ごぶき","Ba.（ベース）","髭男、King Gnu、RADWIMPS、米津玄師、ONE OK ROCK、ヨルシカ","JPOP、洋楽以外大体","両日可","両日可"],
+["安田龍之介","ヤスダリュウノスケ","安田","Gt.（ギター）","ヨルシカ、おいしくるメロンパン、ポルカドットスティングレイ、バルーン、ずとまよ、リーガルリリー、メランコリック写楽、カラスは真っ白","日本のギターロック","6/6(土)のみ可","両日可"],
+["西脇　蓮","ニシワキ　レン","Ren nishiwaki","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","奥田民生、ユニコーン、BOØWY、星野源、w.o.d.、JUDY AND MARY、YMO、藤井風、安全地帯","","両日可","両日可"],
+["福富　丈太","フクトミ　ジョウタ","福富丈太","Key.（キーボード）","ミセス、ヨルシカ","J-POP","両日可","5/9(土) 14:00〜"],
+["髙山　奏志","タカヤマ　ソウシ","そうし","Gt.（ギター）","マカロニえんぴつ、RADWIMPS、クリープハイプ、backnumber、ヨルシカ、あいみょん、Vaundy、Mr.Children、Official髭男dism、ずっと真夜中でいいのに、SEKAI NO OWARI、米津玄師、SaucyDog、スピッツ","邦ロック、バラード、ポップス","両日可","5/9(土) 14:00〜"],
+["下田 空夢","シモダ ソラ","Sora","Ba.（ベース）","Tele,kroi","ポップス、ジャズ","6/6(土)のみ可","5/6(水) 14:00〜"],
+["宮﨑　友喜","ミヤザキ　トモキ","ともタロー","Gt.（ギター）","YOASOBI,Ado,Vaundy,back number,Official髭男dism,Mrs.GREEN APPLE,あいみょん,RADWIMPS,ヨルシカ,米津玄師,Eve","J-POP、有名な洋楽","6/7(日)のみ可","両日可"],
+["江幡　龍太郎","エバタ　リュウタロウ","Ryutaro Ebata","Dr.（ドラム）","ONE OK ROCK,king gnu,サカナクション,04 limted sazabyz","j pop, j rock","両日可","両日可"],
+["岩田　麗","イワタ　ウララ","Urara Iwata","Dr.（ドラム）","Jane Da Arc,Acid Black Cherry,X JAPAN,ゲスの極み乙女,L'Arc〜en〜Ciel,ゴールデンボンバー,Bruno Mars","ロック（ハードロック）、ヴィジュアル系","両日可","両日可"],
+["飛賀公太","トビカコウタ","Kota Tobika","Tp.（トランペット）","ヨルシカ","Pops","6/7(日)のみ可","両日可"],
+["青山 実加","アオヤマ ミカ","みか","Key.（キーボード）","Mrs. GREEN APPLE、Vaundy、ヨルシカ、Official髭男dism、SEKAI NO OWARI、緑黄色社会、ずっと真夜中でいいのに","J-POP、ポップロック","両日可","両日可"],
+["横井 大輔","ヨコイ ダイスケ","ヨコイダイスケ","Vn.(バイオリン)","ずっと真夜中でいいのに、ヨルシカ","j-pop","6/6(土)のみ可","両日可"],
+["難波　拓臣","ナンバ　タクミ","拓臣","Vo.（ボーカル）","マネスキン","J-pop 洋楽","両日可","5/6(水) 14:00〜"],
+["左傳 貴一","サデン キイチ","さでんきいち","Gt.（ギター）, Gt./Vo.（ギターボーカル）","RADWIMPS、ヨルシカ、35.7、HumpBack","邦ロック","両日可","5/6(水) 14:00〜"],
+["高橋 史夏","タカハシ フミカ","ふみか","Ba.（ベース）","kroi,東京事変,Suchmos,藤井風,星野源,宇多田ヒカル,Jamiroquai,kingGnu,Bruno Mars,離婚伝説","ソウル、r&b、ファンク、ポップス","両日可","両日可"],
+["河野 惺","コウノ サトル","河野","Ba.（ベース）","星野源,サンボマスター,Mr.Children,Mrs. GREEN APPLE,Official髭男dism,ヨルシカ,ずっと真夜中でいいのに,SHISHAMO,UNISON SQUARE GARDEN,SEKAI NO OWARI,WANIMA,back number,椎名林檎,マカロニえんぴつ,KANA-BOON,BUMP OF CHICKEN,カネヨリマサル,緑黄色社会,ポップしなないで,TOMOO,RADWIMPS","Jpop、Jrock","両日可","5/9(土) 14:00〜"],
+["石戸谷　光","イシトヤ　ヒカル","石戸谷","Ba.（ベース）","藤井風,フジファブリック,クリープハイプ,Bialystocks,ジャミロクワイ","J-pop、ブラックミュージック","参加しない","5/6(水) 14:00〜"],
+["弘田　遜凜","ヒロタ　ユズリ","遜凜","Vo.（ボーカル）, Gt./Vo.（ギターボーカル）","BUMP OF CHICKEN/米津玄師","ROCK/POPS","両日可","5/6(水) 14:00〜"],
+["福島　優大","フクシマ　マサヒロ","優大","Gt.（ギター）","BREIMEN,Tempalay,SYAYOS,ANORAK!,sidenerds,the bercedes menz","オルタナティブ、エモ","両日可","5/6(水) 14:00〜"],
+["長沼　実希","ナガヌマ　ミキ","実希","Dr.（ドラム）","SUPER BEAVER、BUMP、ワンオク、KANA-BOONなど","ポップス、ロック","6/6(土)のみ可","5/6(水) 14:00〜"],
+["菅原 一起","スガワラ カズキ","かずき","Dr.（ドラム）","King Gnu,Alexandros,RADWIMPS,SUPER BEAVER,Mr.Children,スピッツ,the pillows,藤井風,indigo la End,penthouse,セカオワ,おいしくるメロンパン,銀杏BOYS,きのこ帝国,BUMP OF CHICKEN","POPS、Jazz","両日可","5/9(土) 14:00〜"],
+["植松　佑成","ウエマツ　ユウセイ","Y.Uematsu","Ba.（ベース）","キタニタツヤ、ヒトリエなど","","両日可","5/9(土) 14:00〜"],
+["大台 進一","オオダイ シンイチ","クロロ","Ba.（ベース）","あいみょん、ヨルシカ、スピッツ、ずとまよ、ビートルズなど","jpop, rockなど","両日可","5/9(土) 14:00〜"],
+["山内　俊太郎","ヤマウチ　シュンタロウ","Ozone 12","Key.（キーボード）","King Gnu,ASIAN KUNG-FU GENERATION,米津玄師,ヨルシカ","J-Pop、ロック","両日可","5/9(土) 14:00〜"],
+["阿部　美菜","アベ　ミナ","mina","Ba.（ベース）","RADWIMPS、ONEOKROCK","J-ROCK","両日可","両日不可"],
+["遠藤　夏梨","エンドウ　カリン","かりん","Ba.（ベース）","suspended4th,凛として時雨","ロック、ポップス","両日可","両日可"],
+["石附　大知","イシヅキ　ダイチ","石附 大知","Gt.（ギター）","米津玄師、YOASOBI、幾田りら、Aooo、星野源、Official髭男dism、ヨルシカ、back number、Vaundy、SUPER BEAVER","J-pop","両日可","両日可"],
+["松金　公智","マツカネ　キミサト","はむさと","Ba.（ベース）","ヨルシカ,n-buna,ずっと真夜中でいいのに,ロクデナシ,SANOVA,ポルカドットスティングレイ,Chevon","邦ロック、ジャズ、j-pop、インスト","両日可","両日可"],
+["吉田　大輝","ヨシダ　タイキ","吉田大輝","Gt.（ギター）","ミセス、RAD、ワンオク、ヨルシカ、ずとまよ、スピッツ、MONGOL800","ロック、ポップロック、邦ロック","両日可","両日可"],
+["前田 寛仁","マエダ ヒロヒト","前田寛仁","Vo.（ボーカル）, Gt.（ギター）, パーカッション","Alicia Keys,Anderson.Paak,フジファブリック,Jay Worthy,KID FRESINO,Mac Miller,Nas,Oasis,奥田民生,Pete Rock,斉藤和義,サカナクション,STUTS,宇多田ヒカル","邦ロック、ファンク/ソウル/ジャズ","両日可","両日可"],
+["佐藤　麗衣","サトウ　レイ","Rei","Ba.（ベース）","ずっと真夜中でいいのに。,ヨルシカ,AKASAKI,クリープハイプ,Eve,ロクデナシ,YOASOBI,Official髭男dism,Mrs.GREEN APPLE,RADWIMPS","Jポップ、ボカロ","両日可","両日可"],
+["稲田 桃愛","イナダ モモナ","稲田桃愛","Vo.（ボーカル）","ヨルシカ,ずっと真夜中でいいのに。,ツユ","POP","両日可","両日可"],
+["島野　真緒","シマノ　マオ","Mao","Dr.（ドラム）","Sumika,SHISHAMO,back number,クリープハイプ,緑黄色社会,SUPER BEAVER,MY FIRST STORY,マカロニえんぴつ,KANA-BOON,セカオワ,ずとまよ,ひげだん,Eve,いきものがかり,ヤングスキニー","J-pop,洋楽,邦ロック","両日可","両日可"],
+["リバレ　とま","リバレ　トマ","TOMA","Dr.（ドラム）","ヨルシカ,YOASOBI,vaudou game,ずっと真夜中でいいのに","JPOP、アフリカ音楽、ファンク","両日可","5/9(土) 14:00〜"],
+["下窪 祐史","シモクボ ユウシ","Yushi","Key.（キーボード）","casiopea,t-square,東京事変,緑黄色社会,ヨルシカ,ゲス極,サカナクション,suchmos","fusion, pops, rock, jazz, funk","両日可","5/9(土) 14:00〜"],
+["澁谷　武大","シブヤ　タケヒロ","Shibu","Ba.（ベース）","BUMP、マカロニえんぴつ、King Gnu、GLAY,アジカン、back number、ミセス","ロック、POP","両日可","5/9(土) 14:00〜"],
+["野中　和仁","ノナカ　カズヒト","ノナカ","Gt.（ギター）","King Gnu、ヨルシカ、キタニタツヤ、Alexandros、bump of chicken、ストレイテナー、スピッツ","邦ロック、jpop","6/6(土)のみ可","5/9(土) 14:00〜"],
+["石崎　桜依","イシザキ　ルイ","るい","Gt.（ギター）, Dr.（ドラム）","ゴールデンボンバー、GLAY、0.1gの誤算、XJAPAN","ビジュアル系、POP","6/7(日)のみ可","5/9(土) 14:00〜"],
+["瀧口　結太","タキグチ　ユウタ","ゆうた","Ba.（ベース）","Mr.Children,B'z,東京事変,椎名林檎,king gnu,星野源,君島大空,TiDE,official髭男dism","ロック、ポップス、ファンク","6/7(日)のみ可","5/9(土) 14:00〜"],
+["石井　琢朗","イシイ　タクロウ","taku","Ba.（ベース）","インディゴ、sumika、back number","J-rock J-pop","両日可","5/9(土) 14:00〜"],
+["江森 陽輝","エモリ ハルキ","(えも)り","Gt.（ギター）","東京事変,indigo la End,Suchmos,星野源,キタニタツヤ,米津玄師","J-POP","両日可","5/9(土) 14:00〜"],
+["平川　甫","ヒラカワ　ハジメ","はじめ","Gt.（ギター）","レッチリ,the 1975,D'Angelo,Hiatus Kaiyote,Vulfpeck","ロック、R&B、Funk、Hip hop","6/7(日)のみ可","両日不可"],
+["小島　るる","コジマ　ルル","ruru","Ba.（ベース）","ポルカドットスティングレイ","","両日可","両日不可"],
+["佐々木　航成","ササキ　コウセイ","kosei","Gt.（ギター）","BUMP OF CHICKEN,the band apart,RADWIMPS,king gnu,ELLEGARDEN,Penthouse","J-pop, J-rock","6/7(日)のみ可","5/6(水) 14:00〜"],
+["大場　正太郎","オオバ　ショウタロウ","Shotaro Oba","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","ミセス、ひげだん、ヨルシカ、Vaundy、スピッツ、サザンオールスターズ、Ed sheeran、Radwimps、One OK Rock、Maroon5、セカオワ、サカナクション","POP","両日可","5/6(水) 14:00〜"],
+["寺田 裕惺","テラダ ユウセイ","てらだ ゆうせい","Tp.（トランペット）","東京事変、椎名林檎","J-pop","6/7(日)のみ可","両日可"],
+["高牟礼 堅登","タカムレ ケント","むれ","Gt.（ギター）","ハヌマーン,バズマザーズ,アフターソウル,ナンバーガール,NIRVANA,oasis,THEE MICHELLE GUN ELEPHANT,くるり,フジファブリック","パンク、ガレージロック","両日可","両日可"],
+["外岡　功聖","トノオカ　コウセイ","外岡功聖","Vo.（ボーカル）","official髭男dism,スピッツ,Mrs.Green Apple,優里","J-pop","6/7(日)のみ可","両日可"],
+["長岡大輔","ナガオカダイスケ","ながおかだいすけ","Gt.（ギター）","aiko,backnumber,宇多田ヒカル,b'z,Mr.children","日本のpop","両日可","両日可"],
+["鹿島 悠広","カシマ ハルヒロ","haru","Vo.（ボーカル）, Key.（キーボード）","星野源,after the rain,UNISON SQUARE GARDEN,いよわ,田中秀和,夏山よつぎ,米津玄師,ハチ","JPop","両日可","両日可"],
+["玄 理耀","ヒョン リヨ","ひょんりよ","Dr.（ドラム）","SUPER BEAVER,RADWIMPS,ASIAN KUNG-FU GENERATION,髭男,ずっと真夜中でいいのに。,羊文学,Chevon,サンボマスター,サカナクション,sumika,ヨルシカ,椎名林檎,東京事変","J-POP, 邦ロック","両日可","5/9(土) 14:00〜"],
+["本田 俊矢","ホンダ シュンヤ","しゅんや","Dr.（ドラム）","サカナクション,Wurts,Vaundy,髭男,Eve,Mrs.GREEN.APPLE,back number,米津玄師,クリープハイプ,YOASOBI,ポルノグラフティ,星野源","J-pop","6/6(土)のみ可","5/6(水) 14:00〜"],
+["松野　榛","マツノ　ハル","まつの","Ba.（ベース）","結束バンド,東京事変,椎名林檎,ゲスの極み乙女,ずっと真夜中でいいのに,ポルカドットスティングレイ,Cö shu Nie,星野源,long hair in the breeze,fox capture plan,SANOVA","アニソン、JPOP、ジャズ、ファンク","両日可","5/6(水) 14:00〜"],
+["深山　陸生","フカヤマ　リキ","Riki Fukayama","Gt.（ギター）","","Jpop","両日可","5/9(土) 14:00〜"],
+["宮村秀","ミヤムラシュウ","圭","Key.（キーボード）","CHiCO with HoneyWorks,Mrs. GREEN APPLE,ヨルシカ,HoneyWorks","J-POP","両日可","両日不可"],
+["奥 達彦","オク タツヒコ","tatsuhiko","Ba.（ベース）","MAN WITH A MISSION,RADWIMPS,ASIAN KUNG-FU GENERATION,NICO Touches the Walls,LUNA SEA,ONE OK ROCK,supercell,orangestar,YUI,斉藤和義,松田聖子,ANTHEM,HELLOWEEN,BON JOVI","pops,rocks","両日可","両日可"],
+["渡邉　領斗","ワタナベ　リョウト","わたなべりょうと","Gt.（ギター）, Sa.（サックス）","藤井風,キングヌー,ヨルシカ,vulfpeck,山下達郎,相対性理論,サチモス,サカナクション,kurayamisaka,星野源,tempalay","jpop,rock,funk,jazz,r&b","両日可","5/9(土) 14:00〜"],
+["中島　陽向","ナカジマ　ヒナタ","中島 陽向","Ba.（ベース）","NEE,ゲスの極み乙女,おいしくるメロンパン,クリープハイプ,King Gnu,東京事変,ポルカドットスティングレイ,ネクライトーキー","邦ロック","両日可","5/9(土) 14:00〜"],
+["永野　有馬","ナガノ　アリマ","永野有馬","Vo.（ボーカル）, Gt./Vo.（ギターボーカル）","（バンドは既に組んでいます）","","両日可","5/9(土) 14:00〜"],
+["小田中　怜大","コダナカ　レイタ","あsdfghjkl","Gt.（ギター）","JUDY AND MARY、スピッツ、BOØWY","","両日可","5/9(土) 14:00〜"],
+["伊藤　紅葉","イトウ　モミジ","momiji","Vo.（ボーカル）","中森明菜,相川七瀬,中島みゆき,椎名林檎,大黒摩季,葛城ユキ,BoA,アン・ルイス,高橋洋子,マカロニえんぴつ,シンガーズハイ,東京事変,RADWIMPS,Superfly,GLIM SPANKY","J-pop、昭和歌謡、ロック、R&B","両日可","5/9(土) 14:00〜"],
+["今林 大翔","イマバヤシ ダイト","今林大翔","Ba.（ベース）","ミスチル","","両日可","5/9(土) 14:00〜"],
+["丸幸 優希","マルコウ ユキ","ゆきりら","Vo.（ボーカル）","ヨルシカ,Penthouse,Official髭男dism,米津玄師,YOASOBI,n-buna,Ayase,back number,RADWIMPS,BUMP OF CHICKEN,東京事変,椎名林檎,宇多田ヒカル,星野源,Ado,Mrs. Green apple,なとり,King Gnu,ポルノグラフィティ,相対性理論,平井堅","J-POP、J-ROCK","両日可","5/9(土) 14:00〜"],
+["長谷川 かりん","ハセガワ カリン","かりん","Key.（キーボード）","XJAPAN、Queen、Beatles、ずとまよ、ヨルシカ、セカオワ","洋ロック、邦楽","両日可","両日可"],
+["木瀬　ひより","キノセ　ヒヨリ","ﾋﾖ","Vo.（ボーカル）","ヨルシカ,CLAN QUEEN,Mrs. GREEN APPLE","JPOP、バラード系","両日可","両日可"],
+["安藤 理音","アンドウ リオン","りおん","Gt./Vo.（ギターボーカル）","きのこ帝国,kurayamisaka,チャットモンチー,Chilli Beans.,Childspot,yonige,サカナクション,ゲスの極み乙女,indigo la End,ジェニーハイ,フレデリック,ヨルシカ,ボカロ,秋山黄色,相対性理論,文藝天国,結束バンド,東京事変,椎名林檎,パスピエ","邦ロック、pops、jazz、ブルース","6/6(土)のみ可","両日可"],
+["夏井 啓慎","ナツイ ケイシン","夏井啓慎","Dr.（ドラム）","マカロニえんぴつ、クリープハイプ、ヤングスキニー","邦ロック","両日可","両日可"],
+["小窪　あかり","コクボ　アカリ","Akari","Vo.（ボーカル）, Gt./Vo.（ギターボーカル）","ヨルシカ,緑黄色社会,キタニタツヤ,あいみょん,髭男,Omoinotake,藤井風,なとり,penthouse,一十三十一","POPS、R&B、洋楽","両日可","両日可"],
+["有光 陽","アリミツ ヒナタ","hinata","Key.（キーボード）","ヨルシカ、文藝天国、ずとまよ、セカオワ、Trooper Salute、tayori、月詠み","JPOP","両日可","両日可"],
+["細川　健太","ホソカワ　ケンタ","けんた","Key.（キーボード）","米津玄師,Orangestar,Mrs.GREEN APPLE,ヨルシカ,ずとまよ,sumika,back number","Jpop、JRock","両日可","両日可"],
+["秋本　隼和","アキモト　シュンワ","akimon","Ba.（ベース）","D.A.N.,きのこ帝国,アジカン,kurayamisaka,171,くるり,羊文学,STUTS,THEE MICHELLE GUN ELEPHANT,KIRINJI,スーパーカー,ナンバーガール,the cabs,サカナクション,YMO,toe,te',ゆらゆら帝国,マイケルジャクソン,Duft Punk,back number","ロック、ファンク、ポップ、フュージョン","両日可","両日可"],
+["森田　陸斗","モリタ　リクト","RE910","Vo.（ボーカル）","THE ORAL CIGARETTES,ミセスグリーンアップル,penthouse","J-POP","両日可","両日可"],
+["須賀　知彌","スガ　トモヤ","須賀知彌","Gt.（ギター）","有名なJpop","JPOP","両日可","両日可"],
+["櫻井 惺英","サクライ ショウエイ","櫻井惺英 Shoei","Vo.（ボーカル）","RADWIMPS,星野源,藤井風,Vaundy,Mrs. Green Apple,SEKAI NO OWARI","J-POP, POP(洋楽), R&B, Jazz","両日可","5/6(水) 14:00〜"],
+["坪井 志門","ツボイ シモン","しもん","Key.（キーボード）","サザンオールスターズ、スピッツ、髭男、椎名林檎、ポルノグラフィティ、米津玄師","pops、jazz","両日可","5/6(水) 14:00〜"],
+["田中 柚衣","タナカ ユイ","ゆい","Ba.（ベース）","ヨルシカ、シンガーズハイ、おいしくるメロンパン、椎名林檎、東京事変","JPOP、邦ロック","両日可","5/6(水) 14:00〜"],
+["五十嵐　円華","イガラシ　マドカ","Madoka","Ba.（ベース）","髭男、RAD、ミセス、マカロニえんぴつ、セカオワ、KANA-BOON","J-pop","6/7(日)のみ可","5/6(水) 14:00〜"],
+["西　大将都","ニシ　ヤマト","やまと","Dr.（ドラム）","andymori、ブルーハーツ、エレファントカシマシ、宮本浩次、サンボマスター、ミセス、ひげだん、サカナクション、羊文学、マカロニえんぴつ、RADWIMPS,WANIMA、ワンオク、Vaundy、アジカン、スピッツ、King Gnu、ヨルシカ、back number、indigo la end、フジファブリック、サバシスター、Hump Back、カナブーン、サザン","ロック全般、ポップス全般","両日可","両日可"],
+["田上　新之助","タノウエ　シンノスケ","しんのすけ","Dr.（ドラム）","Eve、ヨルシカ、五月天、ずっと真夜中でいいのに、Queen、King Gnu、緑黄色社会、ONE OK ROCK、結束バンド、スピッツ、髭男、MrsG.A.","Pops、Jazz、Rock","両日可","両日可"],
+["李　浩尽","い　ほじん","ほじん","Gt.（ギター）","ヨルシカ、ずとまよ、Vaundy,King Gnu,クリープハイプ,radwimps,東京事変,アジカン,サカナクション,スピッツ,髭男,Penthouse,銀杏BOYZ,the pillows,andymori,星野源,Green day,Oasis,Nirvana","ポップス、邦ロック、洋楽","両日可","両日可"],
+["若杉　拓実","ワカスギ　タクミ","若杉拓実","Gt.（ギター）","Oasis,Nirvana,ArcticMonkeys,SamFender,Radiohead","Britpop, Alternative, Rock, Pop","両日可","5/6(水) 14:00〜"],
+["佐々木　優人","ササキ　ユウト","佐々木勇人","Gt.（ギター）","キタニタツヤ,こんにちは谷田さん,羊の群れは笑わない。,cinema staff,sidenerds,揺れるは幽霊,yeti let you notice","オルタナティブ・ロック、マスロック、エモ","両日可","5/6(水) 14:00〜"],
+["五十嵐　晴叶","イカラシ　ハルト","はると","Gt.（ギター）, Gt./Vo.（ギターボーカル）, Tp.（トランペット）","tempalay,マキシマムザホルモン,メガシンノスケ,BiSH,nona reeves,中島みゆき,宮本浩次,Trooper Salute","ロック、R&B、ポップス","両日可","5/9(土) 14:00〜"],
+["深栖　拓真","フカス　タクマ","深栖 拓真","Vo.（ボーカル）, Key.（キーボード）","King Gnu,Kroi,キタニタツヤ,go!go!vanillas,Tempalay,なとり,マカロニえんぴつ,Mrs. GREEN APPLE,星野源,NEE,米津玄師,omoinotake,Vaundy,Bialystocks,Chevon,Official髭男dism,Penthouse,PEOPLE 1,椎名林檎,小林私,ずっと真夜中でいいのに。","J-pop","両日可","5/9(土) 14:00〜"],
+["田中優有","タナカユウ","優有","Vo.（ボーカル）","Mrs. Green Apple,Ado,YOASOBI,LiSA,RADWIMPS,Vaundy,Taylor Swift,Justin Bieber,Carly Rae Jepsen,Ariana Grande","主にPOPS","6/7(日)のみ可","5/9(土) 14:00〜"],
+["新谷　敬","シンタニ　ケイ","けい","Gt.（ギター）","NUMBER GIRL,スーパーカー,GRAPEVINE,きのこ帝国,銀杏BOYZ,khaki,Fishmans,Luby Sparks,踊ってばかりの国,The brilliant green","オルタナ、シューゲイザー、インディーロック","両日可","5/9(土) 14:00〜"],
+["岡　勇仁","オカ　ユウジン","おかゆー","Key.（キーボード）","","","6/6(土)のみ可","5/9(土) 14:00〜"],
+["小池　駿太","コイケ　シュンタ","駿太","Gt.（ギター）","RADWIMPS、クリープハイプ、ヨルシカ、indigo la End、ずっと真夜中でいいのに、なとり、文藝天国、キタニタツヤ、米津玄師、FINLANDS、ゲスの極み乙女、羊文学、PEOPLE1、King Gnu、星野源、マカロニえんぴつ","pops、fusion","両日可","5/9(土) 14:00〜"],
+["越智　幸祈郎","オチ　コウキロウ","越智","Gt.（ギター）","フュージョン、ロック、ファンク、ポップス、メタル、ジャズ","（バンド既に組んでいます）","両日可","両日不可"],
+["豊島　誠進","トヨシマ　セイシン","豊島誠進","Gt.（ギター）","サカナクション","J-POPなどポピュラーなもの","両日可","5/6(水) 14:00〜"],
+["恩地　泰蔵","オンジ　タイゾウ","おんじ","Gt.（ギター）","サカナクション、ヨルシカ、Vaundy、eve、マカロニえんぴつ、フジファブリック、あいみょん、back number、ASIAN KUNG-FU GENERATION、ずっと真夜中でいいのに","J-ロック、J-pop、ガレージロック","両日可","両日可"],
+["渡邉　勝太","ワタナベ　ショウタ","渡邉 勝太","Gt.（ギター）","ミセス、スミカ","ポップス","6/7(日)のみ可","両日可"],
+["登山　柚子果","ノボリヤマ　ユズカ","ゆずか","Gt.（ギター）","aiko,椎名林檎、ミスチル","","両日可","5/6(水) 14:00〜"],
+["天谷　凜太郎","アマヤ　リンタロウ","りんたろう","Ba.（ベース）","マネスキン,ザ・ストラッツ,BUMP OF CHICKEN","ロック、ポップス","6/6(土)のみ可","5/6(水) 14:00〜","C年"],
+];
+
+const rawSeniors = [
+["須賀　啓仁","スガ　ヒロト","須賀啓仁","Vo.（ボーカル）","なんでもぉ","すべて","両日可","両日可"],
+["小林 千敏","コバヤシ カズト","かず","Tb.（トロンボーン）","","","両日可","両日可"],
+["内藤　拓望","ナイトウ　タクミ","内藤拓望","Gt.（ギター）","BUMP OF CHICKEN、RADWIMPS、sumika、アジカンなど","邦ロック","両日可","両日可"],
+["安藤　拓人","アンドウ　タクト","あんたく","Vo.（ボーカル）, Key.（キーボード）, Key./Vo.","なんでも","なんでも","両日可","両日可"],
+["竹野 眞子","たけの まこ","mako","Key.（キーボード）","ミセス、ミスチル、いきものがかり、Janne da arc","J-popなど","6/7(日)のみ可","両日不可"],
+["高橋　真成","タカハシ　マナリ","たか橋","Ba.（ベース）","なんでも","なんでも","両日可","両日可"],
+["野村　爽良","ノムラ　ソラ","野村爽良","Gt.（ギター）, Key.（キーボード）","","","両日可","両日可"],
+["高　そら","コウ　ソラ","こーそら","Gt.（ギター）","ずとまよ、ゲスの極み乙女、スピッツ、RADWIMPS、King Gnu、Cory Wong、羊文学、Suchmos、藤井風、サンボマスター","何でもやろう","両日可","両日可"],
+["西村 史織","ニシムラ シオリ","西村史織","Key.（キーボード）","Kroi、離婚伝説、レトロリロン、indigo la End、ゲス極、礼賛、TOMOO、サカナクション、Cody Lee (李)、ずとまよ、ヨルシカ、ひげだん、赤い公園、パスピエ、緑黄色社会、YOASOBI、King Gnu","なんでもやろ","両日可","両日可"],
+["横川　真子","ヨコガワ　マコ","よこがわ まこ","Vo.（ボーカル）, Dr.（ドラム）","","","6/7(日)のみ可","両日不可"],
+["藤堂 元","トウドウ ゲン","gen","Dr.（ドラム）","","","両日可","両日可"],
+["塩川　圭翔","シオカワ　ケイト","けーと。/K8","Gt.（ギター）, Ba.（ベース）","ずとまよ、ポルカ、シンガーズハイ、chevon、ヨルシカ、東京事変、Aooo","なんでも","両日可","両日可"],
+["岡本　理央","オカモト　リオ","岡本理央","Gt.（ギター）","なんでも","なんでも","両日可","両日可"],
+["明田　悠汰","アケダ　ユウタ","明田 悠汰","Key.（キーボード）","すべて","すべて","両日可","両日可"],
+["松村 隆太郎","マツムラ リュウタロウ","松村隆太郎","Gt.（ギター）","なんでもやります","ポップス、マスロック、オルタナ、シューゲイザー、ネオソウル","両日可","両日可"],
+["紀ノ岡 秀","キノオカ シュウ","紀ノ岡秀","Gt.（ギター）, Gt./Vo.（ギターボーカル）, Ba.（ベース）","Cody・Lee(李),フジファブリック,神聖かまってちゃん,サカナクション,サニーデイ・サービス,andymori,カネコアヤノ,羊文学,ポルカドットスティングレイ,ネクライトーキー,Lucky Kilimanjaro,くるり,Base Ball Bear,藤井風,夜の本気ダンス,フレデリック,きのこ帝国,サンボマスター,Tempalay,米津玄師,ずっと真夜中でいいのに","特にネオソウル、R&B、hiphop","両日可","両日可"],
+["増井　楓","マスイ　カエデ","増井楓","Ba.（ベース）","なんでも","ロック・ポップス","両日可","両日可"],
+["鈴木　拓也","スズキ　タクヤ","拓也","Ba.（ベース）","","オルタナ","6/7(日)のみ可","両日不可"],
+["谷口　快","タニグチ　カイ","谷口快","Ba.（ベース）","なんでも","なんでも","両日可","両日可"],
+["荒井　文","アライ　フミ","Fumi","Vo.（ボーカル）, Gt./Vo.（ギターボーカル）","","","両日可","5/6(水) 14:00〜"],
+["石堂 珠吏","イシドウ シュリ","石堂 珠吏","Tb.（トロンボーン）","ずとまよ,スカパラ,椎名林檎,JAGATARA","ジャズ、ファンク、邦ロック","6/6(土)のみ可","両日不可"],
+["中谷　響","ナカタニ　ヒビキ","中谷　響","Gt./Vo.（ギターボーカル）, Dr.（ドラム）","PK shampoo、ハンブレッターズ、NICO Touches the Walls、ハヌマーン、tacica、171、SAKANAMON、the Mercedes menz、w.o.d.、ストレイテナー、kurayamisaka、go!go!vanillas、NEE、夜の本気ダンス、sidenerds","ロック","両日可","5/9(土) 14:00〜"],
+["久光 樂人","ヒサミツ ラクト","らくと","Sa.（サックス）","なんでも","","両日可","両日不可"],
+["大槻　唯華","オオツキ　ユイカ","yuika","Key.（キーボード）","ヨルシカ、椎名林檎、aiko、ゲスの極み乙女、indigo la End、スピッツ、backnumber、silent siren、マカロニえんぴつ、sumika、サカナクション、東京事変、髭男、SEKAI NO OWARI、緑黄色社会、宇多田ヒカル","jpop、kpop、邦ロック","参加しない","両日不可"],
+["大井　樹紀","オオイ　タツキ","たっちゃん","Ba.（ベース）","","","両日可","両日不可"],
+["柚原　佳和","ユハラ　ヨシカズ","柚原佳和","Dr.（ドラム）","事変、椎名林檎、king gnu、ひとひら、qoopie、藤井風、君島大空、cinema staff、オストライヒ、ぷにぷに電機、ベルセデスメンツ、バンアパ、キリンジ、crck/lcks、toe、pk shampoo、ミッシェル、星野源、リーガルリリー、aiko、カシオペア、ナンバガ、zazen","ロック、ポストロック、マスロック、ポップス","両日可","両日不可"],
+["本多　莞二郎","ホンダ　カンジロウ","本多　莞二郎","Gt.（ギター）","THE ORAL CIGARETTES、ヨルシカ","ロック","両日可","5/9(土) 14:00〜"],
+["井上　翔太郎","イノウエ　ショウタロウ","いのうえ","Gt.（ギター）","なんでも(ヨルシカ、キタニタツヤ、結束バンド)","なんでも","両日可","両日可"],
+["森川　結彩","モリカワ　ユイ","もりかわ","Ba.（ベース）","","","両日可","両日不可"],
+["吉田　カズキ","ヨシダ　カズキ","からすのかっくん","Vo.（ボーカル）, Gt./Vo.（ギターボーカル）","マネスキン、ニルヴァーナ","","両日可","両日不可"],
+["黄 理央","コウ リオ","黄理央","Dr.（ドラム）","なんでも","なんでも","6/6(土)のみ可","5/9(土) 14:00〜"],
+["片岡　航太","カタオカ　コウタ","かたおかこうた","Ba.（ベース）","","","両日可","両日可"],
+["山﨑 大輝","ヤマザキ ヒロキ","やまざき","Ba.（ベース）","Lettuce,Anderson. Paak,Louis Cole,Yussef Dayes,Bruno Mars,Jamiroquai,Tower of Power,Earth Wind & Fire,Kali Uchis,The Brand New Heavies,Cory Wong,Vulfpeck,Tom Misch,離婚伝説,日食なつこ","Funk, RnB, Fusion, Acid Jazz, EMO, Post Rock","両日可","両日可"],
+["彌永 琢斗","ヤナガ タクト","もこくりん","8弦ギター","","メタル,Djent","両日可","両日不可"],
+["布瀬 幸汰","ヌノセ コウタ","こうた","Dr.（ドラム）","何でもやります","何でもやります","6/7(日)のみ可","5/9(土) 14:00〜"],
+["大下　拓穂","オオシタ　タクホ","Alan","Dr.（ドラム）","米津玄師,NEE,ポルカドットスティングレイ,東京事変,椎名林檎,wurts,RADWIMPS","J-POP","両日可","両日可"],
+["金本　浩一","カネモト　コウイチ","かねいち","Ba.（ベース）, Dr.（ドラム）, Sa.（サックス）","","","両日可","両日可"],
+["喜多　龍之祐","キタ　リュウノスケ","龍之祐","Dr.（ドラム）","なんでも","やるよ","6/7(日)のみ可","両日可"],
+["田上 惺太郎","タガミ ショウタロウ","sho tagami","Ba.（ベース）","なんでも","できればJazzやFusion、Funkっぽいやつだけど、なんでも","両日可","両日可"],
+["柴田　稟久","シバタ　リク","shiba","Ba.（ベース）","ずっと真夜中でいいのに。、有形ランペイジ、東京事変、YUI、ジッタリンジン","Jrock","6/7(日)のみ可","5/9(土) 14:00〜"],
+["三角　賢信","ミスミ　ケンシン","けんしん","Vo.（ボーカル）","なんでも","なんでも","両日可","両日不可"],
+["税所　陽菜","サイショ　ハルナ","税所陽菜","Vo.（ボーカル）, Key.（キーボード）","なんでもやらせてください","なんでもやらせてください","両日可","5/9(土) 14:00〜"],
+["有川　温起","アリカワ　ハルキ","H.arikawa","Key.（キーボード）","なんでも","なんでも","両日可","両日可"],
+["桶狭間 ウィリアム 俊","オケハザマ ウィリアム シュン","はると","Dr.（ドラム）","なんでも","なんでも","両日可","両日不可"],
+["望月　賢澄","モチヅキ　ケント","けんと","Gt.（ギター）, Ba.（ベース）","The Beatles、Eric Clapton","ロック","両日可","5/6(水) 14:00〜"],
+["坂本 昇大","サカモト ショウタ","しょうた","Key.（キーボード）","なんでもやります、ヨルシカやりたい","なんでもやります","両日可","両日可"],
+["北村　秀太","キタムラ　シュウタ","しゅうた","Vo.（ボーカル）","米津玄師、キタニタツヤ、須田景凪","jpop、ボカロ","6/7(日)のみ可","5/6(水) 14:00〜"],
+["鈴木　雅和","スズキ　マサカズ","鈴木雅和","Vo.（ボーカル）, Dr.（ドラム）","尾崎豊、Official髭男dism","ロック、ポップ","両日可","5/6(水) 14:00〜"],
+["井上　周祐","イノウエ　シュウスケ","Shusuke","Gt.（ギター）","","","6/6(土)のみ可","両日不可"],
+["髙橋　庸輔","タカハシ　ヨウスケ","髙橋庸輔","Gt.（ギター）","ヨルシカなど","なんでも","両日可","両日不可"],
+["近藤　剛生","コンドウ ゴウ","近藤 剛生","Key.（キーボード）, Sa.（サックス）","kroi、くるり、penthouse、luv、suchmos","なんでも","両日可","両日可"],
+["小田　悠太郎","おだ　ゆうたろう","おだゆうたろう","Vo.（ボーカル）, Gt./Vo.（ギターボーカル）","なんでも","funk,R&B/Soul,Rock,Pops,hiphop","両日可","両日可"],
+["明利 息吹","メイリ イブキ","Meiri Ibuki","Dr.（ドラム）","なんでもやります","funk, soul","6/6(土)のみ可","両日可"],
+["古川　結菜","フルカワ　ユウナ","Yuna","Vo.（ボーカル）","なんでも","なんでも","両日可","5/6(水) 14:00〜"],
+["井上　隼輔","イノウエ　シュンスケ","井上隼輔","Gt.（ギター）","なんでも","なんでも","両日可","両日不可"],
+["薄田 昇磨","ウスダ ショウマ","薄田","Dr.（ドラム）","","","両日可","両日不可"],
+["田中　虎之介","タナカ　トラノスケ","とら","Gt.（ギター）, Ba.（ベース）","東京事変、ずとまよ、vulfpeck、rhcp、フレデリック","ロック、ポップ、ファンク、ジャズ、フュージョン","両日可","両日可"],
+["清田　怜太郎","キヨタ　レンタロウ","Ren","Vo.（ボーカル）","なんでも","","両日可","5/9(土) 14:00〜"],
+["須原　啓行","スハラ　ヒロユキ","Hiroyuki","Gt.（ギター）, Gt./Vo.（ギターボーカル）","Galileo Galilei,BLUE ENCOUNT,BAND-MAID,The Oral Cigarettes,04 Limited Sazabys,岸田教団& the 明星ロケッツ,supercell,なきごと,Silent Siren","邦ロ","両日可","5/9(土) 14:00〜"],
+["陳 佩驪","チン ハイリ","佩驪","Vo.（ボーカル）, Sa.（サックス）","","","両日可","両日不可"],
+["宮井　智明","ミヤイ　トモアキ","TOM.M","Gt.（ギター）","キタニタツヤ、アジカン、ヒトリエ、ノーメロ","なんでも","両日可","5/9(土) 14:00〜"],
+["守井 聡麻","モリイ ソウマ","聡麻","Dr.（ドラム）","","","両日可","両日不可"],
+["栗本　佳怜","クリモト　カレン","かれん","Key.（キーボード）","なんでも","なんでも","両日可","両日不可"],
+["川村 マリア","カワムラ マリア","maria","Vo.（ボーカル）","Trooper Salute、kiki vivi lily、諭吉佳作/men、Mime、ぷにぷに電機、ポルカドットスティングレイ、モノンクル、春風レコード、スーパー登山部、礼賛、The marias、Yerin Beak、Clairo、Couch、aiko、ボタニカルな暮らし。、富田ラボ、Natsudaidai","pops,R&B,indie pop, soul","両日可","両日可"],
+];
+
+// grade overrides — loaded from Supabase
+const gradeOverrides = {};
+
+async function loadGradeOverrides(){
+  const {data, error} = await sb.from('grade_overrides').select('*');
+  if(!error && data){
+    data.forEach(r=>{ gradeOverrides[r.member_key] = r.grade; });
+    // re-apply to members
+    members.forEach(m=>{
+      const k = m.name.replace(/\s/g,'');
+      if(gradeOverrides[k]) m.grade = gradeOverrides[k];
+    });
+  }
+}
+
+async function saveGradeOverrides(){
+  const rows = Object.entries(gradeOverrides).map(([k,v])=>({member_key:k, grade:v}));
+  await sb.from('grade_overrides').upsert(rows, {onConflict:'member_key'});
+}
+
+// deduplicate by name
+const seen = new Set();
+const rawAll = [
+  ...rawMembers.map(m => [...m, m[8] || 'C年']),
+  ...rawSeniors.map(m => [...m, '現役'])
+];
+const members = rawAll.filter(m => {
+  const key = m[0].replace(/\s/g,'');
+  if(seen.has(key)) return false;
+  seen.add(key); return true;
+}).map((m,i) => ({
+  id:i,
+  name:m[0], kana:m[1], nick:m[2],
+  parts:m[3], artists:m[4], genres:m[5],
+  liveDays:m[6], bandDays:m[7],
+  grade: gradeOverrides[m[0].replace(/\s/g,'')] || m[8] || 'C年'
+}));
+
+// Artist name normalization
+const ARTIST_CANONICAL = {
+  // ヨルシカ系
+  'yorushika':'ヨルシカ','よるしか':'ヨルシカ',
+  // radwimps
+  'radwinps':'RADWIMPS','radwimsp':'RADWIMPS','らどうぃんぷす':'RADWIMPS',
+  // Mrs. GREEN APPLE
+  'mrsgreeenapple':'Mrs. GREEN APPLE','mrs.greenapple':'Mrs. GREEN APPLE',
+  'mrsgriinapple':'Mrs. GREEN APPLE','ミセスグリーンアップル':'Mrs. GREEN APPLE',
+  'ミセスグリーンアップル':'Mrs. GREEN APPLE','ミセス':'Mrs. GREEN APPLE',
+  'mrs.g.a':'Mrs. GREEN APPLE','mrsg.a':'Mrs. GREEN APPLE',
+  'mrsga':'Mrs. GREEN APPLE',
+  // Official髭男dism
+  'officialhigedandism':'Official髭男dism','officialhigeDandism':'Official髭男dism',
+  'ひげだん':'Official髭男dism','髭男':'Official髭男dism','official髭男リズム':'Official髭男dism',
+  'officialhigedandism':'Official髭男dism',
+  // BUMP OF CHICKEN
+  'bumpofchickin':'BUMP OF CHICKEN','bump':'BUMP OF CHICKEN','バンプ':'BUMP OF CHICKEN',
+  // King Gnu
+  'kinggnu':'King Gnu','きんぐぬー':'King Gnu','kingGnu':'King Gnu',
+  // back number
+  'backnumber':'back number','バックナンバー':'back number',
+  // YOASOBI
+  'yoasobi':'YOASOBI',
+  // ずっと真夜中でいいのに。
+  'ずとまよ':'ずっと真夜中でいいのに。','ずっと真夜中でいいのに':'ずっと真夜中でいいのに。',
+  'ずっと真夜中でよいのに。':'ずっと真夜中でいいのに。',
+  // Vaundy
+  'vaundy':'Vaundy','ばうんでぃ':'Vaundy',
+  // ASIAN KUNG-FU GENERATION
+  'asiankangfugeneration':'ASIAN KUNG-FU GENERATION',
+  'アジカン':'ASIAN KUNG-FU GENERATION',
+  // サカナクション
+  'さかなくしょん':'サカナクション',
+  // indigo la End
+  'indigola end':'indigo la End','indigola end':'indigo la End',
+  'indigolaend':'indigo la End',
+  // ゲスの極み乙女
+  'ゲス極':'ゲスの極み乙女','ゲスの極み乙女。':'ゲスの極み乙女',
+  // Maneskin
+  'maneskin':'Måneskin','マネスキン':'Måneskin',
+  // 椎名林檎
+  'しいなりんご':'椎名林檎',
+  // sumika
+  'sumika':'sumika','スミカ':'sumika',
+  // クリープハイプ
+  'くりぱ':'クリープハイプ',
+  // 星野源
+  'ほしのげん':'星野源',
+  // 米津玄師
+  'よねづけんし':'米津玄師',
+};
+
+function normalizeArtistKey(s){
+  return s.toLowerCase()
+    .replace(/[\s　・,、。．.·\/\-_]/g,'')
+    .replace(/[Ａ-Ｚａ-ｚ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0));
+}
+
+function suggestArtists(raw){
+  if(!raw) return {display: raw, suggestions: []};
+  const parts = raw.split(/[,、\n]+/).map(s=>s.trim()).filter(Boolean);
+  const suggestions = [];
+  const normalized = parts.map(p=>{
+    const key = normalizeArtistKey(p);
+    if(ARTIST_CANONICAL[key] && ARTIST_CANONICAL[key] !== p){
+      suggestions.push({original:p, canonical:ARTIST_CANONICAL[key]});
+      return ARTIST_CANONICAL[key];
+    }
+    // partial match
+    for(const [k,v] of Object.entries(ARTIST_CANONICAL)){
+      if(key === normalizeArtistKey(v)) return v; // already canonical
+      if(key.includes(k) || k.includes(key)){
+        if(v !== p){ suggestions.push({original:p, canonical:v}); return v; }
+      }
+    }
+    return p;
+  });
+  return {display: normalized.join('、'), suggestions};
+}
+
+let currentUser = null;
+let isAdmin = false;
+// ── Supabase設定 ──────────────────────────────────────────
+// 以下2行を自分のSupabaseプロジェクトの値に書き換えてください
+const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let bands = [];
+let realtimeChannel = null;
+
+async function loadBands(){
+  const {data, error} = await sb.from('bands').select('*').order('created_at');
+  if(!error && data) bands = data;
+  renderBands();
+}
+
+async function saveBand(bandObj){
+  if(bandObj.id && typeof bandObj.id === 'string' && bandObj.id.length > 10){
+    // existing band — update
+    const {error} = await sb.from('bands').update({
+      name: bandObj.name, song: bandObj.song, genre: bandObj.genre,
+      live_day: bandObj.liveDay, members: bandObj.members,
+      missing_parts: bandObj.missingParts, created_by: bandObj.createdBy
+    }).eq('id', bandObj.id);
+    if(error) console.error('update error', error);
+  } else {
+    // new band
+    const {error} = await sb.from('bands').insert({
+      name: bandObj.name, song: bandObj.song, genre: bandObj.genre,
+      live_day: bandObj.liveDay, members: bandObj.members,
+      missing_parts: bandObj.missingParts, created_by: bandObj.createdBy || ''
+    });
+    if(error) console.error('insert error', error);
+  }
+  await loadBands();
+}
+
+async function deleteBandById(id){
+  const {error} = await sb.from('bands').delete().eq('id', id);
+  if(error) console.error('delete error', error);
+  await loadBands();
+}
+
+function subscribeRealtime(){
+  realtimeChannel = sb.channel('bands_channel')
+    .on('postgres_changes', {event:'*', schema:'public', table:'bands'}, ()=>{ loadBands(); })
+    .subscribe();
+}
+
+function normalize(s){ return (s||'').replace(/\s/g,'').toLowerCase(); }
+
+function doLogin(){
+  const name = document.getElementById('login-name').value.trim();
+  const kana = document.getElementById('login-kana').value.trim();
+  const found = members.find(m =>
+    normalize(m.name) === normalize(name) && normalize(m.kana) === normalize(kana)
+  );
+  if(found){
+    currentUser = found; isAdmin = false;
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('main-screen').classList.remove('hidden');
+    document.getElementById('admin-badge').classList.add('hidden');
+  document.getElementById('admin-nav-btn').style.display = 'none';
+    initSite();
+  } else {
+    document.getElementById('login-error').classList.remove('hidden');
+  }
+}
+
+function showAdminLogin(){
+  document.getElementById('admin-login-area').classList.toggle('hidden');
+}
+
+function doAdminLogin(){
+  const pw = document.getElementById('admin-pw').value;
+  if(pw === ADMIN_PASSWORD){
+    currentUser = {name:'管理者',kana:'',nick:'',parts:'',artists:'',genres:'',liveDays:'',bandDays:''};
+    isAdmin = true;
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('main-screen').classList.remove('hidden');
+    document.getElementById('admin-badge').classList.remove('hidden');
+    document.getElementById('admin-nav-btn').style.display = '';
+    initSite();
+  } else {
+    alert('パスワードが違います');
+  }
+}
+
+function doLogout(){
+  currentUser = null; isAdmin = false;
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('main-screen').classList.add('hidden');
+  document.getElementById('login-name').value='';
+  document.getElementById('login-kana').value='';
+  document.getElementById('login-error').classList.add('hidden');
+  document.getElementById('admin-login-area').classList.add('hidden');
+}
+
+function showPage(id, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='missing-page') renderMissing();
+  if(id==='stats-page') renderStats();
+  if(id==='bands-page') renderBands();
+  if(id==='admin-page') renderAdminGrades();
+}
+
+function initSite(){
+  buildGenreChips();
+  updateGradeFilterOptions();
+  renderMembers(members);
+  loadBands();
+  loadGradeOverrides();
+  subscribeRealtime();
+}
+
+let activeGenres = new Set();
+function buildGenreChips(){
+  const genreMap = {};
+  members.forEach(m=>{
+    m.genres.split(/[,、・\n]/).map(g=>g.trim()).filter(Boolean).forEach(g=>{
+      genreMap[g] = (genreMap[g]||0)+1;
+    });
+  });
+  const sorted = Object.entries(genreMap).sort((a,b)=>b[1]-a[1]).slice(0,20);
+  const container = document.getElementById('genre-chips');
+  container.innerHTML = sorted.map(([g])=>
+    `<span class="chip" onclick="toggleGenre('${g}',this)">${g}</span>`
+  ).join('');
+}
+
+function toggleGenre(g, el){
+  if(activeGenres.has(g)){ activeGenres.delete(g); el.classList.remove('active'); }
+  else { activeGenres.add(g); el.classList.add('active'); }
+  filterMembers();
+}
+
+function filterMembers(){
+  const q = normalize(document.getElementById('member-search').value);
+  const part = document.getElementById('part-filter').value;
+  const live = document.getElementById('live-filter').value;
+  const grade = document.getElementById('grade-filter').value;
+  const filtered = members.filter(m=>{
+    if(q && !normalize(m.name).includes(q) && !normalize(m.nick).includes(q) && !normalize(m.artists).includes(q) && !normalize(m.kana).includes(q)) return false;
+    if(part && !m.parts.includes(part)) return false;
+    if(live==='両日可' && m.liveDays!=='両日可') return false;
+    if(live==='6/6' && !m.liveDays.includes('6/6') && m.liveDays!=='両日可') return false;
+    if(live==='6/7' && !m.liveDays.includes('6/7') && m.liveDays!=='両日可') return false;
+    if(grade && m.grade !== grade) return false;
+    if(activeGenres.size>0){
+      const mg = m.genres.toLowerCase();
+      let hit = false;
+      activeGenres.forEach(g=>{ if(mg.includes(g.toLowerCase())) hit=true; });
+      if(!hit) return false;
+    }
+    return true;
+  });
+  document.getElementById('results-count').textContent = `${filtered.length}人 / ${members.length}人`;
+  renderMembers(filtered);
+}
+
+function updateGradeFilterOptions(){
+  const sel = document.getElementById('grade-filter');
+  const grades = [...new Set(members.map(m=>m.grade))].sort();
+  const cur = sel.value;
+  sel.innerHTML = `<option value="">全学年</option>` +
+    grades.map(g=>`<option value="${g}" ${cur===g?'selected':''}>${g}</option>`).join('');
+}
+
+function renderAdminGrades(){
+  // only seniors (originally '現役' default)
+  const seniors = members.filter(m => {
+    const defaultGrade = rawSeniors.some(r=>r[0].replace(/\s/g,'')=== m.name.replace(/\s/g,'')) ? '現役' : 'C年';
+    return defaultGrade === '現役';
+  });
+  const grades = ['D年','E年','F年','G年','現役','OB'];
+  document.getElementById('admin-grade-list').innerHTML = seniors.map(m=>`
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <div>
+        <div style="font-size:13px;font-weight:500">${m.name}</div>
+        <div style="font-size:11px;color:var(--muted)">${m.kana}</div>
+      </div>
+      <select style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:5px 8px;color:var(--text);font-size:12px;font-family:'Noto Sans JP',sans-serif;outline:none"
+        onchange="setGrade('${m.name.replace(/\s/g,'')}','${m.name}',this.value)">
+        ${grades.map(g=>`<option value="${g}" ${m.grade===g?'selected':''}>${g}</option>`).join('')}
+      </select>
+    </div>`).join('');
+}
+
+function setGrade(key, name, grade){
+  gradeOverrides[key] = grade;
+  saveGradeOverrides();
+  const m = members.find(x=>x.name.replace(/\s/g,'')=== key);
+  if(m) m.grade = grade;
+}
+
+function bulkSetGrade(grade){
+  rawSeniors.forEach(r=>{
+    const key = r[0].replace(/\s/g,'');
+    gradeOverrides[key] = grade;
+    const m = members.find(x=>x.name.replace(/\s/g,'')=== key);
+    if(m) m.grade = grade;
+  });
+  saveGradeOverrides();
+  renderAdminGrades();
+  // refresh grade filter dropdown options if needed
+  updateGradeFilterOptions();
+}
+
+function getPartColor(part){
+  if(part.includes('Gt.')) return '#c44b00';
+  if(part.includes('Ba.')) return '#0077aa';
+  if(part.includes('Dr.')) return '#cc5500';
+  if(part.includes('Key./Vo.')) return '#993388';
+  if(part.includes('Key.')) return '#7722cc';
+  if(part.includes('Vo.')) return '#cc1166';
+  if(part.includes('Tb.')) return '#885500';
+  if(part.includes('Tp.')) return '#aa6600';
+  if(part.includes('Sa.')) return '#007799';
+  if(part.includes('Vn.')) return '#aa2244';
+  if(part.includes('Fl.')) return '#226699';
+  return '#888';
+}
+
+function parseParts(str){
+  return PARTS_LIST.filter(p => str.includes(p));
+}
+
+function renderMembers(list){
+  const grid = document.getElementById('member-grid');
+  grid.innerHTML = list.map(m=>{
+    const parts = parseParts(m.parts);
+    const liveBothOk = m.liveDays === '両日可';
+    const liveClass = (m.liveDays.includes('参加しない') || m.liveDays === '両日不可') ? 'live-ng' : '';
+    return `<div class="member-card" onclick="openModal(${m.id})">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+        <div class="member-name">${m.name}</div>
+        <span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(232,255,107,0.08);color:var(--accent);border:1px solid rgba(232,255,107,0.2);white-space:nowrap">${m.grade}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="member-kana">${m.kana}</div>
+        <div class="member-nick" style="font-size:11px;color:var(--accent2)">${m.nick}</div>
+      </div>
+      <div class="parts-row">${parts.map(p=>`<span class="part-badge" style="background:rgba(${hexToRgb(getPartColor(p))},0.12);color:${getPartColor(p)};border-color:rgba(${hexToRgb(getPartColor(p))},0.3)">${p}</span>`).join('')||`<span style="font-size:11px;color:var(--muted)">${m.parts.split('（')[0]}</span>`}</div>
+      <div class="meta-row">
+        <span class="live-tag ${liveClass}">ライブ: ${m.liveDays}</span>
+        ${m.genres ? `<span class="meta-tag">${m.genres.split(/[,、]/)[0]}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+  if(!document.getElementById('results-count').textContent)
+    document.getElementById('results-count').textContent = `${list.length}人 / ${members.length}人`;
+}
+
+function hexToRgb(hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return `${r},${g},${b}`;
+}
+
+function openModal(id){
+  const m = members.find(x=>x.id===id);
+  if(!m) return;
+  const modal = document.getElementById('member-modal');
+  const content = document.getElementById('modal-content');
+  content.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <h2>${m.name}</h2>
+          <span style="font-size:11px;padding:2px 8px;border-radius:4px;background:rgba(232,255,107,0.08);color:var(--accent);border:1px solid rgba(232,255,107,0.2)">${m.grade}</span>
+        </div>
+        <div class="kana">${m.kana} / ${m.nick}</div>
+      </div>
+      <button class="close-btn" onclick="closeModal()">閉じる</button>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">PART</div>
+      <div class="parts-row">${parseParts(m.parts).map(p=>`<span class="part-badge" style="color:${getPartColor(p)};border-color:rgba(${hexToRgb(getPartColor(p))},0.3);background:rgba(${hexToRgb(getPartColor(p))},0.1)">${p}</span>`).join('')||`<span style="font-size:12px">${m.parts}</span>`}</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">演奏したいアーティスト</div>
+      <div class="modal-value" style="font-size:13px;color:var(--accent2)" id="modal-artists-${m.id}"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">ジャンル</div>
+      <div class="modal-value">${m.genres||'未記入'}</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">激突ライブ出演可能日</div>
+      <div class="modal-value">${m.liveDays}</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">バンド組参加可能日</div>
+      <div class="modal-value">${m.bandDays}</div>
+    </div>
+  `;
+  modal.classList.remove('hidden');
+  // fill artist suggestions after DOM is set
+  const artistEl = document.getElementById('modal-artists-'+m.id);
+  if(artistEl){
+    const {display, suggestions} = suggestArtists(m.artists);
+    let html = `<span>${display||'未記入'}</span>`;
+    if(suggestions.length){
+      html += `<div class="artist-suggestion">もしかして：${suggestions.map(s=>`<b style="color:var(--accent)">${s.canonical}</b>（${s.original}）`).join('、')}</div>`;
+    }
+    artistEl.innerHTML = html;
+  }
+}
+
+function closeModal(e){
+  if(!e || e.target === document.getElementById('member-modal'))
+    document.getElementById('member-modal').classList.add('hidden');
+}
+
+// BANDS
+let editingBandId = null;
+let bandMembers = [{name:'',part:''}];
+
+function renderBands(){
+  const container = document.getElementById('band-list-container');
+  if(bands.length===0){
+    container.innerHTML = `<p style="color:var(--muted);font-size:13px;margin-bottom:16px">まだバンドが登録されていません。</p>`;
+    return;
+  }
+  container.innerHTML = `<div class="band-grid">${bands.map(b=>renderBandCard(b)).join('')}</div>`;
+}
+
+function normBand(b){
+  // DB stores snake_case; normalize to camelCase
+  return {
+    id: b.id,
+    name: b.name||'',
+    song: b.song||'',
+    genre: b.genre||'',
+    liveDay: b.live_day || b.liveDay || '',
+    members: b.members||[],
+    missingParts: b.missing_parts || b.missingParts || [],
+    createdBy: b.created_by || b.createdBy || ''
+  };
+}
+
+function renderBandCard(raw){
+  const b = normBand(raw);
+  const missingBadges = (b.missingParts||[]).map(p=>
+    `<span class="missing-badge">${p} 募集中</span>`
+  ).join('');
+  const memberItems = (b.members||[]).map(m=>
+    `<div class="member-item"><span class="member-part">${m.part}</span><span class="member-item-name">${m.name}</span></div>`
+  ).join('');
+  const editBtns = (isAdmin||b.createdBy===currentUser?.name) ? `
+    <button class="btn-sm" onclick="editBand('${b.id}')">編集</button>
+    <button class="btn-sm danger" onclick="deleteBand('${b.id}')">削除</button>
+  ` : '';
+  return `<div class="band-card" id="band-${b.id}">
+    <h3>${b.name||'バンド名未定'}</h3>
+    <div class="band-song">${b.song||'曲未定'}</div>
+    <div class="band-genre" style="font-size:12px;color:var(--muted)">${b.genre||''}</div>
+    <div class="member-list">${memberItems}</div>
+    ${(b.missingParts&&b.missingParts.length) ? '<div><div style="font-size:11px;color:var(--muted);margin-bottom:6px">不足パート</div><div class="missing-parts">'+missingBadges+'</div></div>' : ''}
+    <div class="band-actions">${editBtns}</div>
+  </div>`;
+}
+
+function showBandForm(band){
+  editingBandId = band ? band.id : null;
+  bandMembers = band ? [...band.members] : [{name:'',part:''}];
+  const container = document.getElementById('band-form-container');
+  container.classList.remove('hidden');
+  document.getElementById('add-band-btn').style.display='none';
+  renderBandForm(band);
+}
+
+function renderBandForm(band){
+  const container = document.getElementById('band-form-container');
+  container.innerHTML = `<div class="band-form">
+    <h3>${editingBandId ? 'バンドを編集' : '新しいバンドを登録'}</h3>
+    <div class="form-row">
+      <div class="form-group-small">
+        <label>バンド名</label>
+        <input id="bf-name" value="${band?.name||''}" placeholder="例：音感D年バンド">
+      </div>
+      <div class="form-group-small">
+        <label>演奏する曲</label>
+        <input id="bf-song" value="${band?.song||''}" placeholder="例：Subtitle / Official髭男dism">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group-small">
+        <label>ジャンル</label>
+        <input id="bf-genre" value="${band?.genre||''}" placeholder="例：邦ロック">
+      </div>
+      <div class="form-group-small">
+        <label>ライブ出演日</label>
+        <select id="bf-liveday">
+          <option ${band?.liveDay==='6/6(土)' ? 'selected':''}>6/6(土)</option>
+          <option ${band?.liveDay==='6/7(日)' ? 'selected':''}>6/7(日)</option>
+          <option ${(!band?.liveDay||band?.liveDay==='未定') ? 'selected':''}>未定</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group-small" style="margin-bottom:12px">
+      <label>メンバー（名前とパート）</label>
+      <div id="bf-members">${bandMembers.map((m,i)=>memberEntry(m,i)).join('')}</div>
+      <button class="add-member-btn" onclick="addMemberEntry()">＋ メンバーを追加</button>
+    </div>
+    <div class="form-group-small">
+      <label>不足パート（複数選択可）</label>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+        ${PARTS_LIST.map(p=>`<label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer">
+          <input type="checkbox" value="${p}" ${(band?.missingParts||[]).includes(p)?'checked':''} style="width:auto">
+          ${p}
+        </label>`).join('')}
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-save" onclick="saveBand()">保存</button>
+      <button class="btn-cancel" onclick="cancelBandForm()">キャンセル</button>
+    </div>
+  </div>`;
+}
+
+function memberEntry(m, i){
+  const memberOptions = members.map(x=>`<option value="${x.name}" ${x.name===m.name?'selected':''}>${x.name} (${x.parts.split(',')[0]})</option>`).join('');
+  const partOptions = ['Gt.','Ba.','Dr.','Key.','Vo.','Gt./Vo.','Sa.','Tp.','Vn.','Fl.','その他'].map(p=>`<option ${m.part===p?'selected':''}>${p}</option>`).join('');
+  return `<div class="member-entry" id="me-${i}">
+    <select style="flex:1" onchange="bandMembers[${i}].name=this.value">
+      <option value="">メンバーを選択...</option>
+      ${memberOptions}
+    </select>
+    <select style="width:90px" onchange="bandMembers[${i}].part=this.value">
+      ${partOptions}
+    </select>
+    <button class="remove-member-btn" onclick="removeMember(${i})">×</button>
+  </div>`;
+}
+
+function addMemberEntry(){
+  bandMembers.push({name:'',part:''});
+  const b = editingBandId ? bands.find(x=>x.id===editingBandId) : null;
+  renderBandForm(b);
+}
+
+function removeMember(i){
+  bandMembers.splice(i,1);
+  const b = editingBandId ? bands.find(x=>x.id===editingBandId) : null;
+  renderBandForm(b);
+}
+
+function saveBand(){
+  const name = document.getElementById('bf-name').value.trim();
+  const song = document.getElementById('bf-song').value.trim();
+  const genre = document.getElementById('bf-genre').value.trim();
+  const liveDay = document.getElementById('bf-liveday').value;
+  const missingParts = [...document.querySelectorAll('#band-form-container input[type=checkbox]:checked')].map(c=>c.value);
+  const bm = bandMembers.filter(m=>m.name);
+  if(!name && !song){ alert('バンド名か曲名を入力してください'); return; }
+  const bandObj = {
+    id: editingBandId || null,
+    name, song, genre, liveDay: liveDay, members: bm,
+    missingParts, createdBy: currentUser?.name||''
+  };
+  saveBand(bandObj);
+  cancelBandForm();
+}
+
+function cancelBandForm(){
+  document.getElementById('band-form-container').classList.add('hidden');
+  document.getElementById('add-band-btn').style.display='flex';
+  editingBandId = null;
+  bandMembers = [{name:'',part:''}];
+}
+
+function editBand(id){
+  const raw = bands.find(b=>b.id===id);
+  if(raw){ const band=normBand(raw); bandMembers=[...band.members]; showBandForm(band); }
+}
+
+function deleteBand(id){
+  if(confirm('このバンドを削除しますか？')){
+    deleteBandById(id);
+  }
+}
+
+// MISSING
+function renderMissing(){
+  const container = document.getElementById('missing-content');
+  const bandsWithMissing = bands.filter(b=>b.missingParts&&b.missingParts.length);
+  if(bandsWithMissing.length===0){
+    container.innerHTML = `<p style="color:var(--muted);font-size:13px">現在、パートを募集しているバンドはいません。</p>`;
+    return;
+  }
+  container.innerHTML = `<div class="missing-search-grid">${bandsWithMissing.map(b=>{
+    const candidates = b.missingParts.map(part=>{
+      const cands = members.filter(m=>m.parts.includes(part)).slice(0,5);
+      return `<div style="margin-bottom:10px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">${part} 候補</div>
+        <div class="candidate-list">${cands.map(c=>`
+          <div class="candidate-item" onclick="openModal(${c.id})" style="cursor:pointer">
+            <span>${c.name}</span>
+            <span style="font-size:10px;color:var(--accent2)">${c.liveDays}</span>
+          </div>`).join('')}
+        </div>
+      </div>`;
+    }).join('');
+    return `<div class="missing-card">
+      <h4>${b.name||'バンド名未定'}</h4>
+      <div class="song">${b.song||'曲未定'}</div>
+      <span class="missing-count">${b.missingParts.length}パート募集中</span>
+      ${candidates}
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// STATS
+function renderStats(){
+  const partCount = {};
+  members.forEach(m=>{
+    parseParts(m.parts).forEach(p=>{ partCount[p]=(partCount[p]||0)+1; });
+  });
+  const bothDays = members.filter(m=>m.liveDays==='両日可').length;
+  const day66 = members.filter(m=>m.liveDays.includes('6/6')||m.liveDays==='両日可').length;
+  const day67 = members.filter(m=>m.liveDays.includes('6/7')||m.liveDays==='両日可').length;
+  document.getElementById('stats-content').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${members.length}</div><div class="stat-label">登録メンバー数</div></div>
+    <div class="stat-card"><div class="stat-num">${bands.length}</div><div class="stat-label">登録バンド数</div></div>
+    <div class="stat-card"><div class="stat-num">${day66}</div><div class="stat-label">6/6(土) 参加可</div></div>
+    <div class="stat-card"><div class="stat-num">${day67}</div><div class="stat-label">6/7(日) 参加可</div></div>
+  `;
+  const breakdown = Object.entries(partCount).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('part-breakdown').innerHTML = `
+    <p class="page-title" style="font-size:15px;margin-bottom:14px">パート別人数</p>
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:400px">
+      ${breakdown.map(([p,n])=>`
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:80px;font-size:13px;color:${getPartColor(p)}">${p}</div>
+          <div style="flex:1;background:var(--surface);border-radius:4px;height:8px;overflow:hidden">
+            <div style="width:${Math.min(n/breakdown[0][1]*100,100)}%;height:100%;background:${getPartColor(p)};border-radius:4px;transition:width 0.5s"></div>
+          </div>
+          <div style="font-size:13px;min-width:30px;text-align:right">${n}人</div>
+        </div>`).join('')}
+    </div>`;
+}
+
+document.getElementById('login-name').addEventListener('keydown', e=>{if(e.key==='Enter')doLogin()});
+document.getElementById('login-kana').addEventListener('keydown', e=>{if(e.key==='Enter')doLogin()});
+</script>
+<!-- QR MODAL -->
+<div id="qr-modal" style="
+  position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:300;
+  display:none;align-items:center;justify-content:center;
+" onclick="closeQR(event)">
+  <div style="background:#1e1e28;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px 28px 20px;text-align:center;min-width:240px">
+    <p style="font-size:11px;color:#8888a0;margin-bottom:4px;letter-spacing:0.07em">LINE</p>
+    <p id="qr-name" style="font-size:16px;font-weight:500;color:#6bffd4;margin-bottom:16px"></p>
+    <div id="qr-canvas" style="display:flex;justify-content:center;margin-bottom:16px"></div>
+    <p style="font-size:11px;color:#8888a0;margin-bottom:14px">QRコードをスキャンして友達追加</p>
+    <button onclick="closeQR()" style="
+      background:none;border:1px solid rgba(255,255,255,0.1);color:#8888a0;
+      border-radius:6px;padding:6px 20px;cursor:pointer;font-size:12px;
+      font-family:'Noto Sans JP',sans-serif;
+    ">閉じる</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script>
+function showLineQR(nick, event){
+  event && event.stopPropagation();
+  const lineUrl = `https://line.me/ti/p/~${encodeURIComponent(nick)}`;
+  document.getElementById('qr-name').textContent = nick;
+  const canvas = document.getElementById('qr-canvas');
+  canvas.innerHTML = '';
+  const c = document.createElement('canvas');
+  canvas.appendChild(c);
+  QRCode.toCanvas(c, lineUrl, {
+    width: 180,
+    color: { dark: '#0f0f13', light: '#f0f0f0' },
+    margin: 2
+  });
+  document.getElementById('qr-modal').style.display = 'flex';
+}
+
+function closeQR(e){
+  if(!e || e.target === document.getElementById('qr-modal'))
+    document.getElementById('qr-modal').style.display = 'none';
+}
+</script>
+</body>
+</html>
