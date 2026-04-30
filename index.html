@@ -186,28 +186,7 @@ body{
 .msec{margin-bottom:12px}
 .msec-label{font-size:11px;color:var(--muted);letter-spacing:.06em;margin-bottom:4px}
 .msec-val{font-size:13px;line-height:1.7}
-.line-nick{
-  display:inline-block;font-size:13px;color:var(--accent2);
-  cursor:pointer;border-bottom:1px dashed rgba(232,53,122,.4);
-  transition:color .15s;
-}
-.line-nick:hover{color:var(--accent)}
 .suggest{font-size:11px;color:var(--accent);margin-top:4px;font-style:italic}
-
-/* ── QR MODAL ── */
-.qr-overlay{
-  position:fixed;inset:0;background:rgba(42,24,16,.6);
-  backdrop-filter:blur(6px);z-index:300;
-  display:flex;align-items:center;justify-content:center;
-}
-.qr-box{
-  background:#fff;border-radius:16px;padding:28px 24px 20px;
-  text-align:center;border:1px solid rgba(255,107,53,.2);
-  box-shadow:0 16px 50px rgba(255,107,53,.15);
-}
-.qr-label{font-size:11px;color:var(--muted);margin-bottom:3px}
-.qr-nick{font-size:16px;font-weight:500;color:var(--accent2);margin-bottom:14px}
-.qr-note{font-size:11px;color:var(--muted);margin:12px 0}
 
 /* ── BAND PAGE ── */
 .band-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:20px}
@@ -337,6 +316,21 @@ body{
 .grade-item select:focus{border-color:var(--accent)}
 .bulk-btns{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
 
+/* ── HELP PAGE ── */
+.help-card{
+  background:rgba(255,255,255,.86);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;margin-bottom:14px;
+  display:flex;gap:16px;
+}
+.help-icon{font-size:28px;flex-shrink:0;margin-top:2px}
+.help-content{flex:1}
+.help-title{font-size:15px;font-weight:600;color:var(--accent);margin-bottom:6px}
+.help-body{font-size:13px;line-height:1.75;color:var(--text);margin-bottom:10px}
+.help-sub{font-size:12px;font-weight:600;color:var(--muted);margin:10px 0 5px;letter-spacing:.04em}
+.help-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:5px}
+.help-list li{font-size:13px;line-height:1.65;color:var(--text);padding-left:14px;position:relative}
+.help-list li::before{content:'・';position:absolute;left:0;color:var(--accent)}
+
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-thumb{background:rgba(255,107,53,.2);border-radius:3px}
@@ -384,6 +378,7 @@ body{
       <button class="nav-btn" data-page="pg-bands">バンド</button>
       <button class="nav-btn" data-page="pg-missing">パート探し</button>
       <button class="nav-btn" data-page="pg-stats">統計</button>
+      <button class="nav-btn" data-page="pg-help">使い方</button>
       <button class="nav-btn hidden" id="nav-admin" data-page="pg-admin">学年管理</button>
     </div>
     <button class="btn-logout" id="btn-logout">ログアウト</button>
@@ -434,6 +429,93 @@ body{
     <div id="stats-bars"></div>
   </div>
 
+  <div class="page" id="pg-help">
+    <p class="page-title">使い方ガイド</p>
+    <p class="page-desc">激突！名簿の各機能の使い方を説明します。</p>
+
+    <div class="help-card">
+      <div class="help-icon">👥</div>
+      <div class="help-content">
+        <div class="help-title">メンバー一覧</div>
+        <div class="help-body">参加者全員の情報を確認できるページです。<br>
+        カードをタップすると、その人の詳細情報（パート・好きなアーティスト・ジャンル・ライブ出演可能日・バンド組参加可能日）が表示されます。</div>
+        <div class="help-sub">🔍 検索・絞り込みの方法</div>
+        <ul class="help-list">
+          <li><b>テキスト検索</b>：名前・ニックネーム・アーティスト名で検索できます。例：「ヨルシカ」と入力するとヨルシカが好きな人が全員表示されます。</li>
+          <li><b>パートで絞り込み</b>：「全パート」のドロップダウンから特定のパート（Gt.・Ba.・Dr.など）を選んで絞り込めます。</li>
+          <li><b>ライブ参加日で絞り込み</b>：「全ライブ日」から6/6・6/7・両日可で絞り込めます。</li>
+          <li><b>学年で絞り込み</b>：「全学年」からC年（新入生）・現役生などで絞り込めます。</li>
+          <li><b>ジャンルチップ</b>：検索欄の下に並んでいるジャンルボタンをタップすると、そのジャンルが好きな人だけ表示されます。複数タップで絞り込みも可能。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="help-card">
+      <div class="help-icon">🎸</div>
+      <div class="help-content">
+        <div class="help-title">バンド情報</div>
+        <div class="help-body">バンドを登録して、メンバーや演奏曲、不足パートを公開できるページです。<br>
+        バンドが組めたら積極的に登録して、不足パートがあれば募集しましょう！</div>
+        <div class="help-sub">➕ バンドの登録方法</div>
+        <ul class="help-list">
+          <li>ページ下部の「＋ 新しいバンドを登録する」をタップ</li>
+          <li>バンド名・演奏する曲・ジャンル・ライブ出演日を入力</li>
+          <li>「メンバーを追加」でメンバーとパートを選択（複数人追加可）</li>
+          <li>不足しているパートにチェックを入れる</li>
+          <li>「保存」をタップして完了！</li>
+        </ul>
+        <div class="help-sub">✏️ 編集・削除</div>
+        <ul class="help-list">
+          <li>自分が登録したバンドには「編集」「削除」ボタンが表示されます</li>
+          <li>メンバーが増えたり曲が決まったりしたらこまめに更新しましょう</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="help-card">
+      <div class="help-icon">🔎</div>
+      <div class="help-content">
+        <div class="help-title">パート探し</div>
+        <div class="help-body">不足パートを募集しているバンドと、そのパートを担当できるメンバー候補を自動で表示するページです。<br>
+        「バンド情報」ページで不足パートを登録したバンドがここに表示されます。<br>
+        候補者の名前をタップすると詳細情報が確認できます。</div>
+      </div>
+    </div>
+
+    <div class="help-card">
+      <div class="help-icon">📊</div>
+      <div class="help-content">
+        <div class="help-title">統計</div>
+        <div class="help-body">参加者全体の統計情報を確認できるページです。<br>
+        登録メンバー数・バンド数・ライブ参加可能人数や、パート別の人数をグラフで確認できます。<br>
+        どのパートが多い・少ないかを把握するのに役立ててください。</div>
+      </div>
+    </div>
+
+    <div class="help-card">
+      <div class="help-icon">💡</div>
+      <div class="help-content">
+        <div class="help-title">活用のヒント</div>
+        <ul class="help-list">
+          <li>好きなアーティストが似ている人を検索して声をかけてみましょう！</li>
+          <li>バンド組当日（5/6・5/9）の前にこのサイトでメンバー候補をリサーチしておくと当日スムーズに動けます</li>
+          <li>バンドが組めたらすぐに登録して不足パートを募集することで、当日待たずにメンバーが揃いやすくなります</li>
+          <li>ライブ出演日（6/6・6/7）が合う人を事前に確認しておきましょう</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="help-card">
+      <div class="help-icon">🔐</div>
+      <div class="help-content">
+        <div class="help-title">ログインについて</div>
+        <div class="help-body">このサイトはフォームに回答した方のみログインできます。<br>
+        ログイン時はフォームに入力したフルネーム（漢字）とフリガナを入力してください。<br>
+        ※スペースの有無や全角・半角が異なると認証できない場合があります。フォームに記入した通りに入力してください。</div>
+      </div>
+    </div>
+  </div>
+
   <div class="page" id="pg-admin">
     <p class="page-title">学年管理</p>
     <p class="page-desc">現役生の学年を設定できます。</p>
@@ -447,18 +529,7 @@ body{
   <div class="modal" id="modal-box"></div>
 </div>
 
-<!-- QR MODAL -->
-<div class="qr-overlay hidden" id="qr-overlay">
-  <div class="qr-box">
-    <p class="qr-label">LINE</p>
-    <p class="qr-nick" id="qr-nick"></p>
-    <canvas id="qr-canvas"></canvas>
-    <p class="qr-note">QRコードをスキャンして友達追加</p>
-    <button class="btn-close" id="btn-close-qr">閉じる</button>
-  </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <script>
 'use strict';
 
@@ -892,7 +963,8 @@ function renderMembers(list){
     return '<div class="mcard" data-id="'+m.id+'">'
       +'<div class="mcard-top"><span class="mcard-name">'+m.name+'</span>'
       +'<span class="grade-badge">'+m.grade+'</span></div>'
-      +'<div class="mcard-kana">'+m.kana+' / <span style="color:var(--accent2)">'+m.nick+'</span></div>'
+      +'<div class="mcard-kana">'+m.kana+'</div>'
+      +'<div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><span style="font-size:10px;padding:1px 6px;border-radius:4px;background:rgba(6,199,85,.1);color:#06c755;border:1px solid rgba(6,199,85,.28);font-weight:600">LINE</span><span style="font-size:12px;color:var(--accent2)">'+m.nick+'</span></div>'
       +'<div class="parts">'+pbadges+'</div>'
       +'<span class="mcard-live'+(ng?' ng':'')+'">ライブ: '+m.liveDays+'</span>'
       +'</div>';
@@ -912,7 +984,11 @@ function openModal(id){
   document.getElementById('modal-box').innerHTML =
     '<div class="modal-head">'
       +'<div><div class="modal-name-row"><span class="modal-name">'+m.name+'</span><span class="grade-badge">'+m.grade+'</span></div>'
-      +'<div class="modal-sub">'+m.kana+' / <span class="line-nick" data-nick="'+m.nick+'" data-name="'+m.name+'">'+m.nick+'</span></div></div>'
+      +'<div class="modal-sub">'+m.kana+'</div>'
+    +'<div style="margin-top:4px;display:flex;align-items:center;gap:6px">'
+    +'<span style="font-size:10px;padding:1px 7px;border-radius:4px;background:rgba(6,199,85,.12);color:#06c755;border:1px solid rgba(6,199,85,.3);font-weight:600;letter-spacing:.04em">LINE</span>'
+    +'<span style="font-size:13px;color:var(--accent2)">'+m.nick+'</span>'
+    +'</div></div>'
       +'<button class="btn-close" id="btn-modal-close">閉じる</button>'
     +'</div>'
     +'<div class="msec"><div class="msec-label">PART</div><div class="parts">'+pbadges+'</div></div>'
@@ -922,283 +998,6 @@ function openModal(id){
     +'<div class="msec"><div class="msec-label">バンド組参加可能日</div><div class="msec-val">'+m.bandDays+'</div></div>';
 
   document.getElementById('modal-overlay').classList.remove('hidden');
-}
-
-// ── QR CODE ───────────────────────────────────────────────
-const QR_URLS = {
-  '加藤　優貴':'https://drive.google.com/thumbnail?id=1-u02xoNpugmrG19RLBEjC60fPMovFqAz&sz=w400',
-  '和田　将英':'https://drive.google.com/thumbnail?id=1Lr2PiPTRIn-K-Pcnk6j1rMz-0yurCezE&sz=w400',
-  '横田　大翔':'https://drive.google.com/thumbnail?id=1nRasAng9Pfj-z6rY6gJcKgYCi1y4NfsX&sz=w400',
-  '岡林　祐甫':'https://drive.google.com/thumbnail?id=1Y0eg88plnSS0YxiAI-5v5YgJ3LziGcIY&sz=w400',
-  '武隈　心':'https://drive.google.com/thumbnail?id=10hoifbSdoeu_OXSymExvkeE5I9F9zWe2&sz=w400',
-  '池田 詠晶':'https://drive.google.com/thumbnail?id=10YXmJz7QyuoyT1M94s-ixCaUvYZzocJ9&sz=w400',
-  '長野　響':'https://drive.google.com/thumbnail?id=1Ux7SIsEYtgwS2aWqLciSKcePuKt3pufQ&sz=w400',
-  '川崎　さゆり':'https://drive.google.com/thumbnail?id=1AVpFcrdVce7nowvE5Z2vzPskMSrpl8pz&sz=w400',
-  '青木　実穂':'https://drive.google.com/thumbnail?id=1iH9OPsfGRv-NYpddmhJFnw4l-mSHPMsz&sz=w400',
-  '中溝 大貴':'https://drive.google.com/thumbnail?id=1pxWxYVEdvZTjIePNqkMJN39MbbMTqV1u&sz=w400',
-  '郷頭 琉真':'https://drive.google.com/thumbnail?id=1FeKdC_8HAtuSbH1FZZ6dhExzfAhOLPa9&sz=w400',
-  '宍戸　介':'https://drive.google.com/thumbnail?id=1K-ivpG8goKgD6CRNT2UbQnqb8yEvo2dE&sz=w400',
-  '木下　創太':'https://drive.google.com/thumbnail?id=1SNMv5Ow0s1k2XxBJIWxRvYF-3awpg9Or&sz=w400',
-  '正久　響':'https://drive.google.com/thumbnail?id=1fgj4891gTK4eXa8w8D_OjwGbiNJi6tva&sz=w400',
-  '花田 真衣':'https://drive.google.com/thumbnail?id=1C0whumwk5wa09I3SqRTVegLFFm2glhMQ&sz=w400',
-  '松岡 初奈':'https://drive.google.com/thumbnail?id=1Ldf9zjOccpJFHrdVCN2DEgHqfb6lELox&sz=w400',
-  '枡谷 悠利':'https://drive.google.com/thumbnail?id=1vjCNcjs4yzzXknit_VJidgYOSiSJ9wrp&sz=w400',
-  '長谷川　夕莉':'https://drive.google.com/thumbnail?id=1muWY6LHczLekYFwGzhRDtrVH3mAheJi6&sz=w400',
-  '上條 美紀':'https://drive.google.com/thumbnail?id=1qAtgsg0ydTCxrYJdexhRUZlsKBpUr_vI&sz=w400',
-  '加藤　由希':'https://drive.google.com/thumbnail?id=13rAVn8E76Bc1k-VYx9NOj_LAvPqhbODZ&sz=w400',
-  '中畑 煌河':'https://drive.google.com/thumbnail?id=1Gj2NebqQ_FTsj4xCoVD1vOYoo7jYMTT4&sz=w400',
-  '小島　千鶴':'https://drive.google.com/thumbnail?id=1ALpW0Fchhk56UXbIwwnriN7ouz47pI98&sz=w400',
-  '石田 茉利亜':'https://drive.google.com/thumbnail?id=1JRGVlCY2rSqXqRBD2mWBQ5tcVhdvxInE&sz=w400',
-  '畠山 結咲':'https://drive.google.com/thumbnail?id=1094UMZeaclIbq_96I-_q7fnq0KUNp0UR&sz=w400',
-  '室町 泰輝':'https://drive.google.com/thumbnail?id=1xDBOuCfwUuUgEKb8iloyrw92UQ6TGJkQ&sz=w400',
-  '徳山　正旭':'https://drive.google.com/thumbnail?id=1i-Ael4nTK8KqV7WKxxO2yONgHluICXzI&sz=w400',
-  '菊間　隆大':'https://drive.google.com/thumbnail?id=1uGfmM3vV1yWQWObzzB_0XYgrkaO4nV9l&sz=w400',
-  '後藤 優太':'https://drive.google.com/thumbnail?id=1xXge9K8QhLtybdjo5LHO3UAvEc_Ynf4v&sz=w400',
-  '野中 祐希':'https://drive.google.com/thumbnail?id=1pm73HoErNOPEM4yMMRZ6Ig_P_llhi_eB&sz=w400',
-  '今村 柊太':'https://drive.google.com/thumbnail?id=1JiF7qBw6wh86iB-WtyD7QE8SCrGIajTj&sz=w400',
-  '伊藤 凜汰郎':'https://drive.google.com/thumbnail?id=1zvucAtpDr7yaY70MKAmpycYavWKhG2ri&sz=w400',
-  '山本　景翔':'https://drive.google.com/thumbnail?id=1dSV50TPKZZ2CViJtQaimX2DIRTLFpQTG&sz=w400',
-  '田中伶':'https://drive.google.com/thumbnail?id=1YYLCVFrCFA5jqQChkMyzlIW1zTIQlQSO&sz=w400',
-  '吉田 妃伽':'https://drive.google.com/thumbnail?id=1WaKIuckNRLVWJew467troapJ28641ALD&sz=w400',
-  '目黒 皓大':'https://drive.google.com/thumbnail?id=1AEgtUFmevLixOVvJNeUM01zC8JBTBBwA&sz=w400',
-  '近藤　拓斗':'https://drive.google.com/thumbnail?id=1C60Kls3iyyWbeC-dYvJiUl6fTEThWAXl&sz=w400',
-  '陶　也':'https://drive.google.com/thumbnail?id=1xcGAn9IXEqUO9UyZ4XbMidZ7AyMxVN13&sz=w400',
-  '赤羽　耕治':'https://drive.google.com/thumbnail?id=1IP271EkAh3iC_t8rRLdkJXovxgDOCyL1&sz=w400',
-  '楊 芝子':'https://drive.google.com/thumbnail?id=1TkSwvp9HLSniIKUDw4LExZ0lzJMMIWv7&sz=w400',
-  '波多野　和太':'https://drive.google.com/thumbnail?id=18BrtjW4wAfo4XuKzxUE6k1t1226YX6l3&sz=w400',
-  '胡 一繁':'https://drive.google.com/thumbnail?id=1L9W4zLTc9hu3xwCx94dWwshdmie88wmo&sz=w400',
-  '門田　理央':'https://drive.google.com/thumbnail?id=1TqbJQkqZ7fp7EEJh3N-P_W0sevMs1cTg&sz=w400',
-  '山岸　光雅':'https://drive.google.com/thumbnail?id=1IY_CqmMLYDQiQLEnLZ4CpeVxQ2iiKJMh&sz=w400',
-  '村瀬　公規':'https://drive.google.com/thumbnail?id=17zHHeTgh5hdfaAlgGItHl3Hkkcgv-SLK&sz=w400',
-  '嶋 太陽':'https://drive.google.com/thumbnail?id=1PLSMdOc5YNXun3ESYQGffkhyQ_4LhjZB&sz=w400',
-  '長澤　志成':'https://drive.google.com/thumbnail?id=1xnw-qlWMBnxtfZ4gsa6veJoyT94i8Q1R&sz=w400',
-  '大河原 来愛':'https://drive.google.com/thumbnail?id=1300V_dAx53c8zHyOMMQ0ljn4ESL-M2Yq&sz=w400',
-  '正木　耀太':'https://drive.google.com/thumbnail?id=1sODLp9TJx2xeINi4Rw-WYud67FNfYRVk&sz=w400',
-  '浅野　太一':'https://drive.google.com/thumbnail?id=1ZU5eVG46fJ8SJjL3kUgwvU7XAtgDYNsX&sz=w400',
-  '池田　汐里':'https://drive.google.com/thumbnail?id=16FrK5cXQP8CsUR4F-J2Thd-SSUg2IS7X&sz=w400',
-  '勝又　樹':'https://drive.google.com/thumbnail?id=1-Xv41tBdmmNOXrooGA95s6MK9oLvc6ca&sz=w400',
-  '井上 晴斗':'https://drive.google.com/thumbnail?id=17Pzy38e6O4wCgBl9u8MU839gM3KRgaGm&sz=w400',
-  '藤田 芹菜':'https://drive.google.com/thumbnail?id=1T6V6HT6mpHxI_NBAq6V875xPddFb-pqM&sz=w400',
-  '東　隼ノ介':'https://drive.google.com/thumbnail?id=1UcCt_ZL8wZ-Qj3WkyJBLaVgcl7y1O6ar&sz=w400',
-  '峯本 琴音':'https://drive.google.com/thumbnail?id=1N727nvSuHZBYIm--PNyQtxALVilCr2bx&sz=w400',
-  '上野　蒼一郎':'https://drive.google.com/thumbnail?id=1TQfAnjT1IBDU6otD1sPPy9XSxa9qnbmL&sz=w400',
-  '齊藤　明来':'https://drive.google.com/thumbnail?id=1fkRK17HONW_soZ3tl8MiVIHCM2L2pfzA&sz=w400',
-  '朝香　圭翔':'https://drive.google.com/thumbnail?id=1xwR6zEuNsHFdqpddMZLReHpAr6e2z5ON&sz=w400',
-  '太田　高誠':'https://drive.google.com/thumbnail?id=1hDtxjcktdyMZw0DpZ6WHzs6uazaEXdbs&sz=w400',
-  '遠藤 孝太朗':'https://drive.google.com/thumbnail?id=1L2uFM453R2pfIT3s-iUZarcIr1iSiLEK&sz=w400',
-  'ヒガブ中井　アリ':'https://drive.google.com/thumbnail?id=1cHatw9wwiuHv7bV3lI9yXbj0gq5i14WE&sz=w400',
-  '井上 智貴':'https://drive.google.com/thumbnail?id=1W_0S_vono7nJz-LhjKIX-k8URKlQoA7T&sz=w400',
-  '鈴木　歩睦':'https://drive.google.com/thumbnail?id=1LjryManucAVV7V-PB_tMgoDJOGfHVgC8&sz=w400',
-  '吉岡 一貴':'https://drive.google.com/thumbnail?id=1iXDcFJpw4zAEHhl140ktSvVLyPzdIzJq&sz=w400',
-  '辻　実日子':'https://drive.google.com/thumbnail?id=13CzxyEAr-fWYI46truFGcX8hCtbE6ekS&sz=w400',
-  '今野　心麗':'https://drive.google.com/thumbnail?id=1UuhTXGvyiUC4HAO_7O8Yk0OWgXOwbY1E&sz=w400',
-  '高田　順平':'https://drive.google.com/thumbnail?id=1YQREwmgOJECcVIbheDZx45rtuQd5WIMR&sz=w400',
-  '野田 哲平':'https://drive.google.com/thumbnail?id=1mR4-nR3sYG0Tuyb-Rzu5PYaPtVW8AmG1&sz=w400',
-  '垣花　啓介':'https://drive.google.com/thumbnail?id=1WGDLVJ0ZuFWZBiPPmbgyr8ZqU8gCjtsn&sz=w400',
-  '判治　航':'https://drive.google.com/thumbnail?id=1T9U7TOZmPHh7ZHjpKl-1FhlExGbvE3lu&sz=w400',
-  '小野　峻右':'https://drive.google.com/thumbnail?id=17ZpIKyXRyZRChvP9_ijf-hMAR-I3q-p8&sz=w400',
-  '遠山　真緒':'https://drive.google.com/thumbnail?id=1XW_lUBmxNq1PxbZD7-c8FPLGqssKtz05&sz=w400',
-  '井上　拓海':'https://drive.google.com/thumbnail?id=11JO05wlgwlGZxsaDr-iDdte-CIhpAfmH&sz=w400',
-  '青木　信志':'https://drive.google.com/thumbnail?id=1g9SHA-u15bxCRn76hJ8ugIC5qqc8tX3Q&sz=w400',
-  '新田　紫':'https://drive.google.com/thumbnail?id=1ZZyYzT8-mPB55o69_aAqDEcSof1Yy84-&sz=w400',
-  '蓮井　優太':'https://drive.google.com/thumbnail?id=1G9ZRNhafrBOhAiIKYEiShOO73DJ7t6-f&sz=w400',
-  '柿沼　彩愛':'https://drive.google.com/thumbnail?id=1j2nsPM06yTkn42L09pGMiKJFVadib5tz&sz=w400',
-  '樫村　俊希':'https://drive.google.com/thumbnail?id=19ax460fOpHS7LuZCmeMSafT0yZgFIGuw&sz=w400',
-  '西田　優美奈':'https://drive.google.com/thumbnail?id=1iar4KFAOon5i_VFuXt0eydwKyrr6mV9G&sz=w400',
-  '楢崎　悠矢':'https://drive.google.com/thumbnail?id=1QlBNpelmBs0e1rV0hYYjgOWb3U8ggxsx&sz=w400',
-  '坂田　雄斗':'https://drive.google.com/thumbnail?id=1dMQhdcmbcybwutWe2BuK-b2a2s-dKK_&sz=w400',
-  '岡﨑 修平':'https://drive.google.com/thumbnail?id=1Jnr0YsOpnENOIQ2XDvHpkqDOEIleriin&sz=w400',
-  '後藤　信樹':'https://drive.google.com/thumbnail?id=1AsQFWPMAY7LmgZDWvNFvZESLmx8Oc89G&sz=w400',
-  '安田龍之介':'https://drive.google.com/thumbnail?id=1Py1OrGBvzfgBaXfbLKgtn4BN6CNke5er&sz=w400',
-  '西脇　蓮':'https://drive.google.com/thumbnail?id=1uIkUFwhOrDf6A8XuY_tuHy-kKox0ZWEn&sz=w400',
-  '福富　丈太':'https://drive.google.com/thumbnail?id=16wiifNv1LJnPIytO5ZiuD3MkpmglPQKb&sz=w400',
-  '髙山　奏志':'https://drive.google.com/thumbnail?id=1ubCLLfnW_yRmElhWz6CL2M52wofmE_j0&sz=w400',
-  '下田 空夢':'https://drive.google.com/thumbnail?id=1CqrQmQSiJh4RPAHKghPlbflxNXLINqB7&sz=w400',
-  '宮﨑　友喜':'https://drive.google.com/thumbnail?id=1xRPvJQilRn3PqSPxRcAVROyGbR9tu5XZ&sz=w400',
-  '江幡　龍太郎':'https://drive.google.com/thumbnail?id=1VU0QcGMac-P0I9JWwjPUqYjuK5BDPDqd&sz=w400',
-  '岩田　麗':'https://drive.google.com/thumbnail?id=1MaJcEnuFV8SRSg8TMFRSekXXl31Qmt_e&sz=w400',
-  '飛賀公太':'https://drive.google.com/thumbnail?id=1g_5bN4185kPaEJHc51no3AiSkkAMslZf&sz=w400',
-  '青山 実加':'https://drive.google.com/thumbnail?id=1_NekIiIn72CvIJ7trzgzYLtvAh2LoC7A&sz=w400',
-  '横井 大輔':'https://drive.google.com/thumbnail?id=19cgpxws4a9kgvOKHci3OVKOFzNRuLDHT&sz=w400',
-  '難波　拓臣':'https://drive.google.com/thumbnail?id=1zaB0MLIzmgfH95DhhusMUjPdoZUjd_KL&sz=w400',
-  '左傳 貴一':'https://drive.google.com/thumbnail?id=173ddjXyM4tCyVkWonqXk6kjOw9vwtZLT&sz=w400',
-  '高橋 史夏':'https://drive.google.com/thumbnail?id=1WKXH4ocbn2BdX9WVGCiQriyjnnJOp3ht&sz=w400',
-  '河野 惺':'https://drive.google.com/thumbnail?id=1FeN5N0nHYw4xBpQzwlj9NYvFOJ1BALd2&sz=w400',
-  '石戸谷　光':'https://drive.google.com/thumbnail?id=1vWj06BiSO0bMUpofkBynVwjJQp1aGkxE&sz=w400',
-  '弘田　遜凜':'https://drive.google.com/thumbnail?id=1d0LqSJBj2G1o_j_xeJ6UVzIyB5OwpYwJ&sz=w400',
-  '福島　優大':'https://drive.google.com/thumbnail?id=18bRelDn-xDL8MMyQF_uS50dpB8alaEKs&sz=w400',
-  '長沼　実希':'https://drive.google.com/thumbnail?id=1M_dGZZfUFdf0kznQjwQGOAVZcnNyq1Qv&sz=w400',
-  '菅原 一起':'https://drive.google.com/thumbnail?id=1hn2iz421NTXklKjqMrhHHN9JDIvxNGNp&sz=w400',
-  '植松　佑成':'https://drive.google.com/thumbnail?id=1iTXV6qbaY8FAZI1zypSo8aFRO1G7vQsH&sz=w400',
-  '大台 進一':'https://drive.google.com/thumbnail?id=19DGBhhb4cnpo_D0nc3bMy0UFL08xGNKi&sz=w400',
-  '山内　俊太郎':'https://drive.google.com/thumbnail?id=1yw1ZwDR_wunXorMJ62Fo0lT2mGv3PBr4&sz=w400',
-  '阿部　美菜':'https://drive.google.com/thumbnail?id=1ySxAztDA9-vPEDkzQ-NFj1fRb0EBycM9&sz=w400',
-  '遠藤　夏梨':'https://drive.google.com/thumbnail?id=1w_-Vj-lQmy_6tjQ-Dj4F_bS8eDcOQeMu&sz=w400',
-  '石附　大知':'https://drive.google.com/thumbnail?id=18Oi57vSE2ZNA-MxexopJlcwFq-4Mwxzt&sz=w400',
-  '松金　公智':'https://drive.google.com/thumbnail?id=1fm1bFOl7HofIY0rLd-oo1yt-ASQVOhbE&sz=w400',
-  '吉田　大輝':'https://drive.google.com/thumbnail?id=1qt_TFtTCre6DOiE5jv6PE115tkO_wi_6&sz=w400',
-  '前田 寛仁':'https://drive.google.com/thumbnail?id=1g9_t48Ks_5M3D2gmum0BE5ZHRjkj-PRU&sz=w400',
-  '佐藤　麗衣':'https://drive.google.com/thumbnail?id=15yLr0rGngQaCj9PvttAK1KL9yAuKx9oA&sz=w400',
-  '稲田 桃愛':'https://drive.google.com/thumbnail?id=1_tIbY7HkopSILeFAcszqMYRbRbP4jQa4&sz=w400',
-  '島野　真緒':'https://drive.google.com/thumbnail?id=18_5DBVcagFqHudG3XmnX2nKmIPo1uox9&sz=w400',
-  'リバレ　とま':'https://drive.google.com/thumbnail?id=1s1NeHE-hVwrRTFKCiDU2s5sbIvBskO4B&sz=w400',
-  '下窪 祐史':'https://drive.google.com/thumbnail?id=1zHM2vkdXHKwBjh9wUDVaZ-EX0KZVIMfb&sz=w400',
-  '澁谷　武大':'https://drive.google.com/thumbnail?id=1zEvhRgA1b2izotS1BF8W2hqm3KPl9mEe&sz=w400',
-  '野中　和仁':'https://drive.google.com/thumbnail?id=1Ng540SsQQ12x2CkCYeNajARz3vMdlKFw&sz=w400',
-  '石崎　桜依':'https://drive.google.com/thumbnail?id=1wBXf7d3zy6xfQ70svUfKuV01rsuT8Hpn&sz=w400',
-  '瀧口　結太':'https://drive.google.com/thumbnail?id=1vzSQ__qymastxz7XmtO7CS5rFyyJGX0X&sz=w400',
-  '石井　琢朗':'https://drive.google.com/thumbnail?id=1F3prDNZ4M_LP3TQL09cly1ZCovgttfl7&sz=w400',
-  '江森 陽輝':'https://drive.google.com/thumbnail?id=1jZZNL14Ed3oHg8s0KxM6eNApYqAKLTzB&sz=w400',
-  '平川　甫':'https://drive.google.com/thumbnail?id=1wCEWFyQgU20ZaqkJuQ85D69Mblf9-T7A&sz=w400',
-  '小島　るる':'https://drive.google.com/thumbnail?id=1ZP1O9kSgMFQmA9_GKqITtFcnj9mHd052&sz=w400',
-  '佐々木　航成':'https://drive.google.com/thumbnail?id=1YyIpEqIs5gRdHFo6YVe-gLtBYZrVivbf&sz=w400',
-  '大場　正太郎':'https://drive.google.com/thumbnail?id=1MV8UoplCAvD3N1fTvYzd0ag98AADDv-W&sz=w400',
-  '寺田 裕惺':'https://drive.google.com/thumbnail?id=1a5a59ePjKoD3pTM1BSfV10fSKgMAwmmY&sz=w400',
-  '高牟礼 堅登':'https://drive.google.com/thumbnail?id=13mOhsUtBgBAnlujajTIATh_s1lJJqF-_&sz=w400',
-  '外岡　功聖':'https://drive.google.com/thumbnail?id=1kIYp2mIT4_Z1HKnZDl0yzQguhMANwFre&sz=w400',
-  '長岡大輔':'https://drive.google.com/thumbnail?id=1ONUVgwUxu4vbZuwFBanaH-VXV_ovp--G&sz=w400',
-  '鹿島 悠広':'https://drive.google.com/thumbnail?id=1MU85hVwcpYWLp3k-3_IZw-ZAzn1pJU80&sz=w400',
-  '玄 理耀':'https://drive.google.com/thumbnail?id=1yuITopsffUV-3ZtJD3KrhUhvRnHZEiER&sz=w400',
-  '本田 俊矢':'https://drive.google.com/thumbnail?id=1PoII5TQ7b7iiEswKVcHq2P-iY5SAmU91&sz=w400',
-  '松野　榛':'https://drive.google.com/thumbnail?id=1zOLqHu-A4_RPjaDmEBXvpZ6qQn2Tstjk&sz=w400',
-  '深山　陸生':'https://drive.google.com/thumbnail?id=1Iv2Rp3bUmd5jzgsigTupknaf6Ro1JuMl&sz=w400',
-  '宮村秀':'https://drive.google.com/thumbnail?id=1GRUl5EDJbMlREpSf_KlPEMyTN7tf1Nic&sz=w400',
-  '奥 達彦':'https://drive.google.com/thumbnail?id=1PPe_MnEMlImPzZrPQQusLmwHi58ZJ8Xa&sz=w400',
-  '渡邉　領斗':'https://drive.google.com/thumbnail?id=196-cL9bDzGVYbUFw42r7HMPqXEuyjxXz&sz=w400',
-  '中島　陽向':'https://drive.google.com/thumbnail?id=15Ua-Bs8ZvodUQuCiVRAdOr9ZCJ6WZ1Az&sz=w400',
-  '永野　有馬':'https://drive.google.com/thumbnail?id=1ahcYiDu6sHbBexY5deBzcmMtCnnlLdM4&sz=w400',
-  '小田中　怜大':'https://drive.google.com/thumbnail?id=13A3a6EEPWD9ag9JqMrwLO8kHQjWVyq81&sz=w400',
-  '伊藤　紅葉':'https://drive.google.com/thumbnail?id=1PyTLWKM8RB5ew9m0uMSg2txQcqWkwMB2&sz=w400',
-  '今林 大翔':'https://drive.google.com/thumbnail?id=1hl8ZdLC124CwMJdrWcQPTpucP-1czUcw&sz=w400',
-  '丸幸 優希':'https://drive.google.com/thumbnail?id=1Mcq5Ui5odSbgk5kJi9mR_cSReS3qsKhI&sz=w400',
-  '長谷川 かりん':'https://drive.google.com/thumbnail?id=1tBVFeK_VmHHxcPVI1CGy_28ytRLBnikn&sz=w400',
-  '木瀬　ひより':'https://drive.google.com/thumbnail?id=1f3Ik6EjkNeeDaBQlULW7zn2ydPNOZs6_&sz=w400',
-  '安藤 理音':'https://drive.google.com/thumbnail?id=1ARI-VEvtvMSRlLdtfudkG_n6G0eqBJDu&sz=w400',
-  '夏井 啓慎':'https://drive.google.com/thumbnail?id=11wbDvLRRyfdByWPX-cvKbax7B-Ns5JMl&sz=w400',
-  '小窪　あかり':'https://drive.google.com/thumbnail?id=1Ouk1KPi-p8-Sjw-JWpRnQ4AI6fvu4eV3&sz=w400',
-  '有光 陽':'https://drive.google.com/thumbnail?id=1IKZTB746YPWeEW5vFa8eet8bDtjaoAKq&sz=w400',
-  '細川　健太':'https://drive.google.com/thumbnail?id=1GlcuHw3Qwn75b4nzLVwjmgSeEzNc3CH0&sz=w400',
-  '秋本　隼和':'https://drive.google.com/thumbnail?id=1-wxYwbl7Z0bfV5EjRaxb9EPv43odRpRF&sz=w400',
-  '森田　陸斗':'https://drive.google.com/thumbnail?id=1-xPe-BvNQAW43PsCYFfHpKIBZ0rImC_y&sz=w400',
-  '須賀　知彌':'https://drive.google.com/thumbnail?id=1pibG5LouJyYANsZvdPOYH45_5lunVeeK&sz=w400',
-  '櫻井 惺英':'https://drive.google.com/thumbnail?id=1p0CNfrhizpaBDAHtBk-c-TPAI4oB5bXo&sz=w400',
-  '坪井 志門':'https://drive.google.com/thumbnail?id=1HK3oJIBkcpHpBbzrCHoBpu7PZoAmROXH&sz=w400',
-  '田中 柚衣':'https://drive.google.com/thumbnail?id=1YQREwmgOJECcVIbheDZx45rtuQd5WIMR&sz=w400',
-  '五十嵐　円華':'https://drive.google.com/thumbnail?id=1KMvodPAzaN8s5xS3Ny9jGLnu_lbhxY0U&sz=w400',
-  '渡瀬 勇':'https://drive.google.com/thumbnail?id=1XCeTm24gzKHpNW2d2FwIJ4hKH6pc4dDc&sz=w400',
-  '西　大将都':'https://drive.google.com/thumbnail?id=1mIzdbypyweh6zui0sqLxtdfB188GHJNY&sz=w400',
-  '田上　新之助':'https://drive.google.com/thumbnail?id=1nOT3BQWEmz9RrWqIWnUsUmQuOcafD40q&sz=w400',
-  '李　浩尽':'https://drive.google.com/thumbnail?id=14JyOMUcUVmsxcA-Irb-wGkLNL5jT5uFk&sz=w400',
-  '若杉　拓実':'https://drive.google.com/thumbnail?id=1ywblcmNnSvosUqCz2VwcfFGMkAblSVlW&sz=w400',
-  '佐々木　優人':'https://drive.google.com/thumbnail?id=1H7XsDrBHliTOXyvs4PJc0T1KrzvHiG8t&sz=w400',
-  '五十嵐　晴叶':'https://drive.google.com/thumbnail?id=15J3AEtv3m7hPX-wZkPvwpTOpQmwMgLGq&sz=w400',
-  '深栖　拓真':'https://drive.google.com/thumbnail?id=17am4r0ZWZzFjO-Vk9CZKUJf7_r0EOwNV&sz=w400',
-  '田中優有':'https://drive.google.com/thumbnail?id=1vcCBDAN6vR5RZFgZokzU3E9ExXmjoeCb&sz=w400',
-  '新谷　敬':'https://drive.google.com/thumbnail?id=1gsfPTYJZH2JqPVqaGCnBsa3Hww_3Uz53&sz=w400',
-  '岡　勇仁':'https://drive.google.com/thumbnail?id=1vagNH_oEMFOsf5L9MhF7R__1d2_0I2ag&sz=w400',
-  '小池　駿太':'https://drive.google.com/thumbnail?id=1nf3XLyjBjp3Meifvkd8BjF8im9f8wVRe&sz=w400',
-  '越智　幸祈郎':'https://drive.google.com/thumbnail?id=1UhOnCw7wgC5yZLwti-GK-wLDvia7SWcc&sz=w400',
-  '豊島　誠進':'https://drive.google.com/thumbnail?id=19OGQrV-lVnOkMPlnk122ryMMkpCtx3dC&sz=w400',
-  '恩地　泰蔵':'https://drive.google.com/thumbnail?id=1b-BF1oidQRO_09Cipd4GpY6ZIf6lxN-H&sz=w400',
-  '渡邉　勝太':'https://drive.google.com/thumbnail?id=1sz2xx-tc6_06wInUKpvHkpjfDGuQICac&sz=w400',
-  '登山　柚子果':'https://drive.google.com/thumbnail?id=12v2Wm_B6yqI__xqbckeO50wQCPUt8huM&sz=w400',
-  '天谷　凜太郎':'https://drive.google.com/thumbnail?id=1kqRj9remDTmv_lhq4RLnvp42m_ygBvdH&sz=w400',
-  '須賀　啓仁':'https://drive.google.com/thumbnail?id=164uw4l32ddSKZ2LVablZH3tEKZYIKqwD&sz=w400',
-  '小林 千敏':'https://drive.google.com/thumbnail?id=1XBLMimkdBIGVuVTeVfrNQQz3kRgXNemD&sz=w400',
-  '内藤　拓望':'https://drive.google.com/thumbnail?id=1yd0UKiworAKACoGrEmc3Uqi7mfpEXV4W&sz=w400',
-  '安藤　拓人':'https://drive.google.com/thumbnail?id=15H90TeHiooCk-EkWjbzE2tw8RDddj3ri&sz=w400',
-  '竹野 眞子':'https://drive.google.com/thumbnail?id=12l0hFFDfM2M9Sz1G4RwwgwWsSf0RNQTP&sz=w400',
-  '高橋　真成':'https://drive.google.com/thumbnail?id=1CCCjUth5__F3ukZXaXuRPiB0GfS5daRF&sz=w400',
-  '野村　爽良':'https://drive.google.com/thumbnail?id=1zELn73-Bm2HxnouQAqrXmkE9YFtRsx9t&sz=w400',
-  '高　そら':'https://drive.google.com/thumbnail?id=1Pj5z3fBUeiOBBeaO0De0cHbUqTEH-PL6&sz=w400',
-  '西村 史織':'https://drive.google.com/thumbnail?id=1nk2eR4XhteG7XVh8jY0TH0NDWw5oTXpC&sz=w400',
-  '横川　真子':'https://drive.google.com/thumbnail?id=1AjYSGLPqwoSGJ8nEQTyiW4NcGorbuavl&sz=w400',
-  '藤堂 元':'https://drive.google.com/thumbnail?id=1WvQAVfPVF17W-TJaG7ct0iv73CloGuvu&sz=w400',
-  '塩川　圭翔':'https://drive.google.com/thumbnail?id=1SOa2mHGOYmuFI43k2gu9AWUpP9-qgz2t&sz=w400',
-  '岡本　理央':'https://drive.google.com/thumbnail?id=1nxR5LQocU8DSzDBiOVTMoDMhMRhQ2_Sy&sz=w400',
-  '明田　悠汰':'https://drive.google.com/thumbnail?id=1lyx-e-EZ_DLUtkfeLgShi33UXVTjwH4e&sz=w400',
-  '松村 隆太郎':'https://drive.google.com/thumbnail?id=1VubCiZBvAyphrUpsrmTQY6flFuNrdd9X&sz=w400',
-  '紀ノ岡 秀':'https://drive.google.com/thumbnail?id=1doooBxm9blMUhfrasE3h3sYBoTcR_xqw&sz=w400',
-  '増井　楓':'https://drive.google.com/thumbnail?id=14mRQIZkKvpMuqsWhGFNTKa4afmE7ZZpd&sz=w400',
-  '鈴木　拓也':'https://drive.google.com/thumbnail?id=1CMedCx4rZuhPzr-o0m5rPcuc4wlInPo3&sz=w400',
-  '谷口　快':'https://drive.google.com/thumbnail?id=14i12BFFV2BG6G_MXPPwmWxdtyCUoRDQf&sz=w400',
-  '荒井　文':'https://drive.google.com/thumbnail?id=1kXCm2UAbUufZanZtNBeAJj4DiNZMDjhn&sz=w400',
-  '石堂 珠吏':'https://drive.google.com/thumbnail?id=1kXCm2UAbUufZanZtNBeAJj4DiNZMDjhn&sz=w400',
-  '中谷　響':'https://drive.google.com/thumbnail?id=1_6fwJ9sA2qBVe_0Co9CpINBbWOwA9HAy&sz=w400',
-  '久光 樂人':'https://drive.google.com/thumbnail?id=1Yx0nPtmRLv2ifUs-z9jYHEC2gcHWw9ez&sz=w400',
-  '大槻　唯華':'https://drive.google.com/thumbnail?id=1kt7X-y7-OdD0QKbrKvMo8y25HQlfxh_B&sz=w400',
-  '大井　樹紀':'https://drive.google.com/thumbnail?id=1oEbywl7VGfrjwwdeM1akXaxMaumEmNEV&sz=w400',
-  '柚原　佳和':'https://drive.google.com/thumbnail?id=1Ou0VrZ_Bs_Eroeeonhp54VgnN9nNlT7I&sz=w400',
-  '本多　莞二郎':'https://drive.google.com/thumbnail?id=1fLY5GdmQU9bV3G-1XffuCAtnddi_bR0y&sz=w400',
-  '井上　翔太郎':'https://drive.google.com/thumbnail?id=1P32-09djfDXokBwO40WOVigxXQElxJxQ&sz=w400',
-  '森川　結彩':'https://drive.google.com/thumbnail?id=1PXeKyNIqsIKRlX0W61OqPDxsX77uqYcC&sz=w400',
-  '吉田　カズキ':'https://drive.google.com/thumbnail?id=15AIj6oSiUUFoIGv5yIH9HzisnFuIQL-p&sz=w400',
-  '黄 理央':'https://drive.google.com/thumbnail?id=1rkTPeQGaEcB1c3ns9YL3n8qfohOvNORB&sz=w400',
-  '片岡　航太':'https://drive.google.com/thumbnail?id=1xOmKsOX6Zu1A8a3uM5v8qG9Hh7I1vn44&sz=w400',
-  '山﨑 大輝':'https://drive.google.com/thumbnail?id=1LdHoUdVKvhw3yooxPgiYZYnub6osFsF7&sz=w400',
-  '彌永 琢斗':'https://drive.google.com/thumbnail?id=1xGY-TgvEEUyOle3UWkbpRKAJsVsMSIW9&sz=w400',
-  '布瀬 幸汰':'https://drive.google.com/thumbnail?id=19ygWmm3y5mePQmHvLNcefRu3i_dWV5Qx&sz=w400',
-  '大下　拓穂':'https://drive.google.com/thumbnail?id=1lBKvv4nSq4lyGQh8YKljdIUMRjMOTm_j&sz=w400',
-  '金本　浩一':'https://drive.google.com/thumbnail?id=1kN__mb7r-EFVvUHsNT_ZGr5i76_yH_lM&sz=w400',
-  '喜多　龍之祐':'https://drive.google.com/thumbnail?id=15tS3DNTLA7UPS39CQEngDUqhPyaMaDwh&sz=w400',
-  '田上 惺太郎':'https://drive.google.com/thumbnail?id=1Br8KEx-5nswJjs6cJa_5ARjV6AfZ9S9C&sz=w400',
-  '柴田　稟久':'https://drive.google.com/thumbnail?id=1SyIMMVZsct2sBC1oRqkKzghHenrl2ft3&sz=w400',
-  '三角　賢信':'https://drive.google.com/thumbnail?id=1WMIdeiu_4E46KAY0YdC9xP7GR6gSPhvh&sz=w400',
-  '税所　陽菜':'https://drive.google.com/thumbnail?id=1Gci7dJgR-qPnfTLONQPeUq8SvJoQ0xxK&sz=w400',
-  '有川　温起':'https://drive.google.com/thumbnail?id=1t3JWvjr20VOb863g1NVojGVtZxjYCYsL&sz=w400',
-  '桶狭間 ウィリアム 俊':'https://drive.google.com/thumbnail?id=1csQZnkPgVLDpD-DIed9jHN0IBnq3Xx8X&sz=w400',
-  '望月　賢澄':'https://drive.google.com/thumbnail?id=6799613563&sz=w400',
-  '坂本 昇大':'https://drive.google.com/thumbnail?id=1WRK-nCtXx6pZZagbgDqJFk-SapSOLq1o&sz=w400',
-  '北村　秀太':'https://drive.google.com/thumbnail?id=1pgZaeroXvS5RMN8Lo0e9dYRkDrVM5FVi&sz=w400',
-  '鈴木　雅和':'https://drive.google.com/thumbnail?id=1ydOjsl0GMaesPZbb2rUk9i6-Dfita5XQ&sz=w400',
-  '井上　周祐':'https://drive.google.com/thumbnail?id=1hqpPXf_OgW8jqiMnHdhoKB6bNiOaVx7A&sz=w400',
-  '髙橋　庸輔':'https://drive.google.com/thumbnail?id=12PGxer20tnfP10BMhVRKJHzSVBBQ9S4I&sz=w400',
-  '近藤　剛生':'https://drive.google.com/thumbnail?id=1Hl2KUMyETolB88x_Susc-FtB5PFWvonz&sz=w400',
-  '小田　悠太郎':'https://drive.google.com/thumbnail?id=1WRyK5R2SjS3j8ea6v3N2WdeH3G4sfmMA&sz=w400',
-  '明利 息吹':'https://drive.google.com/thumbnail?id=1UBF0r0bh5AKgePWRBwh4DsqnKhs8bmuc&sz=w400',
-  '古川　結菜':'https://drive.google.com/thumbnail?id=134kFEqLh2IVA32vC5b5KuFJEQYcR5y05&sz=w400',
-  '井上　隼輔':'https://drive.google.com/thumbnail?id=1MVtoIpz96FeyW2zmbEb9eypPA0xqHrtl&sz=w400',
-  '薄田 昇磨':'https://drive.google.com/thumbnail?id=1YEzT88JmTgI6DVEIlv-kl5BALHuq7-1R&sz=w400',
-  '田中　虎之介':'https://drive.google.com/thumbnail?id=1SNS8YT9z0JCwDYMlvAyKBtoWlS765rzR&sz=w400',
-  '清田　怜太郎':'https://drive.google.com/thumbnail?id=1YNoXoSVRm3KzeExQuFTO2ue-jd4-sKCS&sz=w400',
-  '須原　啓行':'https://drive.google.com/thumbnail?id=1cBAR85puGZlJ-RrKq5JZdY-46VrYR4DL&sz=w400',
-  '陳 佩驪':'https://drive.google.com/thumbnail?id=1Sjfx5qKMEYPnYa3-0XjIoTbeNSs62fOq&sz=w400',
-  '宮井　智明':'https://drive.google.com/thumbnail?id=19hSHDcpLkKpQYgBxt8WlzgewJwsSiR6Y&sz=w400',
-  '守井 聡麻':'https://drive.google.com/thumbnail?id=1IVU5qjQjNauZW5ltaVDgYG5yuj8zBWGK&sz=w400',
-  '栗本　佳怜':'https://drive.google.com/thumbnail?id=1NZreAee6HEk_8QB6Io_dx9rhcpsZqjVW&sz=w400',
-  '川村 マリア':'https://drive.google.com/thumbnail?id=1oYRNICwyYXFmz2f9Jva4glwBsrpz4qWj&sz=w400'
-};
-
-function showQR(nick, memberName){
-  document.getElementById('qr-nick').textContent = nick;
-  const imgUrl = QR_URLS[memberName] || '';
-  const canvas = document.getElementById('qr-canvas');
-  const wrap = canvas.parentElement;
-
-  // Remove old img if exists
-  const oldImg = document.getElementById('qr-img');
-  if(oldImg) oldImg.remove();
-  canvas.style.display = 'none';
-
-  if(imgUrl){
-    const img = document.createElement('img');
-    img.id = 'qr-img';
-    img.src = imgUrl;
-    img.style.cssText = 'width:200px;height:200px;object-fit:contain;border-radius:8px';
-    img.onerror = function(){
-      // fallback to generated QR if image fails
-      this.remove();
-      canvas.style.display = '';
-      QRCode.toCanvas(canvas, 'https://line.me/ti/p/~'+encodeURIComponent(nick),
-        {width:180, margin:2, color:{dark:'#2a1810', light:'#ffffff'}});
-    };
-    wrap.insertBefore(img, canvas);
-  } else {
-    canvas.style.display = '';
-    QRCode.toCanvas(canvas, 'https://line.me/ti/p/~'+encodeURIComponent(nick),
-      {width:180, margin:2, color:{dark:'#2a1810', light:'#ffffff'}});
-  }
-  document.getElementById('qr-overlay').classList.remove('hidden');
 }
 
 // ── BANDS ─────────────────────────────────────────────────
@@ -1240,7 +1039,7 @@ function renderBandForm(band){
     +'<div class="frow"><div class="fg"><label>バンド名</label><input id="bf-name" value="'+(band?.name||'')+'" placeholder="例：音感Cバンド"></div>'
     +'<div class="fg"><label>演奏する曲</label><input id="bf-song" value="'+(band?.song||'')+'" placeholder="例：Subtitle / Official髭男dism"></div></div>'
     +'<div class="frow"><div class="fg"><label>ジャンル</label><input id="bf-genre" value="'+(band?.genre||'')+'"></div>'
-    +'<div class="fg"><label>ライブ出演日</label><select id="bf-live"><option '+(band?.liveDay==='6/6(土)'?'selected':'')+'>6/6(土)</option><option '+(band?.liveDay==='6/7(日)'?'selected':'')+'>6/7(日)</option><option '+(!band?.liveDay||band?.liveDay==='未定'?'selected':'')+'>未定</option></select></div></div>'
+    +'<div class="fg"><label>ライブ出演日</label><select id="bf-live"><option value="両日のどちらか" '+((!band?.liveDay||band?.liveDay==="両日のどちらか")?'selected':'')+'>両日のどちらか</option><option value="6/6のみ" '+(band?.liveDay==="6/6のみ"?'selected':'')+'>6/6のみ</option><option value="6/7のみ" '+(band?.liveDay==="6/7のみ"?'selected':'')+'>6/7のみ</option></select></div></div>'
     +'<div class="fg" style="margin-bottom:10px"><label>メンバー</label><div id="form-members">'+mEntries+'</div>'
     +'<button class="btn-add-m" id="btn-add-member">＋ メンバーを追加</button></div>'
     +'<div class="fg"><label>不足パート（複数可）</label><div class="missing-checks">'+missCks+'</div></div>'
@@ -1428,8 +1227,7 @@ document.getElementById('modal-overlay').addEventListener('click', e=>{
 document.getElementById('modal-box').addEventListener('click', e=>{
   if(e.target.id==='btn-modal-close')
     document.getElementById('modal-overlay').classList.add('hidden');
-  if(e.target.classList.contains('line-nick'))
-    showQR(e.target.dataset.nick, e.target.dataset.name);
+
 });
 
 // missing page candidate click
@@ -1449,13 +1247,7 @@ document.addEventListener('click', e=>{
 });
 
 // QR
-document.getElementById('btn-close-qr').addEventListener('click', ()=>{
-  document.getElementById('qr-overlay').classList.add('hidden');
-});
-document.getElementById('qr-overlay').addEventListener('click', e=>{
-  if(e.target===document.getElementById('qr-overlay'))
-    document.getElementById('qr-overlay').classList.add('hidden');
-});
+
 </script>
 </body>
 </html>
