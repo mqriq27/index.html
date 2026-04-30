@@ -351,11 +351,11 @@ body{
     <h1 class="login-title">🎸 激突！名簿</h1>
     <div class="field">
       <label>フルネーム（漢字）</label>
-      <input id="inp-name" type="text" placeholder="例：加藤　優貴" autocomplete="off">
+      <input id="inp-name" type="text" placeholder="例：音感　花子" autocomplete="off">
     </div>
     <div class="field">
       <label>フリガナ</label>
-      <input id="inp-kana" type="text" placeholder="例：カトウ　ユウキ" autocomplete="off">
+      <input id="inp-kana" type="text" placeholder="例：オンカン　ハナコ" autocomplete="off">
     </div>
     <button class="btn-login" id="btn-login">ログイン</button>
     <p class="login-err hidden" id="login-err">名前またはフリガナが一致しません</p>
@@ -650,6 +650,14 @@ const rawMembers = [
 ["渡邉　勝太","ワタナベ　ショウタ","渡邉 勝太","Gt.（ギター）","ミセス、スミカ","ポップス","6/7(日)のみ可","両日可"],
 ["登山　柚子果","ノボリヤマ　ユズカ","ゆずか","Gt.（ギター）","aiko,椎名林檎、ミスチル","","両日可","5/6(水) 14:00〜"],
 ["天谷　凜太郎","アマヤ　リンタロウ","りんたろう","Ba.（ベース）","マネスキン,ザ・ストラッツ,BUMP OF CHICKEN","ロック、ポップス","6/6(土)のみ可","5/6(水) 14:00〜","C年"],
+["木村 中","キムラ アタル","あたる","Dr.（ドラム）","アジカン,ユニゾン,ストレイテナー,くるり","ロック、セッション(ファンク系)","6/7(日)のみ可","5/6(水) 14:00〜","C年"],
+["小池　菜々美","コイケ　ナナミ","菜々美","Gt.（ギター）","RADWIMPS、THE ORAL CIGARETTES、ONEOKROCK、ポルカドットスティングレイ、マネスキン","Jロック、邦楽以外のロックも","両日可","両日可","C年"],
+["黒崎　智隆","クロサキ　トモタカ","af0m","Vo.（ボーカル）","Official髭男dism,緑黄色社会,Omoinotake,back number,ヨルシカ,YOASOBI,幾田りら,Penthouse,King Gnu,Uru,米津玄師","J-POP","両日可","5/9(土) 14:00〜","C年"],
+["種村 奏","タネムラ カナデ","奏","Gt./Vo.（ギターボーカル）","キタニタツヤ,なとり,syrup16g,米津玄師,Aooo,GRAPEVINE,THE YELLOW MONKEY,神山羊,須田景凪","JPOP、オルタナティブロック","両日可","5/6(水) 14:00〜","C年"],
+["大川 聖仁","オオカワ マサヒト","まさひと","Vo.（ボーカル）","サウシードッグ,マカロニえんぴつ,ヤングスキニー,クリープハイプ","邦ロック、JPOP","両日可","5/6(水) 14:00〜","C年"],
+["小澤 俊太","オザワ シュンタ","わ","Vo.（ボーカル）","Tommy february6,the brilliant green,あいみょん,倉木麻衣,aiko","j-pop","6/6(土)のみ可","5/9(土) 14:00〜","C年"],
+["田伏　玄","タブシ　ゲン","田伏玄","Dr.（ドラム）","サカナクション,King Gnu,RADWIMPS,スピッツ,スキマスイッチ,クリープハイプ,the band apart,KANA-BOON,sumika,BUMP OF CHICKEN","ロック、ポップ","両日可","5/6(水) 14:00〜","C年"],
+["東　秀一","ヒガシ　シュウイチ","東秀一","Vo.（ボーカル）, Gt.（ギター）, Ba.（ベース）","vaundy,king gnu,サカナクション,カネコアヤノ,hump back,radwimps,スピッツ,フジファブリック,井上陽水","J-rock, J-pop","両日可","5/6(水) 14:00〜","C年"],
 ];
 
 const rawSeniors = [
@@ -717,6 +725,9 @@ const rawSeniors = [
 ["守井 聡麻","モリイ ソウマ","聡麻","Dr.（ドラム）","","","両日可","両日不可"],
 ["栗本　佳怜","クリモト　カレン","かれん","Key.（キーボード）","なんでも","なんでも","両日可","両日不可"],
 ["川村 マリア","カワムラ マリア","maria","Vo.（ボーカル）","Trooper Salute、kiki vivi lily、諭吉佳作/men、Mime、ぷにぷに電機、ポルカドットスティングレイ、モノンクル、春風レコード、スーパー登山部、礼賛、The marias、Yerin Beak、Clairo、Couch、aiko、ボタニカルな暮らし。、富田ラボ、Natsudaidai","pops,R&B,indie pop, soul","両日可","両日可"],
+["蟹江　樹生","カニエ　タツキ","Tatsuki Kanie","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","","","6/7(日)のみ可","5/9(土) 14:00〜"],
+["中谷  伊吹","ナカタニ イブキ","中谷伊吹","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","171,Base Ball Bear,ROUNDTABLE,ハヌマーン,バズマザーズ,PK shampoo,sakimori,cymbals,家主,SUPERCAR,ナンバガ,art-school,中村一義,スピッツ,くるり,小沢健二,フリッパーズ・ギター,さよならポエジー,w.o.d,doping panda,Cornelius,kurayamisaka,Oasis,ZAZENBOYS,アジカン,ハンブレ,嵐,ミッシェル,サニーデイサービス,東京事変,椎名林檎,キリンジ,岡村靖幸,ぼっちぼろまる","オルタナティブロック,渋谷系,邦ロック,JPOP,シューゲイザー","両日可","5/9(土) 14:00〜"],
+["中谷　響","ナカタニ　ヒビキ","中谷響","Gt./Vo.（ギターボーカル）, Dr.（ドラム）","ハンブレ,DOES,ニコ,時速,w.o.d.,PK shampoo,ルサンチマン,171,ベルメン,サカナモン,テナー","ロック","両日可","5/6(水) 14:00〜"],
 ];
 
 const gradeStore = JSON.parse(localStorage.getItem('g_ov') || '{}');
