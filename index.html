@@ -530,6 +530,7 @@ body{
 </div>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 'use strict';
 
@@ -729,6 +730,20 @@ const rawMembers = [
 ["小澤 俊太","オザワ シュンタ","わ","Vo.（ボーカル）","Tommy february6,the brilliant green,あいみょん,倉木麻衣,aiko","j-pop","6/6(土)のみ可","5/9(土) 14:00〜","C年"],
 ["田伏　玄","タブシ　ゲン","田伏玄","Dr.（ドラム）","サカナクション,King Gnu,RADWIMPS,スピッツ,スキマスイッチ,クリープハイプ,the band apart,KANA-BOON,sumika,BUMP OF CHICKEN","ロック、ポップ","両日可","5/6(水) 14:00〜","C年"],
 ["東　秀一","ヒガシ　シュウイチ","東秀一","Vo.（ボーカル）, Gt.（ギター）, Ba.（ベース）","vaundy,king gnu,サカナクション,カネコアヤノ,hump back,radwimps,スピッツ,フジファブリック,井上陽水","J-rock, J-pop","両日可","5/6(水) 14:00〜","C年"],
+["大村　陸矩","オオムラ　リク","大村陸矩","Ba.（ベース）","Stevie Wonder,ZARD,toconoma,スピッツ,ミスチル,aiko,ブルーノマーズ","懐メロ系、ブラックミュージック","両日可","5/6(水) 14:00〜","C年"],
+["菊池　由菜","キクチ　ユナ","ゆな","Dr.（ドラム）","なんでも","なんでも","両日可","5/6(水) 14:00〜","C年"],
+["長竹　奏","ナガタケ　カナデ","奏","Vo.（ボーカル）","hiatus kaiyote,KNOWER,中村佳穂,相対性理論,矢野顕子,Lauryn Hill,Lamp,kurayamisaka,東京事変,Michael Jackson,the internet,Stevie Wonder,アリシア・キーズ,Japanese Breakfast,incognito,Men I Trust,Erykah Badu,宇多田ヒカル","R&B、ファンク、ネオソウル、ポップス、ロック、オルタナティブ","両日可","5/6(水) 14:00〜","C年"],
+["山田 凛太郎","ヤマダ リンタロウ","Rintaro Yamada","Dr.（ドラム）","ヨルシカ,キタニタツヤ,なとり,Penthouse,SIRUP,Ayumu Imazu,Vaundy,藤井風,ずっと真夜中でいいのに。,米津玄師,Tyler the Creator,Kanye West,Kendrick Lamar","ポップス、ロック、R&B、ジャズ","6/6(土)のみ可","5/6(水) 14:00〜","C年"],
+["平野　智士","ヒラノ　サトシ","平野","Vo.（ボーカル）","RADWIMPS,BUMP OF CHICKEN,back number,サカナクション","J-POP","両日可","5/6(水) 14:00〜","C年"],
+["孫　昇杓","ソン・スンピョ","スンピョ","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","","ロック・ブリティッシュロック・K-POP・J-POP・ポップス・ヒップホップ","両日可","両日可","C年"],
+["三橋　祐太","ミハシ　ユウタ","みはし","Key.（キーボード）","Vaundy,Mrs.Green Apple,椎名林檎,藤井風,ヨルシカ,Wurts,Suchmos,back number,マカロニえんぴつ","J-Pop、J-Rock","両日可","両日可","C年"],
+["宮川　響","ミヤガワ　ヒビキ","ひびき","Tp.（トランペット）","Jabberloopなどなんでも","なんでも","両日可","両日可","C年"],
+["久保田　義弘","クボタ　ヨシヒロ","yöshi''","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","あいみょん,ヨルシカ,John Mayer,星野源,米津玄師,Official髭男dism,Bruno Mars,Taylor Swift,Sabrina Carpenter,ゆず,YOASOBI,Queen,One ok rock","J POP、BLUES、ROCK","両日可","両日可","C年"],
+["竹下 碧","タケシタ アオイ","aoi take","Vo.（ボーカル）, Gt./Vo.（ギターボーカル）","ヨルシカ,髭男,ずとまよ,ミセス,ボカロ全般,YOASOBI,King Gnu","J-POP、K-POP、ボカロ","両日可","両日可","C年"],
+["西田　和生","ニシダ　カズキ","西田和生","Ba.（ベース）","レキシ,エゴラッピン,サンボマスター,sumika,相対性理論,星野源,サカナクション,super butter dog","R&B、シティポップ、ブラックミュージック、ゲーム音楽、スカ","両日可","両日可","C年"],
+["長島　慶太","ナガシマ　ケイタ","長島慶太","Gt.（ギター）","米津玄師、King Gnu","J-pop","両日可","両日可","C年"],
+["永野　慎一朗","ナガノ　シンイチロウ","しんいちろう","Key.（キーボード）","Oasis,Radiohead,beatles,くるり","Jロック、ブリティッシュロック、オルタナティブロック","両日可","5/9(土) 14:00〜","C年"],
+["尾谷　香都","オタニ　コト","尾谷香都","Vo.（ボーカル）","東京事変,宇多田ヒカル,チャットモンキー,あいみょん,緑黄色社会,ポルカドットスティングレイ,ヨルシカ,aiko,miwa,HumpBack,赤い公園,ステレオポニー,JUDY AND MARY,ボカロ全般","JPOP、邦ロック、ボカロ、洋楽","両日可","5/9(土) 14:00〜","C年"],
 ];
 
 const rawSeniors = [
@@ -799,15 +814,90 @@ const rawSeniors = [
 ["蟹江　樹生","カニエ　タツキ","Tatsuki Kanie","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","","","6/7(日)のみ可","5/9(土) 14:00〜"],
 ["中谷  伊吹","ナカタニ イブキ","中谷伊吹","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","171,Base Ball Bear,ROUNDTABLE,ハヌマーン,バズマザーズ,PK shampoo,sakimori,cymbals,家主,SUPERCAR,ナンバガ,art-school,中村一義,スピッツ,くるり,小沢健二,フリッパーズ・ギター,さよならポエジー,w.o.d,doping panda,Cornelius,kurayamisaka,Oasis,ZAZENBOYS,アジカン,ハンブレ,嵐,ミッシェル,サニーデイサービス,東京事変,椎名林檎,キリンジ,岡村靖幸,ぼっちぼろまる","オルタナティブロック,渋谷系,邦ロック,JPOP,シューゲイザー","両日可","5/9(土) 14:00〜"],
 ["中谷　響","ナカタニ　ヒビキ","中谷響","Gt./Vo.（ギターボーカル）, Dr.（ドラム）","ハンブレ,DOES,ニコ,時速,w.o.d.,PK shampoo,ルサンチマン,171,ベルメン,サカナモン,テナー","ロック","両日可","5/6(水) 14:00〜"],
+["菅野 元晴","カンノ モトハル","もとほれ","Dr.（ドラム）","Suchmos,山下達郎,君島大空,フジファブリック,藤井風,Oasis,Nujabes,Nulbarich,cero,the band apart,キリンジ,サカナクション,Vulfpeck,くるり,ミッシェル,Lamp,Jamiroquai","基本的に何でも","6/6(土)のみ可","5/9(土) 14:00〜"],
+["本堀 二義","ホンボリ カズヨシ","本堀二義","Ba.（ベース）","いろいろ","いろいろ","両日可","両日不可"],
+["高山 侑土","タカヤマ アルト","Aruto","Vo.（ボーカル）","サザン,sumika,backnumber,GLAY,SPYAIR,バンプ,バーンアウト,星野源,ミスチル,フレデリック,マカロニえんぴつ,ラッド,米津玄師,藤井風,super beaver","Jpop全般","両日可","両日可"],
 ];
 
 const gradeStore = JSON.parse(localStorage.getItem('g_ov') || '{}');
 function saveGrades(){ try{ localStorage.setItem('g_ov', JSON.stringify(gradeStore)); }catch(e){} }
 
+const SENIOR_GRADES = {
+  '須賀　啓仁':'D年',
+  '小林 千敏':'D年',
+  '内藤　拓望':'D年',
+  '安藤　拓人':'D年',
+  '竹野 眞子':'D年',
+  '高橋　真成':'E年',
+  '野村　爽良':'D年',
+  '高　そら':'D年',
+  '西村 史織':'D年',
+  '横川　真子':'D年',
+  '藤堂 元':'D年',
+  '塩川　圭翔':'D年',
+  '岡本　理央':'D年',
+  '明田　悠汰':'D年',
+  '松村 隆太郎':'D年',
+  '紀ノ岡 秀':'D年',
+  '増井　楓':'D年',
+  '鈴木　拓也':'E年',
+  '谷口　快':'E年',
+  '荒井　文':'E年',
+  '石堂 珠吏':'E年',
+  '中谷　響':'E年',
+  '久光 樂人':'E年',
+  '大槻　唯華':'D年',
+  '大井　樹紀':'D年',
+  '柚原　佳和':'F年',
+  '本多　莞二郎':'D年',
+  '井上　翔太郎':'D年',
+  '森川　結彩':'D年',
+  '吉田　カズキ':'D年',
+  '黄 理央':'E年',
+  '片岡　航太':'D年',
+  '山﨑 大輝':'E年',
+  '彌永 琢斗':'E年',
+  '布瀬 幸汰':'D年',
+  '大下　拓穂':'D年',
+  '金本　浩一':'D年',
+  '喜多　龍之祐':'D年',
+  '田上 惺太郎':'D年',
+  '柴田　稟久':'D年',
+  '三角　賢信':'D年',
+  '税所　陽菜':'D年',
+  '有川　温起':'D年',
+  '桶狭間 ウィリアム 俊':'D年',
+  '望月　賢澄':'E年',
+  '坂本 昇大':'D年',
+  '北村　秀太':'D年',
+  '鈴木　雅和':'D年',
+  '井上　周祐':'D年',
+  '髙橋　庸輔':'D年',
+  '近藤　剛生':'D年',
+  '小田　悠太郎':'D年',
+  '明利 息吹':'D年',
+  '古川　結菜':'D年',
+  '井上　隼輔':'D年',
+  '薄田 昇磨':'D年',
+  '田中　虎之介':'D年',
+  '清田　怜太郎':'F年',
+  '須原　啓行':'D年',
+  '陳 佩驪':'D年',
+  '宮井　智明':'D年',
+  '守井 聡麻':'E年',
+  '川村 マリア':'D年',
+  '蟹江　樹生':'D年',
+  '中谷 伊吹':'E年',
+  '栗本　佳怜':'D年',
+  '菅野 元晴':'D年',
+  '本堀 二義':'D年',
+  '高山 侑土':'D年'
+};
+
 const seenKeys = new Set();
 const members = [
   ...rawMembers.map(r => [...r, 'C年']),
-  ...rawSeniors.map(r => [...r, '現役'])
+  ...rawSeniors.map(r => [...r, SENIOR_GRADES[r[0]] || '現役'])
 ].filter(r => {
   const k = r[0].replace(/\s/g,'');
   if(seenKeys.has(k)) return false;
@@ -823,8 +913,91 @@ const members = [
   };
 });
 
-let bands = JSON.parse(localStorage.getItem('bands_v2') || '[]');
-function saveBands(){ try{ localStorage.setItem('bands_v2', JSON.stringify(bands)); }catch(e){} }
+// ── Supabase ──────────────────────────────────────────────
+// ★ 以下2行を自分のSupabaseプロジェクトの値に書き換えてください
+const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let bands = [];
+
+async function loadBands(){
+  try{
+    const {data,error} = await sb.from('bands').select('*').order('created_at');
+    if(!error && data){
+      bands = data.map(b=>({
+        id: b.id,
+        name: b.name||'',
+        song: b.song||'',
+        genre: b.genre||'',
+        liveDay: b.live_day||'',
+        members: b.members||[],
+        missingParts: b.missing_parts||[],
+        createdBy: b.created_by||''
+      }));
+    }
+  }catch(e){ console.warn('Supabase load error:', e); }
+  renderBands();
+  renderMissing();
+  renderStats();
+}
+
+async function saveBandToDb(bandObj){
+  try{
+    if(bandObj.id && String(bandObj.id).length > 10){
+      await sb.from('bands').update({
+        name:bandObj.name, song:bandObj.song, genre:bandObj.genre,
+        live_day:bandObj.liveDay, members:bandObj.members,
+        missing_parts:bandObj.missingParts, created_by:bandObj.createdBy
+      }).eq('id', bandObj.id);
+    } else {
+      await sb.from('bands').insert({
+        name:bandObj.name, song:bandObj.song, genre:bandObj.genre,
+        live_day:bandObj.liveDay, members:bandObj.members,
+        missing_parts:bandObj.missingParts, created_by:bandObj.createdBy||''
+      });
+    }
+  }catch(e){ console.warn('Supabase save error:', e); }
+  await loadBands();
+}
+
+async function deleteBandFromDb(id){
+  try{ await sb.from('bands').delete().eq('id', id); }
+  catch(e){ console.warn('Supabase delete error:', e); }
+  await loadBands();
+}
+
+// Realtime
+function subscribeRealtime(){
+  try{
+    sb.channel('bands_rt')
+      .on('postgres_changes',{event:'*',schema:'public',table:'bands'},()=>loadBands())
+      .subscribe();
+  }catch(e){}
+}
+
+// grade overrides via Supabase
+async function loadGradeOverrides(){
+  try{
+    const {data,error} = await sb.from('grade_overrides').select('*');
+    if(!error && data){
+      data.forEach(r=>{
+        gradeStore[r.member_key] = r.grade;
+        const m = members.find(x=>x.name.replace(/\s/g,'')=== r.member_key);
+        if(m) m.grade = r.grade;
+      });
+      buildGradeFilter();
+      filterMembers();
+    }
+  }catch(e){ console.warn('Supabase grade load error:', e); }
+}
+
+async function saveGradeToDb(key, grade){
+  try{
+    await sb.from('grade_overrides').upsert({member_key:key, grade:grade},{onConflict:'member_key'});
+  }catch(e){ console.warn('Supabase grade save error:', e); }
+}
 
 // ── STATE ─────────────────────────────────────────────────
 let currentUser = null;
@@ -902,6 +1075,9 @@ function initApp(){
   buildGradeFilter();
   buildGenreChips();
   filterMembers();
+  loadBands();
+  loadGradeOverrides();
+  subscribeRealtime();
 }
 
 function buildGradeFilter(){
@@ -1078,15 +1254,12 @@ function saveBand(){
   const missingParts = [...document.querySelectorAll('#band-form-wrap input[type=checkbox]:checked')].map(c=>c.value);
   const bm = formMembers.filter(m=>m.name);
   if(!name && !song){ alert('バンド名か曲名を入力してください'); return; }
-  if(editingBandId){
-    const idx = bands.findIndex(b=>b.id===editingBandId);
-    if(idx>=0) bands[idx] = {...bands[idx], name, song, genre, liveDay, members:bm, missingParts};
-  } else {
-    bands.push({id: Date.now().toString(), name, song, genre, liveDay, members:bm, missingParts, createdBy: currentUser?.name||''});
-  }
-  saveBands();
+  saveBandToDb({
+    id: editingBandId,
+    name, song, genre, liveDay, members:bm,
+    missingParts, createdBy: currentUser?.name||''
+  });
   cancelBandForm();
-  renderBands();
 }
 
 function cancelBandForm(){
@@ -1104,9 +1277,7 @@ function editBand(id){
 
 function deleteBand(id){
   if(!confirm('このバンドを削除しますか？')) return;
-  bands = bands.filter(b=>b.id!==id);
-  saveBands();
-  renderBands();
+  deleteBandFromDb(id);
 }
 
 // ── MISSING ───────────────────────────────────────────────
@@ -1163,12 +1334,14 @@ function renderAdmin(){
 function setGrade(key, grade){
   gradeStore[key] = grade;
   saveGrades();
+  saveGradeToDb(key, grade);
   const m = members.find(x=>x.name.replace(/\s/g,'')=== key);
   if(m) m.grade = grade;
   buildGradeFilter();
+  filterMembers();
 }
 
-function bulkGrade(grade){
+async function bulkGrade(grade){
   rawSeniors.forEach(r=>{
     const key = r[0].replace(/\s/g,'');
     gradeStore[key] = grade;
@@ -1176,8 +1349,14 @@ function bulkGrade(grade){
     if(m) m.grade = grade;
   });
   saveGrades();
+  // Save all to Supabase
+  try{
+    const rows = rawSeniors.map(r=>({member_key:r[0].replace(/\s/g,''), grade}));
+    await sb.from('grade_overrides').upsert(rows, {onConflict:'member_key'});
+  }catch(e){ console.warn('bulk grade save error:', e); }
   renderAdmin();
   buildGradeFilter();
+  filterMembers();
 }
 
 // ── EVENT LISTENERS ───────────────────────────────────────
