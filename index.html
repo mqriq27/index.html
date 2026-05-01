@@ -915,8 +915,8 @@ const members = [
 
 // ── Supabase ──────────────────────────────────────────────
 // ★ 以下2行を自分のSupabaseプロジェクトの値に書き換えてください
-const SUPABASE_URL = 'https://fygzditdtgjilmsgnwmk.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5Z3pkaXRkdGdqaWxtc2dud21rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc1Mjk5NTcsImV4cCI6MjA5MzEwNTk1N30.EJ7-WSvEi39FOdcAXGfp-g-VWedEGvwAUQjUQMqp3lw';
+const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -934,6 +934,8 @@ async function loadBands(){
         liveDay: b.live_day||'',
         members: b.members||[],
         missingParts: b.missing_parts||[],
+        hasSenior: b.has_senior||false,
+        password: b.password||'',
         createdBy: b.created_by||''
       }));
     }
@@ -949,13 +951,15 @@ async function saveBandToDb(bandObj){
       await sb.from('bands').update({
         name:bandObj.name, song:bandObj.song, genre:bandObj.genre,
         live_day:bandObj.liveDay, members:bandObj.members,
-        missing_parts:bandObj.missingParts, created_by:bandObj.createdBy
+        missing_parts:bandObj.missingParts, has_senior:bandObj.hasSenior,
+        password:bandObj.password, created_by:bandObj.createdBy
       }).eq('id', bandObj.id);
     } else {
       await sb.from('bands').insert({
         name:bandObj.name, song:bandObj.song, genre:bandObj.genre,
         live_day:bandObj.liveDay, members:bandObj.members,
-        missing_parts:bandObj.missingParts, created_by:bandObj.createdBy||''
+        missing_parts:bandObj.missingParts, has_senior:bandObj.hasSenior,
+        password:bandObj.password, created_by:bandObj.createdBy||''
       });
     }
   }catch(e){ console.warn('Supabase save error:', e); }
@@ -1183,10 +1187,10 @@ function renderBands(){
   wrap.innerHTML = '<div class="band-grid">'+bands.map(b => {
     const mItems = (b.members||[]).map(m=>'<div class="bcard-member"><span class="bcard-part">'+m.part+'</span>'+m.name+'</div>').join('');
     const missBadges = (b.missingParts||[]).map(p=>'<span class="mbadge">'+p+' 募集中</span>').join('');
-    const canEdit = isAdmin || b.createdBy===currentUser?.name;
-    const editBtns = canEdit ? '<button class="btn-sm" onclick="editBand(\''+b.id+'\')">編集</button><button class="btn-sm del" onclick="deleteBand(\''+b.id+'\')">削除</button>' : '';
+    const hasSenior = b.hasSenior ? '<span style="font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(255,107,53,.1);color:var(--accent);border:1px solid rgba(255,107,53,.2);margin-left:6px">現役生あり✓</span>' : '<span style="font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(232,53,122,.08);color:var(--accent2);border:1px solid rgba(232,53,122,.2);margin-left:6px">現役生未定</span>';
+    const editBtns = '<button class="btn-sm" onclick="tryEditBand(\''+b.id+'\')">編集</button><button class="btn-sm del" onclick="tryDeleteBand(\''+b.id+'\')">削除</button>';
     return '<div class="bcard">'
-      +'<div class="bcard-name">'+(b.name||'バンド名未定')+'</div>'
+      +'<div style="display:flex;align-items:center;margin-bottom:3px"><div class="bcard-name">'+(b.name||'バンド名未定')+'</div>'+hasSenior+'</div>'
       +'<div class="bcard-song">'+(b.song||'曲未定')+'</div>'
       +'<div class="bcard-genre">'+(b.genre||'')+'</div>'
       +'<div class="bcard-members">'+mItems+'</div>'
@@ -1194,6 +1198,31 @@ function renderBands(){
       +'<div class="bcard-actions">'+editBtns+'</div>'
       +'</div>';
   }).join('')+'</div>';
+}
+
+function tryEditBand(id){
+  if(isAdmin){ editBand(id); return; }
+  const b = bands.find(x=>x.id===id);
+  if(!b) return;
+  const pw = prompt('このバンドの編集パスワードを入力してください');
+  if(pw === null) return;
+  if(pw === b.password){ editBand(id); }
+  else { alert('パスワードが違います'); }
+}
+
+function tryDeleteBand(id){
+  if(isAdmin){
+    if(!confirm('このバンドを削除しますか？')) return;
+    deleteBandFromDb(id); return;
+  }
+  const b = bands.find(x=>x.id===id);
+  if(!b) return;
+  const pw = prompt('このバンドの削除パスワードを入力してください');
+  if(pw === null) return;
+  if(pw === b.password){
+    if(!confirm('このバンドを削除しますか？')) return;
+    deleteBandFromDb(id);
+  } else { alert('パスワードが違います'); }
 }
 
 function showBandForm(band){
@@ -1209,6 +1238,10 @@ function renderBandForm(band){
   const mEntries = formMembers.map((_,i)=>buildMemberEntry(i)).join('');
   const missCks = PARTS.map(p=>'<label><input type="checkbox" value="'+p+'"'+((band?.missingParts||[]).includes(p)?' checked':'')+'> '+p+'</label>').join('');
 
+  const pwField = editingBandId
+    ? '<div class="fg" style="margin-bottom:10px"><label>パスワードを変更する場合のみ入力</label><input id="bf-pw" type="password" placeholder="空欄のままなら変更なし"></div>'
+    : '<div class="fg" style="margin-bottom:10px"><label>編集・削除用パスワード <span style="color:var(--accent2)">※必須</span></label><input id="bf-pw" type="password" placeholder="自分で決めたパスワードを設定"></div>';
+
   document.getElementById('band-form-wrap').innerHTML =
     '<div class="bform">'
     +'<div class="bform-title">'+(editingBandId?'バンドを編集':'新しいバンドを登録')+'</div>'
@@ -1216,9 +1249,11 @@ function renderBandForm(band){
     +'<div class="fg"><label>演奏する曲</label><input id="bf-song" value="'+(band?.song||'')+'" placeholder="例：Subtitle / Official髭男dism"></div></div>'
     +'<div class="frow"><div class="fg"><label>ジャンル</label><input id="bf-genre" value="'+(band?.genre||'')+'"></div>'
     +'<div class="fg"><label>ライブ出演日</label><select id="bf-live"><option value="両日のどちらか" '+((!band?.liveDay||band?.liveDay==="両日のどちらか")?'selected':'')+'>両日のどちらか</option><option value="6/6のみ" '+(band?.liveDay==="6/6のみ"?'selected':'')+'>6/6のみ</option><option value="6/7のみ" '+(band?.liveDay==="6/7のみ"?'selected':'')+'>6/7のみ</option></select></div></div>'
+    +'<div class="fg" style="margin-bottom:12px"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="bf-senior"'+(band?.hasSenior?' checked':'')+' style="width:auto;accent-color:var(--accent)"> <span>現役生がバンドにいる <span style="font-size:11px;color:var(--accent2)">（1バンドに1人以上必須）</span></span></label></div>'
     +'<div class="fg" style="margin-bottom:10px"><label>メンバー</label><div id="form-members">'+mEntries+'</div>'
     +'<button class="btn-add-m" id="btn-add-member">＋ メンバーを追加</button></div>'
     +'<div class="fg"><label>不足パート（複数可）</label><div class="missing-checks">'+missCks+'</div></div>'
+    +pwField
     +'<div class="factions"><button class="btn-save" id="btn-save-band">保存</button><button class="btn-cancel" id="btn-cancel-band">キャンセル</button></div>'
     +'</div>';
 }
@@ -1251,13 +1286,26 @@ function saveBand(){
   const song  = document.getElementById('bf-song').value.trim();
   const genre = document.getElementById('bf-genre').value.trim();
   const liveDay = document.getElementById('bf-live').value;
+  const hasSenior = document.getElementById('bf-senior').checked;
   const missingParts = [...document.querySelectorAll('#band-form-wrap input[type=checkbox]:checked')].map(c=>c.value);
   const bm = formMembers.filter(m=>m.name);
+  const pwInput = document.getElementById('bf-pw').value;
+
   if(!name && !song){ alert('バンド名か曲名を入力してください'); return; }
+  if(!editingBandId && !pwInput){ alert('編集・削除用パスワードを設定してください'); return; }
+
+  // password: new band uses pwInput, edit uses pwInput if provided else keep old
+  let password = pwInput || '';
+  if(editingBandId && !pwInput){
+    const existing = bands.find(b=>b.id===editingBandId);
+    password = existing?.password || '';
+  }
+
   saveBandToDb({
     id: editingBandId,
     name, song, genre, liveDay, members:bm,
-    missingParts, createdBy: currentUser?.name||''
+    missingParts, hasSenior, password,
+    createdBy: currentUser?.name||''
   });
   cancelBandForm();
 }
