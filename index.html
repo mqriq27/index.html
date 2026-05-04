@@ -811,12 +811,14 @@ const rawSeniors = [
 ["菅野 元晴","カンノ モトハル","もとほれ","Dr.（ドラム）","Suchmos,山下達郎,君島大空,フジファブリック,藤井風,Oasis,Nujabes,Nulbarich,cero,the band apart,キリンジ,サカナクション,Vulfpeck,くるり,ミッシェル,Lamp,Jamiroquai","基本的に何でも","6/6(土)のみ可","5/9(土) 14:00〜"],
 ["本堀 二義","ホンボリ カズヨシ","本堀二義","Ba.（ベース）","いろいろ","いろいろ","両日可","両日不可"],
 ["高山 侑土","タカヤマ アルト","Aruto","Vo.（ボーカル）","サザン,sumika,backnumber,GLAY,SPYAIR,バンプ,バーンアウト,星野源,ミスチル,フレデリック,マカロニえんぴつ,ラッド,米津玄師,藤井風,super beaver","Jpop全般","両日可","両日可"],
+["渡邉　康介","ワタナベ　コウスケ","渡邉康介","Gt.（ギター）","なんでも","なんでも","両日可","両日可"],
 ];
 
 const gradeStore = JSON.parse(localStorage.getItem('g_ov') || '{}');
 function saveGrades(){ try{ localStorage.setItem('g_ov', JSON.stringify(gradeStore)); }catch(e){} }
 
 const SENIOR_GRADES = {
+  '渡邉　康介':'E年',
   '須賀　啓仁':'D年',
   '小林 千敏':'D年',
   '内藤　拓望':'D年',
@@ -909,8 +911,8 @@ const members = [
 
 // ── Supabase ──────────────────────────────────────────────
 // ★ 以下2行を自分のSupabaseプロジェクトの値に書き換えてください
-const SUPABASE_URL = 'https://miscsedobkcjeolgvmaq.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2NzZWRvYmtjamVvbGd2bWFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2ODY3OTUsImV4cCI6MjA5MzI2Mjc5NX0.lrHMvSYkQT2kiYzTypnhUF5T361bZ29WlyZfGAtwlps';
+const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
