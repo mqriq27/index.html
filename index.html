@@ -375,8 +375,7 @@ body{
     </div>
     <div class="topbar-nav">
       <button class="nav-btn on" data-page="pg-members">メンバー</button>
-      <button class="nav-btn" data-page="pg-bands">バンド</button>
-      <button class="nav-btn" data-page="pg-missing">パート探し</button>
+      <button class="nav-btn" data-page="pg-bands">不足パート探し</button>
       <button class="nav-btn" data-page="pg-stats">統計</button>
       <button class="nav-btn" data-page="pg-help">使い方</button>
       <button class="nav-btn hidden" id="nav-admin" data-page="pg-admin">学年管理</button>
@@ -417,12 +416,6 @@ body{
     <div id="band-form-wrap" class="hidden"></div>
   </div>
 
-  <div class="page" id="pg-missing">
-    <p class="page-title">パート探し</p>
-    <p class="page-desc">不足パートを募集しているバンドと、担当できるメンバー候補を表示します。</p>
-    <div id="missing-content"></div>
-  </div>
-
   <div class="page" id="pg-stats">
     <p class="page-title">統計情報</p>
     <div class="stats-nums" id="stats-nums"></div>
@@ -438,7 +431,7 @@ body{
       <div class="help-content">
         <div class="help-title">メンバー一覧</div>
         <div class="help-body">参加者全員の情報を確認できるページです。<br>
-        カードをタップすると、その人の詳細情報（パート・好きなアーティスト・ジャンル・ライブ出演可能日・バンド組参加可能日）が表示されます。</div>
+        カードをタップすると、その人の詳細情報（パート・好きなアーティスト・ジャンル・ライブ出演可能日）が表示されます。</div>
         <div class="help-sub">🔍 検索・絞り込みの方法</div>
         <ul class="help-list">
           <li><b>テキスト検索</b>：名前・ニックネーム・アーティスト名で検索できます。例：「ヨルシカ」と入力するとヨルシカが好きな人が全員表示されます。</li>
@@ -585,7 +578,7 @@ const rawMembers = [
 ["陶　也","トウ　ヤ","Touya","Gt.（ギター）","ヨルシカ,ELLEGARDEN,ASIAN KUNG-FU GENERATION,RADWIMPS,04 Limited Sazabys,[Alexandros],シンガーズハイ,クリープハイプ,羊文学,SPYAIR","J-POP J-ROCK ボカロ","両日可","5/9(土) 14:00〜"],
 ["赤羽　耕治","アカバネ　コウジ","あかばねこうじ","Ba.（ベース）","ヒゲダン、米津玄師、スピッツ","ポップス","6/7(日)のみ可","両日可"],
 ["楊 芝子","ヨウ シシ","しし","Vo.（ボーカル）","ヨルシカ,YOASOBI,ずっと真夜中でいいのに。,ポルカドットスティングレイ,SHISHAMO,yama,東京事変,Eve,Chevon,Vaundy,Måneskin,THE ORAL CIGARETTES,シンガーズハイ,NEE,Suspended 4th,ONE OK ROCK,RADWIMPS,171","ポップス,ロック,EDM,洋楽等","6/7(日)のみ可","両日不可"],
-["波多野　和太","ハタノ　カズヒロ","和太","Gt.（ギター）","ヨルシカ　BUMP OF CHICKEN back number ひげだん　みせす","jpop","両日可","両日可"],
+["波多野　和太","ハタノ　カズヒロ","和太","Gt.（ギター）","ヨルシカ　BUMP OF CHICKEN back number ひげだん　みせす","jpop","両日可","5/9(土) 14:00〜"],
 ["胡 一繁","フー　イーファン","hu1fan","Gt.（ギター）, Gt./Vo.（ギターボーカル）","東京事変、ヨルシカ、宇宙コンビニ","J-POP、Fusion、Math Rock","両日可","両日可"],
 ["門田　理央","カドタ　リオ","Rio-oxènon","Gt.（ギター）","ずとまよ、ミセス、ヨルシカ、ボカロ全般、星街すいせい、サカナクション","pops,rock,ボカロ","両日可","両日可"],
 ["山岸　光雅","ヤマギシ　コウガ","けーやま","Dr.（ドラム）","ヨルシカ,ずとまよ,結束バンド,シンガーズハイ,ワンオク,RADWIMPS,04 Limited Sazabys,おいしくるメロンパン,UNISON SQUARE GARDEN,Aooo,なとり,NEE,東京事変,ポルカドットスティングレイ,Vaundy,緑黄色社会,The Oral Cigarettes,Eve,米津玄師,King Gnu,さユり,キタニタツヤ,DECO*27,Cö shu Nie","ロック、アニソン、ボカロ、ポップス、パンク","6/7(日)のみ可","両日可"],
@@ -675,7 +668,7 @@ const rawMembers = [
 ["大場　正太郎","オオバ　ショウタロウ","Shotaro Oba","Vo.（ボーカル）, Gt.（ギター）, Gt./Vo.（ギターボーカル）","ミセス、ひげだん、ヨルシカ、Vaundy、スピッツ、サザンオールスターズ、Ed sheeran、Radwimps、One OK Rock、Maroon5、セカオワ、サカナクション","POP","両日可","5/6(水) 14:00〜"],
 ["寺田 裕惺","テラダ ユウセイ","てらだ ゆうせい","Tp.（トランペット）","東京事変、椎名林檎","J-pop","6/7(日)のみ可","両日可"],
 ["高牟礼 堅登","タカムレ ケント","むれ","Gt.（ギター）","ハヌマーン,バズマザーズ,アフターソウル,ナンバーガール,NIRVANA,oasis,THEE MICHELLE GUN ELEPHANT,くるり,フジファブリック","パンク、ガレージロック","両日可","両日可"],
-["外岡　功聖","トノオカ　コウセイ","外岡功聖","Vo.（ボーカル）","official髭男dism,スピッツ,Mrs.Green Apple,優里","J-pop","6/7(日)のみ可","両日可"],
+["外岡　功聖","トノオカ　コウセイ","外岡功聖","Vo.（ボーカル）","official髭男dism,スピッツ,Mrs.Green Apple,優里","J-pop","6/7(日)のみ可","5/9(土) 14:00〜"],
 ["長岡大輔","ナガオカダイスケ","ながおかだいすけ","Gt.（ギター）","aiko,backnumber,宇多田ヒカル,b'z,Mr.children","日本のpop","両日可","両日可"],
 ["鹿島 悠広","カシマ ハルヒロ","haru","Vo.（ボーカル）, Key.（キーボード）","星野源,after the rain,UNISON SQUARE GARDEN,いよわ,田中秀和,夏山よつぎ,米津玄師,ハチ","JPop","両日可","両日可"],
 ["玄 理耀","ヒョン リヨ","ひょんりよ","Dr.（ドラム）","SUPER BEAVER,RADWIMPS,ASIAN KUNG-FU GENERATION,髭男,ずっと真夜中でいいのに。,羊文学,Chevon,サンボマスター,サカナクション,sumika,ヨルシカ,椎名林檎,東京事変","J-POP, 邦ロック","両日可","5/9(土) 14:00〜"],
@@ -744,6 +737,7 @@ const rawMembers = [
 ["長島　慶太","ナガシマ　ケイタ","長島慶太","Gt.（ギター）","米津玄師、King Gnu","J-pop","両日可","両日可","C年"],
 ["永野　慎一朗","ナガノ　シンイチロウ","しんいちろう","Key.（キーボード）","Oasis,Radiohead,beatles,くるり","Jロック、ブリティッシュロック、オルタナティブロック","両日可","5/9(土) 14:00〜","C年"],
 ["尾谷　香都","オタニ　コト","尾谷香都","Vo.（ボーカル）","東京事変,宇多田ヒカル,チャットモンキー,あいみょん,緑黄色社会,ポルカドットスティングレイ,ヨルシカ,aiko,miwa,HumpBack,赤い公園,ステレオポニー,JUDY AND MARY,ボカロ全般","JPOP、邦ロック、ボカロ、洋楽","両日可","5/9(土) 14:00〜","C年"],
+["瀬戸 しほみ","セト シホミ","","Dr.（ドラム）","Cody・Lee(李)、indigo la End、ヨルシカ","J-POPであればなんでも！","両日可","","C年"],
 ];
 
 const rawSeniors = [
@@ -908,15 +902,15 @@ const members = [
     id: i,
     name: r[0], kana: r[1], nick: r[2],
     parts: r[3], artists: r[4], genres: r[5],
-    liveDays: r[6], bandDays: r[7],
+    liveDays: r[6],
     grade: gradeStore[k] || r[8] || 'C年'
   };
 });
 
 // ── Supabase ──────────────────────────────────────────────
 // ★ 以下2行を自分のSupabaseプロジェクトの値に書き換えてください
-const SUPABASE_URL = 'https://miscsedobkcjeolgvmaq.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pc2NzZWRvYmtjamVvbGd2bWFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2ODY3OTUsImV4cCI6MjA5MzI2Mjc5NX0.lrHMvSYkQT2kiYzTypnhUF5T361bZ29WlyZfGAtwlps';
+const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -936,6 +930,8 @@ async function loadBands(){
         missingParts: b.missing_parts||[],
         hasSenior: b.has_senior||false,
         password: b.password||'',
+        artist: b.artist||'',
+        note: b.note||'',
         createdBy: b.created_by||''
       }));
     }
@@ -950,6 +946,7 @@ async function saveBandToDb(bandObj){
     if(bandObj.id && String(bandObj.id).length > 10){
       await sb.from('bands').update({
         name:bandObj.name, song:bandObj.song, genre:bandObj.genre,
+        artist:bandObj.artist, note:bandObj.note,
         live_day:bandObj.liveDay, members:bandObj.members,
         missing_parts:bandObj.missingParts, has_senior:bandObj.hasSenior,
         password:bandObj.password, created_by:bandObj.createdBy
@@ -957,6 +954,7 @@ async function saveBandToDb(bandObj){
     } else {
       await sb.from('bands').insert({
         name:bandObj.name, song:bandObj.song, genre:bandObj.genre,
+        artist:bandObj.artist, note:bandObj.note,
         live_day:bandObj.liveDay, members:bandObj.members,
         missing_parts:bandObj.missingParts, has_senior:bandObj.hasSenior,
         password:bandObj.password, created_by:bandObj.createdBy||''
@@ -1035,7 +1033,7 @@ function doLogin(){
 function doAdminLogin(){
   const pw = document.getElementById('inp-pw').value;
   if(pw === ADMIN_PW){
-    currentUser = {name:'管理者',kana:'',nick:'管理者',parts:'',artists:'',genres:'',liveDays:'',bandDays:'',grade:''};
+    currentUser = {name:'管理者',kana:'',nick:'管理者',parts:'',artists:'',genres:'',liveDays:'',grade:''};
     isAdmin = true;
     showApp();
     document.getElementById('badge-admin').classList.remove('hidden');
@@ -1069,7 +1067,6 @@ function showPage(id){
   document.getElementById(id).classList.add('on');
   document.querySelector('.nav-btn[data-page="'+id+'"]').classList.add('on');
   if(id==='pg-bands') renderBands();
-  if(id==='pg-missing') renderMissing();
   if(id==='pg-stats') renderStats();
   if(id==='pg-admin') renderAdmin();
 }
@@ -1174,8 +1171,7 @@ function openModal(id){
     +'<div class="msec"><div class="msec-label">PART</div><div class="parts">'+pbadges+'</div></div>'
     +'<div class="msec"><div class="msec-label">演奏したいアーティスト</div><div class="msec-val" style="color:var(--accent2)">'+( m.artists||'未記入')+'</div></div>'
     +'<div class="msec"><div class="msec-label">ジャンル</div><div class="msec-val">'+(m.genres||'未記入')+'</div></div>'
-    +'<div class="msec"><div class="msec-label">激突ライブ出演可能日</div><div class="msec-val">'+m.liveDays+'</div></div>'
-    +'<div class="msec"><div class="msec-label">バンド組参加可能日</div><div class="msec-val">'+m.bandDays+'</div></div>';
+    +'<div class="msec"><div class="msec-label">激突ライブ出演可能日</div><div class="msec-val">'+m.liveDays+'</div></div>';
 
   document.getElementById('modal-overlay').classList.remove('hidden');
 }
@@ -1191,10 +1187,11 @@ function renderBands(){
     const editBtns = '<button class="btn-sm" onclick="tryEditBand(\''+b.id+'\')">編集</button><button class="btn-sm del" onclick="tryDeleteBand(\''+b.id+'\')">削除</button>';
     return '<div class="bcard">'
       +'<div style="display:flex;align-items:center;margin-bottom:3px"><div class="bcard-name">'+(b.name||'バンド名未定')+'</div>'+hasSenior+'</div>'
-      +'<div class="bcard-song">'+(b.song||'曲未定')+'</div>'
+      +'<div class="bcard-song">'+(b.artist ? b.artist+' / ' : '')+(b.song||'曲未定')+'</div>'
       +'<div class="bcard-genre">'+(b.genre||'')+'</div>'
       +'<div class="bcard-members">'+mItems+'</div>'
-      +(missBadges ? '<div style="font-size:11px;color:var(--muted);margin-bottom:5px">不足パート</div><div class="missing-row">'+missBadges+'</div>' : '')
+      +(b.note ? '<div style="font-size:12px;color:var(--muted);margin-top:8px;padding:8px;background:rgba(255,107,53,.05);border-radius:6px">'+b.note+'</div>' : '')
+      +(missBadges ? '<div style="font-size:11px;color:var(--muted);margin-bottom:5px;margin-top:8px">不足パート</div><div class="missing-row">'+missBadges+'</div>' : '')
       +'<div class="bcard-actions">'+editBtns+'</div>'
       +'</div>';
   }).join('')+'</div>';
@@ -1234,7 +1231,12 @@ function showBandForm(band){
 }
 
 function renderBandForm(band){
-  const mOpts = members.map(m=>'<option value="'+m.name+'" '+(band&&m.name===(formMembers[0]?.name)?'':'')+'>'+ m.name+' ('+m.parts.split(',')[0]+')</option>').join('');
+  const sortedMembers = [...members].sort((a,b)=>{
+    const pa=a.parts.split(',')[0].trim(), pb=b.parts.split(',')[0].trim();
+    if(pa!==pb) return pa.localeCompare(pb,'ja');
+    return a.name.localeCompare(b.name,'ja');
+  });
+  const mOpts = sortedMembers.map(m=>'<option value="'+m.name+'">'+ m.name+' / '+m.parts.split(',')[0].trim()+' ('+m.grade+')</option>').join('');
   const mEntries = formMembers.map((_,i)=>buildMemberEntry(i)).join('');
   const missCks = PARTS.map(p=>'<label><input type="checkbox" value="'+p+'"'+((band?.missingParts||[]).includes(p)?' checked':'')+'> '+p+'</label>').join('');
 
@@ -1246,12 +1248,14 @@ function renderBandForm(band){
     '<div class="bform">'
     +'<div class="bform-title">'+(editingBandId?'バンドを編集':'新しいバンドを登録')+'</div>'
     +'<div class="frow"><div class="fg"><label>バンド名</label><input id="bf-name" value="'+(band?.name||'')+'" placeholder="例：音感Cバンド"></div>'
-    +'<div class="fg"><label>演奏する曲</label><input id="bf-song" value="'+(band?.song||'')+'" placeholder="例：Subtitle / Official髭男dism"></div></div>'
-    +'<div class="frow"><div class="fg"><label>ジャンル</label><input id="bf-genre" value="'+(band?.genre||'')+'"></div>'
-    +'<div class="fg"><label>ライブ出演日</label><select id="bf-live"><option value="両日のどちらか" '+((!band?.liveDay||band?.liveDay==="両日のどちらか")?'selected':'')+'>両日のどちらか</option><option value="6/6のみ" '+(band?.liveDay==="6/6のみ"?'selected':'')+'>6/6のみ</option><option value="6/7のみ" '+(band?.liveDay==="6/7のみ"?'selected':'')+'>6/7のみ</option></select></div></div>'
+    +'<div class="fg"><label>演奏する/したいアーティスト名</label><input id="bf-artist" value="'+(band?.artist||'')+'" placeholder="例：Official髭男dism、ヨルシカ"></div></div>'
+    +'<div class="frow"><div class="fg"><label>演奏する/したい曲</label><input id="bf-song" value="'+(band?.song||'')+'" placeholder="未定の場合は「未定」と入力"></div>'
+    +'<div class="fg"><label>ジャンル</label><input id="bf-genre" value="'+(band?.genre||'')+'" placeholder="例：邦ロック、J-POP"></div></div>'
+    +'<div class="frow"><div class="fg"><label>ライブ出演日</label><select id="bf-live"><option value="両日のどちらか" '+((!band?.liveDay||band?.liveDay==="両日のどちらか")?'selected':'')+'>両日のどちらか</option><option value="6/6のみ" '+(band?.liveDay==="6/6のみ"?'selected':'')+'>6/6のみ</option><option value="6/7のみ" '+(band?.liveDay==="6/7のみ"?'selected':'')+'>6/7のみ</option></select></div></div>'
     +'<div class="fg" style="margin-bottom:12px"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="bf-senior"'+(band?.hasSenior?' checked':'')+' style="width:auto;accent-color:var(--accent)"> <span>現役生がバンドにいる <span style="font-size:11px;color:var(--accent2)">（1バンドに1人以上必須）</span></span></label></div>'
-    +'<div class="fg" style="margin-bottom:10px"><label>メンバー</label><div id="form-members">'+mEntries+'</div>'
+    +'<div class="fg" style="margin-bottom:10px"><label>決まっているメンバー</label><div id="form-members">'+mEntries+'</div>'
     +'<button class="btn-add-m" id="btn-add-member">＋ メンバーを追加</button></div>'
+    +'<div class="fg" style="margin-bottom:10px"><label>自由記入欄（お気軽に！）</label><textarea id="bf-note" style="width:100%;background:rgba(255,255,255,.9);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:12px;font-family:inherit;resize:vertical;min-height:54px;outline:none" placeholder="ひとことメモなど自由に">'+(band?.note||'')+'</textarea></div>'
     +'<div class="fg"><label>不足パート（複数可）</label><div class="missing-checks">'+missCks+'</div></div>'
     +pwField
     +'<div class="factions"><button class="btn-save" id="btn-save-band">保存</button><button class="btn-cancel" id="btn-cancel-band">キャンセル</button></div>'
@@ -1285,6 +1289,8 @@ function saveBand(){
   const name  = document.getElementById('bf-name').value.trim();
   const song  = document.getElementById('bf-song').value.trim();
   const genre = document.getElementById('bf-genre').value.trim();
+  const artist = document.getElementById('bf-artist')?.value.trim()||'';
+  const note = document.getElementById('bf-note')?.value.trim()||'';
   const liveDay = document.getElementById('bf-live').value;
   const hasSenior = document.getElementById('bf-senior').checked;
   const missingParts = [...document.querySelectorAll('#band-form-wrap input[type=checkbox]:checked')].map(c=>c.value);
@@ -1303,7 +1309,7 @@ function saveBand(){
 
   saveBandToDb({
     id: editingBandId,
-    name, song, genre, liveDay, members:bm,
+    name, song, genre, artist, note, liveDay, members:bm,
     missingParts, hasSenior, password,
     createdBy: currentUser?.name||''
   });
