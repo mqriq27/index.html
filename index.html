@@ -84,13 +84,15 @@ body{
 /* ── TOPBAR ── */
 #app{display:flex;flex-direction:column;min-height:100vh}
 .topbar{
-  height:54px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;
+  height:50px;padding:0 10px;display:flex;align-items:center;justify-content:space-between;
   background:rgba(255,255,255,.82);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
+  gap:6px;overflow:hidden;
 }
-.topbar-left{display:flex;align-items:center;gap:10px}
+.topbar-left{display:flex;align-items:center;gap:6px;flex-shrink:0;min-width:0}
 .topbar-title{
-  font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;
+  font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;
+  white-space:nowrap;flex-shrink:0;
   background:linear-gradient(135deg,#ff6b35,#e8357a);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
@@ -99,18 +101,24 @@ body{
   background:rgba(232,53,122,.1);color:var(--accent2);
   border:1px solid rgba(232,53,122,.25);
 }
-.topbar-nav{display:flex;gap:2px}
+.topbar-nav{
+  display:flex;gap:1px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;flex:1;min-width:0;
+}
+.topbar-nav::-webkit-scrollbar{display:none}
 .nav-btn{
-  background:none;border:none;color:var(--muted);font-size:12px;
-  padding:6px 11px;border-radius:6px;cursor:pointer;
+  background:none;border:none;color:var(--muted);font-size:11px;
+  padding:5px 7px;border-radius:6px;cursor:pointer;
   font-family:'Noto Sans JP',sans-serif;transition:all .15s;
+  white-space:nowrap;flex-shrink:0;
 }
 .nav-btn:hover{background:rgba(255,107,53,.07);color:var(--text)}
 .nav-btn.on{background:rgba(255,107,53,.1);color:var(--accent);font-weight:500}
 .btn-logout{
   background:none;border:1px solid var(--border);color:var(--muted);
-  font-size:12px;padding:5px 11px;border-radius:6px;cursor:pointer;
+  font-size:11px;padding:4px 8px;border-radius:6px;cursor:pointer;
   font-family:'Noto Sans JP',sans-serif;transition:all .15s;
+  white-space:nowrap;flex-shrink:0;
 }
 .btn-logout:hover{border-color:var(--accent2);color:var(--accent2)}
 
@@ -258,8 +266,16 @@ body{
   font-family:'Noto Sans JP',sans-serif;transition:all .15s;
 }
 .btn-add-m:hover{background:rgba(232,53,122,.04);border-color:var(--accent2)}
-.missing-checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;margin-top:6px}
-.missing-checks label{display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;background:rgba(255,107,53,.04);border:1px solid var(--border);border-radius:6px;padding:5px 8px;white-space:nowrap}
+.missing-checks{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
+.missing-checks label{
+  display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;
+  background:rgba(255,107,53,.04);border:1px solid var(--border);
+  border-radius:6px;padding:6px 8px;overflow:hidden;
+}
+.missing-checks label input[type=checkbox]{
+  flex-shrink:0;width:15px;height:15px;cursor:pointer;accent-color:var(--accent);
+}
+.missing-checks label span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .factions{display:flex;gap:8px;margin-top:14px}
 .btn-save{
   flex:1;padding:9px;border:none;border-radius:6px;
@@ -391,7 +407,7 @@ body{
 <div id="app" class="hidden">
   <div class="topbar">
     <div class="topbar-left">
-      <span class="topbar-title">🎸 激突！名簿</span>
+      <span class="topbar-title">🎸 名簿</span>
       <span id="badge-admin" class="badge-admin hidden">管理者</span>
     </div>
     <div class="topbar-nav">
@@ -1260,7 +1276,7 @@ function renderBandForm(band){
   });
   const mOpts = sortedMembers.map(m=>'<option value="'+m.name+'">'+ m.name+' / '+m.parts.split(',')[0].trim()+' ('+m.grade+')</option>').join('');
   const mEntries = formMembers.map((_,i)=>buildMemberEntry(i)).join('');
-  const missCks = PARTS.map(p=>'<label><input type="checkbox" value="'+p+'"'+((band?.missingParts||[]).includes(p)?' checked':'')+'> '+p+'</label>').join('');
+  const missCks = PARTS.map(p=>'<label><input type="checkbox" value="'+p+'"'+((band?.missingParts||[]).includes(p)?' checked':'')+'> <span>'+p+'</span></label>').join('');
 
   const pwField = editingBandId
     ? '<div class="fg" style="margin-bottom:10px"><label>パスワードを変更する場合のみ入力</label><input id="bf-pw" type="password" placeholder="空欄のままなら変更なし"></div>'
